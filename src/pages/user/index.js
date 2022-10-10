@@ -5,8 +5,6 @@ import Products from './Products'
 import Cart from './Cart'
 import Checkout from './Checkout'
 import ForgetPassword from './ForgetPassword'
-import LoginPage from './Login'
-import Register from './Register'
 import ViewShop from './ViewShop'
 import Product from './Product'
 
@@ -19,8 +17,6 @@ export {
     Cart,
     Checkout,
     ForgetPassword,
-    LoginPage,
-    Register,
     ViewShop,
     Product,
     CardAuth,

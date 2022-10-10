@@ -48,3 +48,9 @@ a {
 .div-nav-default {
     background-color: #2877ee;
 }
+
+// Style for input, label MUI
+.MuiInputBase-input,
+.MuiInputLabel-root {
+    font-size: 1.5rem !important;
+}

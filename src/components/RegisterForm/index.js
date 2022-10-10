@@ -55,15 +55,11 @@ function RegisterForm() {
                             autoComplete="email"
                             autoFocus
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
                                     pattern: process.env.REACT_APP_REGEX_AUTH,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
-                            }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
                             }}
                         />
                         <TextField
@@ -76,7 +72,6 @@ function RegisterForm() {
                             id="password"
                             autoComplete="current-password"
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -107,9 +102,6 @@ function RegisterForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
-                            }}
                         />
                         <TextField
                             margin="normal"
@@ -121,7 +113,6 @@ function RegisterForm() {
                             id="repassword"
                             autoComplete="current-password"
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -151,9 +142,6 @@ function RegisterForm() {
                                     </InputAdornment>
                                 ),
                                 onChange: e => handleChange(e, setUser),
-                            }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
                             }}
                         />
                         <Button

@@ -16,8 +16,6 @@ const {
     Cart,
     Checkout,
     ForgetPassword,
-    LoginPage,
-    Register,
     ViewShop,
     Product,
     CardAuth,
