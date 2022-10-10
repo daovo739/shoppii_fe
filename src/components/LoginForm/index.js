@@ -23,6 +23,19 @@ function LoginForm() {
     const handleSubmit = event => {
         event.preventDefault()
     }
+
+    const loginGoole = () => {
+        const URI = process.env.REACT_APP_GOOGLE_URL
+        const width = 500
+        const height = 600
+        const h = (window.innerHeight - height) / 2
+        const w = (window.innerWidth - width) / 2
+        window.open(
+            URI,
+            '_blank',
+            `width=${width},height=${height}px, top=${h}, left=${w}`,
+        )
+    }
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -154,6 +167,7 @@ function LoginForm() {
                             // color: 'var(--main-white)',
                         },
                     }}
+                    onClick={() => loginGoole()}
                 >
                     <img
                         src={logoGoogle}
