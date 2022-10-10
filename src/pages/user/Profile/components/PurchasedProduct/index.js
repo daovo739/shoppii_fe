@@ -23,7 +23,7 @@ function PurchasedProduct() {
                         />
                     </Col>
                     <Col md={7} className="d-block">
-                        <h4>Tên sản phẩm gì gì đó</h4>
+                        <h3>Tên sản phẩm gì gì đó</h3>
                         <div className="product-quantity">X 2</div>
                     </Col>
                     <Col md={3} className="d-flex justify-content-center">

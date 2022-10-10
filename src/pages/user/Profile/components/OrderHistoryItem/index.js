@@ -25,7 +25,7 @@ function OrderHistoryItem() {
             <Container fluid="md">
                 <Row className="d-flex mb-1 order-header py-3">
                     <Col md={2}>
-                        <div className="fs-5 fw-bold mt-2 ms-3">Tên cửa hàng</div>
+                        <div className="fs-4 fw-bold mt-2 ms-3">Tên cửa hàng</div>
                     </Col>
                     <Col md={7}>
                         <Button
@@ -33,13 +33,13 @@ function OrderHistoryItem() {
                             startIcon={<Storefront />}
                             size="small"
                             className="view-shop-btn"
-                            sx={{ color: 'white',  borderColor:'white'}}
+                            sx={{ color: 'white',  borderColor:'white', fontSize: '1rem'}}
                         >
                             Xem cửa hàng
                         </Button>
                     </Col>
                     <Col md={3}>
-                        <div className="fs-5 mt-2 text-left">
+                        <div className="fs-4 mt-2 text-left">
                             Ngày mua : 20-08-2002
                         </div>
                     </Col>
@@ -48,7 +48,7 @@ function OrderHistoryItem() {
                     <List
                         sx={{
                             width: '100%',
-                            maxWidth: 360,
+                            maxWidth:'100%',
                             bgcolor: 'background.paper',
                         }}
                         component="nav"

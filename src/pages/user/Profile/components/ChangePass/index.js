@@ -17,6 +17,9 @@ function ChangPassword() {
                         margin="normal"
                         className="w-50"
                         inputProps={{ style: {fontSize: '1.6rem'} }}
+                        InputLabelProps={{
+                            style: { fontSize: '1.3rem' },
+                        }}
                     />
                 </Col>
             </Row>
@@ -31,6 +34,9 @@ function ChangPassword() {
                         margin="normal"
                         className="w-50"
                         inputProps={{ style: {fontSize: '1.6rem'} }}
+                        InputLabelProps={{
+                            style: { fontSize: '1.3rem' },
+                        }}
                     />
                 </Col>
             </Row>
@@ -45,11 +51,14 @@ function ChangPassword() {
                         margin="normal"
                         className="w-50"
                         inputProps={{ style: {fontSize: '1.6rem'} }}
+                        InputLabelProps={{
+                            style: { fontSize: '1.3rem' },
+                        }}
                     />
                 </Col>
             </Row>
             <Row className="d-flex justify-content-center mt-4">
-                <Button variant="contained" className="fs-6 w-25">
+                <Button variant="contained" className="fs-5 w-25">
                     Xác nhận
                 </Button>
             </Row>

@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfileBox from './components/ProfileBox'
+import BoxContent from '../../../components/BoxContent'
 import ProfileSideBar from './components/ProfileSidebar'
 import { editPro } from '../Profile/components/ProfileSidebar'
 import {Container, Row, Col} from 'react-bootstrap'
@@ -23,7 +23,7 @@ function Profile() {
                         <ProfileSideBar getAction={getActionFromSidebar} />
                     </Col>
                     <Col md={9}>
-                        <ProfileBox content={content} />
+                        <BoxContent content={content} />
                     </Col>
                 </Row>
             </Container>
