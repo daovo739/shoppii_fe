@@ -1,16 +1,18 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import EditProfileForm from '../EditProfileForm'
-import ChangPassword from '../ChangePass'
-import OrderHistory from '../OrderHistory'
-import AddressList from '../AddressList'
+import EditProfileForm from '../../pages/user/Profile/components/EditProfileForm'
+import ChangPassword from '../../pages/user/Profile/components/ChangePass'
+import OrderHistory from '../../pages/user/Profile/components/OrderHistory'
+import AddressList from '../../pages/user/Profile/components/AddressList'
+import ViewProduct from '../../pages/user/Products/components/ViewProducts'
 import './index.css'
 import {
     editPro,
     changePass,
     orderHistory,
     addressList,
-} from '../ProfileSidebar'
+} from '../../pages/user/Profile/components/ProfileSidebar'
+import { Backdrop } from '@mui/material'
 
 const headerList = [
     {
@@ -34,9 +36,14 @@ const headerList = [
         title: 'Lịch sử mua hàng',
         comment: 'Quản lý những đơn hàng đã được giao',
     },
+    {
+        action: 'view products',
+        title: 'Kết quả tìm kiếm',
+        comment: ''
+    }
 ]
 
-function ProfileBox({ content }) {
+function BoxContent({ content }) {
     const renderContent = () => {
         switch (content) {
             case addressList:
@@ -45,6 +52,8 @@ function ProfileBox({ content }) {
                 return <ChangPassword />
             case orderHistory:
                 return <OrderHistory />
+            case 'view products':
+                return <ViewProduct/>
             default:
                 return <EditProfileForm />
         }
@@ -75,4 +84,4 @@ function ProfileBox({ content }) {
     )
 }
 
-export default ProfileBox
+export default BoxContent

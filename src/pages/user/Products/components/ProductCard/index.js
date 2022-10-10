@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-import Product from '../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
+import Product from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import { styled } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
@@ -20,15 +20,15 @@ function ProductCard() {
                     alt="green iguana"
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
+                    <Typography gutterBottom variant="h5" component="div">
                         Lizard
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                     </Typography>
                 </CardContent>
                 <CardActions className='d-flex justify-content-between'>
-                    <Typography gutterBottom variant="5" component="div">
-                        100.000
+                    <Typography gutterBottom variant="h5" component="div" sx={{color: '#ff424e'}}>
+                        100.000₫
                     </Typography>
                     <Button className='add-cart-btn'>
                         <AddShoppingCartIcon 

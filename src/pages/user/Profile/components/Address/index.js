@@ -5,7 +5,7 @@ import {DeleteOutline, BorderColorOutlined} from '@mui/icons-material';
 
 function AddressItem() {
     return (
-        <div className="address">
+        <div className="address w-100">
             <Container fluid="md" sx={{ width: '100%', height: 'auto'}}>
                 <Row>
                     <Col md={10}>
