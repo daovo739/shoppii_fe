@@ -51,7 +51,7 @@ function ProfileBox({ content }) {
     }
 
     return (
-        <div className="profile-box">
+        <div className="profile-box w-100">
             <Container fluid="md">
                 <Row className="box-header">
                     {headerList.map(header => {

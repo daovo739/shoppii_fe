@@ -35,7 +35,7 @@ function ProfileSidebar({ getAction }) {
     }
 
     return (
-        <div className="w-80">
+        <div className="w-100">
             <Stack direction="row" spacing={2}>
                 <Avatar
                     alt="Remy Sharp"
