@@ -5,29 +5,27 @@ import { useLocalStorage } from './useLocalStorage'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    const [role, setRole] = useLocalStorage('role', 'user')
+    const [user, setUser] = useLocalStorage('user', null)
     const navigate = useNavigate()
 
     const login = async data => {
-        // fetch data here to get role
-
-        const ROLE = 'admin'
-        setRole(ROLE)
-        // navigate('/dashboard/profile', { replace: true })
+        setUser(data)
+        navigate('/', { replace: true })
     }
 
     const logout = () => {
-        setRole(null)
+        setUser(null)
         navigate('/', { replace: true })
     }
 
     const value = useMemo(
         () => ({
-            role,
+            user,
             login,
             logout,
         }),
-        [role],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [user],
     )
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

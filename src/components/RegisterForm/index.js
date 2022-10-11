@@ -10,6 +10,8 @@ import {
     Button,
     TextField,
     Box,
+    Modal,
+    Tooltip
 } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import { useState } from 'react'
@@ -17,7 +19,8 @@ import { handleChange } from '../.././utils/handleForm'
 import { toast } from 'react-toastify'
 import { post } from '../../utils/httprequest'
 import { style } from '.././ModalStyle/index'
-import Modal from '@mui/material/Modal';
+import { Link } from 'react-router-dom'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false)
@@ -36,11 +39,17 @@ function RegisterForm() {
             formData.append('email', email)
             formData.append('password', password)
             formData.append('rePassword', repassword)
-            // const data = await post('user/register', formData)
-            // console.log(data)
-            setToken('AJDAJNDANDAJDNJ')
-            toast.success('Đăng ký thành công')
-            setShowModal(true)
+            const res = await post('user/register', formData)
+            const data = await res.json()
+            console.log(res)
+            if (res.status === 201) {
+                toast.success('Đăng ký thành công')
+                setToken(data.securityCode)
+                setShowModal(true)
+            } else {
+                toast.error(data.message)
+
+            }
         }
 
     }
@@ -82,6 +91,7 @@ function RegisterForm() {
                                     pattern: process.env.REACT_APP_REGEX_AUTH,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
+                                label: "Nhập email hoặc số điện thoại aaaaaaaaaaa"
                             }}
                         />
                         <TextField
@@ -94,6 +104,7 @@ function RegisterForm() {
                             id="password"
                             autoComplete="current-password"
                             InputProps={{
+                                label: "Mật khẩu aaa",
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -135,6 +146,7 @@ function RegisterForm() {
                             id="repassword"
                             autoComplete="current-password"
                             InputProps={{
+                                label: "Nhập lại mật khẩu aaaaaa",
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -186,20 +198,42 @@ function RegisterForm() {
                 }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                disableBackdropClick={false}
                 disableEscapeKeyDown
                 BackdropProps={
                     {}
                 }
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center'>
+                <Box sx={{ ...style, display: "flex", flexDirection: 'column', alignItems: 'center', padding: '5rem', width: '550px' }}>
+                    <Typography id="modal-modal-title" variant="h4" component="h1" className='text-center w-100'>
                         Lưu lại mã bảo mật để khôi phục tài khoản
                         <br />Đừng chia sẻ nó với bất kì ai
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2, fontWeight: 'bold' }} className='text-center'>
-                        {token}
-                    </Typography>
+                    <Box component='div' className='d-flex justify-content-between align-items-end'>
+                        <Typography id="modal-modal-description" sx={{ mt: 2, fontWeight: 'bold', fontSize: '3.2rem' }} className='text-center'>
+                            {token}
+                        </Typography>
+                        <Tooltip title={<p style={{ fontSize: '1rem' }} >Copy</p>}>
+                            <Button className='mb-2' onClick={() => {
+                                navigator.clipboard.writeText(token)
+                                toast('Đã copy mã bảo mật')
+                            }}>
+                                <ContentCopyIcon />
+                            </Button>
+                        </Tooltip>
+                    </Box>
+
+
+                    <Button variant="contained" color="success" sx={{
+                        marginTop: '10px'
+                    }}>
+                        <Link to='/login' style={{
+                            color: '#fff',
+                            fontSize: '1.5rem'
+                        }}>
+                            Đăng nhập
+                        </Link>
+                    </Button>
+
                 </Box>
             </Modal>
         </>

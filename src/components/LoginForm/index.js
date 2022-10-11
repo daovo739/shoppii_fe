@@ -12,46 +12,60 @@ import {
     TextField,
     Box,
 } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { handleChange } from '../.././utils/handleForm'
 import { GoogleLogin } from 'react-google-login'
 import { gapi } from 'gapi-script'
+import { post } from '../.././utils/httprequest'
+import { toast } from 'react-toastify'
+import { useAuth } from '../.././hooks/useAuth'
 
 function LoginForm() {
+    const { login } = useAuth()
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
 
     useEffect(() => {
         gapi.load('client:auth2', () => {
-            gapi.auth2.getAuthInstance({ clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID })
+            gapi.auth2.getAuthInstance({
+                clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            })
         })
     }, [])
 
-    const responseGoogle = response => {
+    const handleLoginGoogle = response => {
         console.log(response)
-    }
-    const handleLogin = response => {
-        console.log(response)
+        const { email, name, imageUrl } = response.profileObj
+        login({
+            email,
+            name,
+        })
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
+        const { email, password } = user
+        if (email === 'admin' && password === 'admin') {
+            login({
+                isAdmin: true,
+            })
+        }
+        const formData = new FormData()
+        formData.append('email', email)
+        formData.append('password', password)
+        const res = await post('auth', formData)
+        const data = await res.json()
+        console.log(user)
+        console.log(data)
+        if (res.status === 200) {
+            login(data)
+        } else {
+            toast.error(data.message)
+        }
     }
 
-    const loginGoole = () => {
-        const URI = process.env.REACT_APP_GOOGLE_URL
-        console.log(URI)
-        const width = 500
-        const height = 600
-        const h = (window.innerHeight - height) / 2
-        const w = (window.innerWidth - width) / 2
-        window.open(
-            URI,
-            '_blank',
-            `width=${width},height=${height}px, top=${h}, left=${w}`,
-        )
-    }
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -84,6 +98,7 @@ function LoginForm() {
                             autoComplete="email"
                             autoFocus
                             InputProps={{
+                                label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
                                     pattern: process.env.REACT_APP_REGEX_AUTH,
@@ -101,6 +116,7 @@ function LoginForm() {
                             id="password"
                             autoComplete="current-password"
                             InputProps={{
+                                label: 'Mật khẩu aaa',
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -166,10 +182,12 @@ function LoginForm() {
                 <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Đăng nhập bằng tài khoản Google"
-                    onSuccess={handleLogin}
-                    onFailure={responseGoogle}
+                    onSuccess={handleLoginGoogle}
+                    onFailure={() => {
+                        toast.error('Đăng nhập thất bại')
+                    }}
                     cookiePolicy={'single_host_origin'}
-                    className='btn-google'
+                    className="btn-google"
                     style={{
                         marginTop: '10px',
                     }}

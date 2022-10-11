@@ -31,6 +31,10 @@
     transition: var(--transition-normal);
 }
 
+.btn-google span {
+    font-weight: bold !important;
+}
+
 .btn-google:hover {
     transform: scale(0.95);
     border: var(--main-blue) 1px solid !important;

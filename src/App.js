@@ -5,20 +5,24 @@ import DefaultLayout from './layouts/DefaultLayout'
 import PrivateLayout from './layouts/PrivateLayout'
 import { useAuth } from './hooks/useAuth'
 
-
 function App() {
-    const { role } = useAuth()
+    const { user } = useAuth()
     const [routes, setRoutes] = useState(() => {
-        const routes = role === 'admin' ? privateRoutes : publicRoutes
+        let routes = publicRoutes
+        console.log(user)
+        if (user) {
+            routes = user.isAdmin ? privateRoutes : publicRoutes
+        }
         return routes
     })
-    console.log(role)
     return (
         <div className="App">
             <Routes>
                 {routes.map((route, index) => {
-                    const Layout =
-                        role === 'admin' ? PrivateLayout : DefaultLayout
+                    let Layout = DefaultLayout
+                    if (user) {
+                        Layout = user.isAdmin ? PrivateLayout : DefaultLayout
+                    }
                     const Page = route.component
                     return (
                         <Route
@@ -33,7 +37,6 @@ function App() {
                     )
                 })}
             </Routes>
-
         </div>
     )
 }

@@ -1,3 +1,5 @@
+
+
 const API_URL = process.env.REACT_APP_BASE_API_URL
 
 const post = async (path, formData) => {
@@ -5,7 +7,7 @@ const post = async (path, formData) => {
         method: 'POST',
         body: formData,
     })
-    return await res.json()
+    return res
 }
 
 const get = async (path, queries = {}) => {

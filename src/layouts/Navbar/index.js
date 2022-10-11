@@ -8,13 +8,21 @@ import {
 } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { Row, Container, Col, Dropdown } from 'react-bootstrap'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { Button } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 const Navbar = () => {
+    const { user, logout } = useAuth()
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
-    const [isLogin, setIslogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(() => (user ? true : false))
 
+    useEffect(() => {
+        setIsLogin(user ? true : false)
+    }, [user])
+    console.log('isLogin: ' + isLogin)
     return (
         <>
             <Container fluid="md">
@@ -55,13 +63,13 @@ const Navbar = () => {
                                         13, 14,
                                     ].map(ele => {
                                         return (
-                                            <>
-                                                <Col md={6} key={ele}>
+                                            <div key={ele}>
+                                                <Col md={6}>
                                                     <Dropdown.Item>
                                                         Item {ele}
                                                     </Dropdown.Item>
                                                 </Col>
-                                            </>
+                                            </div>
                                         )
                                     })}
                                 </Row>
@@ -115,22 +123,48 @@ const Navbar = () => {
                                             />
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item>
+                                            <Dropdown.Item as="div">
                                                 <Link to="/profile">
                                                     Thông tin người dùng
                                                 </Link>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
-                                            <Dropdown.Item>
+                                            <Dropdown.Item as="div">
                                                 <Link to="/profile">
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
-                                            <Dropdown.Item>
+                                            <Dropdown.Item as="div">
                                                 <Link to="/shop">
                                                     Kênh người bán
                                                 </Link>
+                                            </Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="div">
+                                                <Button
+                                                    className="d-flex justify-content-between align-items-center"
+                                                    onClick={() => {
+                                                        setIsLogin(false)
+                                                        logout()
+                                                    }}
+                                                >
+                                                    <LogoutIcon
+                                                        className="bg-danger text-white"
+                                                        sx={{
+                                                            fontSize: '20px',
+                                                            padding: '2px',
+                                                            borderRadius: '5px',
+                                                        }}
+                                                    />
+                                                    <span
+                                                        style={{
+                                                            fontSize: '1.6rem',
+                                                        }}
+                                                    >
+                                                        Đăng xuất
+                                                    </span>
+                                                </Button>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
