@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals'
 import GlobalStyles from './components/GlobalStyles'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthProvider } from './hooks/useAuth'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -15,6 +17,16 @@ root.render(
                     <App />
                 </GlobalStyles>
             </AuthProvider>
+            <ToastContainer position="top-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="dark" />
         </Router>
     </React.StrictMode>,
 )

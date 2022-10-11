@@ -14,15 +14,37 @@ import {
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import { useState } from 'react'
 import { handleChange } from '../.././utils/handleForm'
+import { toast } from 'react-toastify'
+import { post } from '../../utils/httprequest'
+import { style } from '.././ModalStyle/index'
+import Modal from '@mui/material/Modal';
 
 function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [token, setToken] = useState('')
     const [user, setUser] = useState({})
-    const handleSubmit = event => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(user)
+        const { email, password, repassword } = user
+        console.log(user);
+        if (password !== repassword) {
+            toast.error('Mật khẩu không khớp')
+        } else {
+            const formData = new FormData()
+            formData.append('email', email)
+            formData.append('password', password)
+            formData.append('rePassword', repassword)
+            // const data = await post('user/register', formData)
+            // console.log(data)
+            setToken('AJDAJNDANDAJDNJ')
+            toast.success('Đăng ký thành công')
+            setShowModal(true)
+        }
+
     }
+
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -155,7 +177,31 @@ function RegisterForm() {
                     </Box>
                 </Box>
             </Container>
-
+            <Modal
+                open={showModal}
+                onClose={(_, reason) => {
+                    if (reason !== "backdropClick") {
+                        setShowModal(false);
+                    }
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                disableBackdropClick={false}
+                disableEscapeKeyDown
+                BackdropProps={
+                    {}
+                }
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" className='text-center'>
+                        Lưu lại mã bảo mật để khôi phục tài khoản
+                        <br />Đừng chia sẻ nó với bất kì ai
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2, fontWeight: 'bold' }} className='text-center'>
+                        {token}
+                    </Typography>
+                </Box>
+            </Modal>
         </>
     )
 }

@@ -5,6 +5,7 @@ import DefaultLayout from './layouts/DefaultLayout'
 import PrivateLayout from './layouts/PrivateLayout'
 import { useAuth } from './hooks/useAuth'
 
+
 function App() {
     const { role } = useAuth()
     const [routes, setRoutes] = useState(() => {
@@ -32,6 +33,7 @@ function App() {
                     )
                 })}
             </Routes>
+
         </div>
     )
 }
