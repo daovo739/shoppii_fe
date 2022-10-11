@@ -13,20 +13,49 @@ import {
     Box,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { handleChange } from '../.././utils/handleForm'
+import { GoogleLogin } from 'react-google-login'
+import { gapi } from 'gapi-script'
 
 function LoginForm() {
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
 
+    useEffect(() => {
+        gapi.load('client:auth2', () => {
+            gapi.auth2.getAuthInstance({ clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID })
+        })
+    }, [])
+
+    const responseGoogle = response => {
+        console.log(response)
+    }
+    const handleLogin = response => {
+        console.log(response)
+    }
+
     const handleSubmit = event => {
         event.preventDefault()
+    }
+
+    const loginGoole = () => {
+        const URI = process.env.REACT_APP_GOOGLE_URL
+        console.log(URI)
+        const width = 500
+        const height = 600
+        const h = (window.innerHeight - height) / 2
+        const w = (window.innerWidth - width) / 2
+        window.open(
+            URI,
+            '_blank',
+            `width=${width},height=${height}px, top=${h}, left=${w}`,
+        )
     }
     return (
         <>
             <Container component="div" maxWidth="xs">
-                <Box className="d-flex flex-column align-items-center">
+                <Box className="d-flex flex-column align-items-center mt-4">
                     <Avatar
                         sx={{
                             m: 1,
@@ -55,15 +84,11 @@ function LoginForm() {
                             autoComplete="email"
                             autoFocus
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
                                     pattern: process.env.REACT_APP_REGEX_AUTH,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
-                            }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
                             }}
                         />
                         <TextField
@@ -76,7 +101,6 @@ function LoginForm() {
                             id="password"
                             autoComplete="current-password"
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -106,9 +130,6 @@ function LoginForm() {
                                     </InputAdornment>
                                 ),
                                 onChange: e => handleChange(e, setUser),
-                            }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
                             }}
                         />
                         <Button
@@ -141,45 +162,19 @@ function LoginForm() {
                 >
                     HOẶC
                 </Typography>
-                <Box
-                    component="button"
-                    sx={{
-                        width: '396px',
-                        height: '55px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        boxShadow: 'var(--box-shadow-main-2)',
-                        borderRadius: '8px',
-                        padding: '8px 0',
-                        outline: 'none',
-                        border: 'none',
-                        marginTop: '6px',
-                        transition: 'var(--transition-normal)',
-                        '&:hover': {
-                            transform: 'scale(.95)',
-                            border: 'var(--main-blue) 1px solid',
-                            // color: 'var(--main-white)',
-                        },
+
+                <GoogleLogin
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    buttonText="Đăng nhập bằng tài khoản Google"
+                    onSuccess={handleLogin}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                    className='btn-google'
+                    style={{
+                        marginTop: '10px',
                     }}
-                >
-                    <img
-                        src={logoGoogle}
-                        alt=""
-                        style={{
-                            width: '35px',
-                        }}
-                    />
-                    <Typography
-                        component="h2"
-                        variant="h5"
-                        sx={{
-                            marginLeft: '24px',
-                        }}
-                    >
-                        Đăng nhập bằng tài khoản Google
-                    </Typography>
-                </Box>
+                />
+
                 <Box
                     component="div"
                     className="d-flex justify-content-between align-items-center"

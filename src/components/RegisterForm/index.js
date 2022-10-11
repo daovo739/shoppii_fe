@@ -26,7 +26,7 @@ function RegisterForm() {
     return (
         <>
             <Container component="div" maxWidth="xs">
-                <Box className="d-flex flex-column align-items-center">
+                <Box className="d-flex flex-column align-items-center mt-5">
                     <Avatar
                         sx={{
                             m: 1,
@@ -55,15 +55,11 @@ function RegisterForm() {
                             autoComplete="email"
                             autoFocus
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
                                     pattern: process.env.REACT_APP_REGEX_AUTH,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
-                            }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
                             }}
                         />
                         <TextField
@@ -76,7 +72,6 @@ function RegisterForm() {
                             id="password"
                             autoComplete="current-password"
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -107,9 +102,6 @@ function RegisterForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
-                            }}
                         />
                         <TextField
                             margin="normal"
@@ -121,7 +113,6 @@ function RegisterForm() {
                             id="repassword"
                             autoComplete="current-password"
                             InputProps={{
-                                style: { fontSize: '1.5rem' },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -152,9 +143,6 @@ function RegisterForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.5rem' },
-                            }}
                         />
                         <Button
                             type="submit"
@@ -167,65 +155,7 @@ function RegisterForm() {
                     </Box>
                 </Box>
             </Container>
-            <Box
-                component="div"
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    // alignItems: 'center',
-                    padding: '0 24px',
-                }}
-            >
-                <Typography
-                    component="h1"
-                    variant="h5"
-                    sx={{
-                        margin: '0 auto',
-                        fontWeight: 'bold',
-                    }}
-                >
-                    HOẶC
-                </Typography>
-                <Box
-                    component="button"
-                    sx={{
-                        width: '396px',
-                        height: '50px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        boxShadow: 'var(--box-shadow-main-2)',
-                        borderRadius: '8px',
-                        padding: '8px 0 ',
-                        outline: 'none',
-                        border: 'none',
-                        marginTop: '6px',
-                        transition: 'var(--transition-normal)',
-                        '&:hover': {
-                            transform: 'scale(.95)',
-                            border: 'var(--main-blue) 1px solid',
-                            // color: 'var(--main-white)',
-                        },
-                    }}
-                >
-                    <img
-                        src={logoGoogle}
-                        alt=""
-                        style={{
-                            width: '35px',
-                        }}
-                    />
-                    <Typography
-                        component="h2"
-                        variant="h5"
-                        sx={{
-                            marginLeft: '24px',
-                        }}
-                    >
-                        Đăng ký bằng tài khoản Google
-                    </Typography>
-                </Box>
-            </Box>
+
         </>
     )
 }

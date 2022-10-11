@@ -5,7 +5,6 @@
 }
 
 .left {
-    background-color: red;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     padding: 0 !important;
@@ -16,4 +15,24 @@
 .right {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
+}
+
+/* GOOGLE BUTTON */
+.btn-google {
+    justify-content: center;
+    width: 396px;
+    height: 55px;
+    box-shadow: var(--box-shadow-main-2) !important;
+    border-radius: 8px !important;
+    padding: 8px 0 !important;
+    outline: none;
+    border: none;
+    margin-top: 6px;
+    transition: var(--transition-normal);
+}
+
+.btn-google:hover {
+    transform: scale(0.95);
+    border: var(--main-blue) 1px solid !important;
+    color: var(--main-white);
 }
