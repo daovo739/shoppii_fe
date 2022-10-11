@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 function ProductCard() {
     return (
         <div className="product-card">
-            <Card sx={{ maxWidth: 200 }}> <CardMedia
+            <Card sx={{ maxWidth: 200}}> <CardMedia
                     component="img"
                     height="200"
                     image={Product}
