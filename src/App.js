@@ -12,7 +12,6 @@ function App() {
         return routes
     })
     console.log(role)
-    console.log(routes)
     return (
         <div className="App">
             <Routes>
