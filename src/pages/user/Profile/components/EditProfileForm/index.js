@@ -121,12 +121,12 @@ function EditProfileForm() {
                                 >
                                     <FormControlLabel
                                         value="male"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium" />}
                                         label="Nam"
                                     />
                                     <FormControlLabel
                                         value="female"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium" />}
                                         label="Nữ"
                                     />
                                 </RadioGroup>
@@ -154,7 +154,7 @@ function EditProfileForm() {
                                         }
                                     >
                                         {createArray('date').map(index => (
-                                            <MenuItem value={index}>
+                                            <MenuItem key={index} value={index}>
                                                 {index}
                                             </MenuItem>
                                         ))}
@@ -178,7 +178,7 @@ function EditProfileForm() {
                                         }
                                     >
                                         {createArray('month').map(index => (
-                                            <MenuItem value={index}>
+                                            <MenuItem key={index} value={index}>
                                                 {index}
                                             </MenuItem>
                                         ))}
@@ -202,7 +202,7 @@ function EditProfileForm() {
                                         }
                                     >
                                         {createArray('year').map(index => (
-                                            <MenuItem value={index}>
+                                            <MenuItem key={index} value={index}>
                                                 {index}
                                             </MenuItem>
                                         ))}

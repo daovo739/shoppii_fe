@@ -63,10 +63,10 @@ function BoxContent({ content }) {
         <div className="profile-box w-100">
             <Container fluid="md">
                 <Row className="box-header">
-                    {headerList.map(header => {
+                    {headerList.map((header, index) => {
                         if (header.action === content) {
                             return (
-                                <Col md={12}>
+                                <Col md={12} key={index}>
                                     <h2>{header.title}</h2>
                                     <div>{header.comment}</div>
                                 </Col>

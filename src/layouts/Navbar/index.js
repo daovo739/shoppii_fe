@@ -56,7 +56,7 @@ const Navbar = () => {
                                     ].map(ele => {
                                         return (
                                             <>
-                                                <Col md={6}>
+                                                <Col md={6} key={ele}>
                                                     <Dropdown.Item>
                                                         Item {ele}
                                                     </Dropdown.Item>
