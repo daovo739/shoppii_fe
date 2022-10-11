@@ -44,14 +44,9 @@ function AddressModal() {
         setOpen(false)
     }
 
-    async function fetchCities(){
-      let res = await fetch('https://provinces.open-api.vn/api/?depth=3')
-      let data = await res.json()
-      return data
-    }
-
     React.useEffect(() => {
-      setCities(fetchCities())
+      const fetchAddress = async () => await (await fetch('https://provinces.open-api.vn/api/?depth=3')).json()
+      console.log('hello')
       console.log(cities)
     }, [])
 
@@ -127,9 +122,9 @@ function AddressModal() {
                                         label="Tỉnh/Thành phố #"
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                      {/* {cities.map(city => (
+                                        <MenuItem value={city.code} key={city.code}>{city.name}</MenuItem>
+                                      ))} */}
                                     </Select>
                                 </FormControl>
                             </Col>
