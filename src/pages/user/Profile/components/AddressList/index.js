@@ -8,7 +8,7 @@ function AddressList() {
         <div className="address-list w-100 h-auto">
             <AddressModal/>
             {[0, 1, 2].map(item => (
-                <AddressItem />
+                <AddressItem key={item} />
             ))}
         </div>
     )
