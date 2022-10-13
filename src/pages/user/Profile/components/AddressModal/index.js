@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Box,
     Modal,
@@ -40,6 +40,7 @@ const style = {
 function AddressModal() {
     const [open, setOpen] = React.useState(false)
     const [state, dispatch] = React.useReducer(reducer, initState)
+    const [anotherInfo, setAnotherInfo] = useState({name: null, phone: null, address: null})
     const { cities, districts, wards, city, district, ward } = state
 
     const handleOpen = () => {
@@ -66,6 +67,7 @@ function AddressModal() {
     React.useEffect(() => {
         district && dispatch(setWards(district.wards))
     }, [district])
+
 
     return (
         <div>
@@ -106,7 +108,6 @@ function AddressModal() {
                                     InputProps={{
                                         label: 'Họ và tên ###',
                                     }}
-                                    required
                                 />
                             </Col>
                             <Col md={6}>
