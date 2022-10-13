@@ -13,6 +13,15 @@ import {
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
+import reducer, { initState } from './reducer'
+import {
+    setCities,
+    setDistricts,
+    setWards,
+    setCity,
+    setDistrict,
+    setWard,
+} from './action'
 
 const style = {
     position: 'absolute',
@@ -30,12 +39,8 @@ const style = {
 
 function AddressModal() {
     const [open, setOpen] = React.useState(false)
-    const [cities, setCities] = React.useState([])
-    const [age, setAge] = React.useState('')
-
-    const handleChange = event => {
-        setAge(event.target.value)
-    }
+    const [state, dispatch] = React.useReducer(reducer, initState)
+    const { cities, districts, wards, city, district, ward } = state
 
     const handleOpen = () => {
         setOpen(true)
@@ -45,10 +50,22 @@ function AddressModal() {
     }
 
     React.useEffect(() => {
-      const fetchAddress = async () => await (await fetch('https://provinces.open-api.vn/api/?depth=3')).json()
-      console.log('hello')
-      console.log(cities)
+        const fetchAddress = async () =>
+            await (
+                await fetch('https://provinces.open-api.vn/api/?depth=3')
+            ).json()
+        fetchAddress().then(cities => {
+            dispatch(setCities(cities))
+        })
     }, [])
+    
+    React.useEffect(() => {
+        city && dispatch(setDistricts(city.districts))
+    }, [city])
+
+    React.useEffect(() => {
+        district && dispatch(setWards(district.wards))
+    }, [district])
 
     return (
         <div>
@@ -89,6 +106,7 @@ function AddressModal() {
                                     InputProps={{
                                         label: 'Họ và tên ###',
                                     }}
+                                    required
                                 />
                             </Col>
                             <Col md={6}>
@@ -118,13 +136,18 @@ function AddressModal() {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={age}
+                                        value={city}
                                         label="Tỉnh/Thành phố #"
-                                        onChange={handleChange}
+                                        onChange={event => dispatch(setCity(event.target.value))}
                                     >
-                                      {/* {cities.map(city => (
-                                        <MenuItem value={city.code} key={city.code}>{city.name}</MenuItem>
-                                      ))} */}
+                                        {cities.map(city => (
+                                            <MenuItem
+                                                value={city}
+                                                key={city.code}
+                                            >
+                                                {city.name}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Col>
@@ -141,13 +164,19 @@ function AddressModal() {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={age}
+                                        value={district}
                                         label="Quận/Huyện #"
-                                        onChange={handleChange}
+                                        onChange={event => dispatch(setDistrict(event.target.value))}
+                                        disabled={!city}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        {city && districts.map(district => (
+                                            <MenuItem
+                                                value={district}
+                                                key={district.code}
+                                            >
+                                                {district.name}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Col>
@@ -164,13 +193,14 @@ function AddressModal() {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={age}
+                                        value={ward}
                                         label="Phường/Xã #"
-                                        onChange={handleChange}
+                                        onChange={event => dispatch(setWard(event.target.value))}
+                                        disabled={!district}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        {district && wards.map(ward => (
+                                            <MenuItem value={ward} key={ward.code}>{ward.name}</MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Col>
@@ -195,7 +225,11 @@ function AddressModal() {
                                 <Button
                                     fullWidth
                                     variant="contained"
-                                    sx={{ fontSize: '1.5rem', height: '4rem', marginBottom: '2.5rem' }}
+                                    sx={{
+                                        fontSize: '1.5rem',
+                                        height: '4rem',
+                                        marginBottom: '2.5rem',
+                                    }}
                                 >
                                     Hoàn Thành
                                 </Button>
