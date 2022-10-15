@@ -1,12 +1,26 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material'
-import {LocalAtm} from '@mui/icons-material';
+import {
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    Avatar,
+} from '@mui/material'
+import { LocalAtm } from '@mui/icons-material'
+import { ZaloPay, Momo, ViettelPay } from './images/images'
 
 function PaymentMethods() {
     return (
         <div className="payment-methods">
-            <Container fluid="md">
+            <Container
+                fluid="md"
+                className="py-4 px-3"
+                style={{
+                    backgroundColor: 'white',
+                    borderRadius: '8px'
+                }}
+            >
                 <Row>
                     <Col md={12}>
                         <h2 className="fw-bold pb-4">
@@ -22,23 +36,70 @@ function PaymentMethods() {
                                 defaultValue="female"
                                 name="radio-buttons-group"
                             >
-                                <FormControlLabel
-                                    value="female"
-                                    control={<Radio size='large' />}
-                                />
-                                <div>
-                                  <LocalAtm/>
+                                <div className="d-flex align-items-center">
+                                    <FormControlLabel
+                                        value="money"
+                                        control={<Radio size="large" />}
+                                    />
+                                    <LocalAtm
+                                        sx={{
+                                            fontSize: '2.4rem',
+                                            marginRight: '1rem',
+                                            color: '#2877ee',
+                                        }}
+                                    />
+                                    <span>
+                                        Thanh toán tiền mặt khi nhận hàng
+                                    </span>
                                 </div>
-                                <FormControlLabel
-                                    value="male"
-                                    control={<Radio size='large'  />}
-                                    label="Male"
-                                />
-                                <FormControlLabel
-                                    value="other"
-                                    control={<Radio size='large'  />}
-                                    label="Other"
-                                />
+                                <div className="d-flex align-items-center">
+                                    <FormControlLabel
+                                        value="zalopay"
+                                        control={<Radio size="large" />}
+                                    />
+                                    <Avatar
+                                        alt="zalopay"
+                                        src={ZaloPay}
+                                        sx={{
+                                            width: 24,
+                                            height: 24,
+                                            marginRight: '1rem',
+                                        }}
+                                    />
+                                    <span>Thanh toán bằng ví ZaloPay</span>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                    <FormControlLabel
+                                        value="momo"
+                                        control={<Radio size="large" />}
+                                    />
+                                    <Avatar
+                                        alt="momo"
+                                        src={Momo}
+                                        sx={{
+                                            width: 24,
+                                            height: 24,
+                                            marginRight: '1rem',
+                                        }}
+                                    />
+                                    <span>Thanh toán bằng ví Momo</span>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                    <FormControlLabel
+                                        value="viettelpay"
+                                        control={<Radio size="large" />}
+                                    />
+                                    <Avatar
+                                        alt="viettelpay"
+                                        src={ViettelPay}
+                                        sx={{
+                                            width: 24,
+                                            height: 24,
+                                            marginRight: '1rem',
+                                        }}
+                                    />
+                                    <span>Thanh toán bằng ví Viettel Pay</span>
+                                </div>
                             </RadioGroup>
                         </FormControl>
                     </Col>
