@@ -12,7 +12,12 @@ function DefaultLayout({ children }) {
                 className="w-100 div-body-default"
                 style={{ paddingTop: '5rem' }}
             >
-                <Container>{children}</Container>
+                <Container style={{ paddingBottom: '10rem' }}>
+                    {children}
+                </Container>
+            </div>
+            <div className=" div-footer-default">
+                <Footer />
             </div>
         </div>
     )
