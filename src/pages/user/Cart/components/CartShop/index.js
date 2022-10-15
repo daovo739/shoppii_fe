@@ -27,14 +27,18 @@ function CartShop() {
                                 marginRight: '7px',
                             }}
                         />
-                        <h4 className="pt-2">Tên cửa hàng gì đó</h4>
-                        <Store
-                            sx={{
-                                fontSize: '20px',
-                                color: '#2877ee',
-                                marginLeft: '7px',
-                            }}
-                        />
+                        <h4 className="pt-2 me-2">Tên cửa hàng gì đó</h4>
+                        <div style={{color: 'gray'}}>|</div>
+                        <div style={{ marginLeft: '7px', fontSize: '1.5rem', color: '#7ca5b8'}}>
+                            <Store
+                                sx={{
+                                    fontSize: '22px',
+                                    color: '#7ca5b8',
+                                    marginRight: '5px'
+                                }}
+                            />
+                            Xem cửa hàng
+                        </div>
                     </Col>
                 </Row>
                 {[0, 1, 2].map(item => (

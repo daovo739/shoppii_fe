@@ -1,5 +1,8 @@
+import CheckoutProduct from "./components/CheckoutProduct"
+import CheckoutShop from "./components/CheckoutShop"
+
 function Checkout() {
-    return <h1>Checkout page</h1>
+    return <CheckoutShop/>
 }
 
 export default Checkout
