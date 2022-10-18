@@ -7,7 +7,6 @@ const handleChange = (e, setValue) => {
 }
 
 const handleFormData = object => {
-    console.log(object)
     const formData = new FormData()
     for (const key in object) {
         formData.append(key, object[key])

@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { handleChange } from '../.././utils/handleForm'
+import { handleChange, handleFormData } from '../.././utils/handleForm'
 import { GoogleLogin } from 'react-google-login'
 import { gapi } from 'gapi-script'
 import { post } from '../.././utils/httprequest'
@@ -34,9 +34,18 @@ function LoginForm() {
         })
     }, [])
 
-    const handleLoginGoogle = response => {
+    const handleLoginGoogle = async response => {
         console.log(response)
-        navigate('/registerGG', { state: response }, { replace: true })
+        const { email } = response.profileObj
+        const formData = handleFormData({ email })
+        const res = await post('isRegistered', formData)
+        const data = await res.json()
+
+        if (data.statusCode === 404) {
+            navigate('/registerGG', { state: response }, { replace: true })
+        } else {
+            login(data)
+        }
     }
 
     const handleSubmit = async event => {
@@ -47,9 +56,7 @@ function LoginForm() {
                 isAdmin: true,
             })
         }
-        const formData = new FormData()
-        formData.append('email', email)
-        formData.append('password', password)
+        const formData = handleFormData(user)
         const res = await post('auth', formData)
         const data = await res.json()
         console.log(user)
@@ -89,14 +96,15 @@ function LoginForm() {
                             fullWidth
                             id="email"
                             label="Nhập email hoặc số điện thoại"
-                            name="email"
+                            name="info"
                             autoComplete="email"
                             autoFocus
                             InputProps={{
                                 label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
-                                    pattern: process.env.REACT_APP_REGEX_AUTH,
+                                    pattern:
+                                        process.env.REACT_APP_REGEX_AUTH_LOGIN,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
                             }}

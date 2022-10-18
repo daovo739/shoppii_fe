@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom'
 function Footer() {
     return (
-        <body className={clsx(styles.body)}>
+        <div className={clsx(styles.body)}>
             <footer>
                 <div className="container">
                     <div className={clsx('row', 'justify-content-center')}>
@@ -65,7 +65,7 @@ function Footer() {
                     </div>
                 </div>
             </footer>
-        </body>
+        </div>
     )
 }
 

@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import { useState } from 'react'
-import { handleChange } from '../.././utils/handleForm'
+import { handleChange, handleFormData } from '../.././utils/handleForm'
 import { toast } from 'react-toastify'
 import { post } from '../../utils/httprequest'
 import { style } from '.././ModalStyle/index'
@@ -31,15 +31,12 @@ function RegisterForm() {
 
     const handleSubmit = async event => {
         event.preventDefault()
-        const { email, password, repassword } = user
+        const { password, rePassword } = user
         console.log(user)
-        if (password !== repassword) {
+        if (password !== rePassword) {
             toast.error('Mật khẩu không khớp')
         } else {
-            const formData = new FormData()
-            formData.append('email', email)
-            formData.append('password', password)
-            formData.append('rePassword', repassword)
+            const formData = handleFormData(user)
             const res = await post('user/register', formData)
             const data = await res.json()
             console.log(res)
@@ -80,17 +77,19 @@ function RegisterForm() {
                             required
                             fullWidth
                             id="email"
-                            label="Nhập email hoặc số điện thoại"
+                            label="Nhập số điện thoại"
                             name="email"
                             autoComplete="email"
                             autoFocus
                             InputProps={{
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
-                                    pattern: process.env.REACT_APP_REGEX_AUTH,
-                                    title: 'Vui lòng nhập email hoặc số điện thoại',
+                                    pattern:
+                                        process.env
+                                            .REACT_APP_REGEX_AUTH_REGISTER,
+                                    title: 'Vui lòng số điện thoại',
                                 },
-                                label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
+                                label: 'Nhập số điện thoại aaaaasa',
                             }}
                         />
                         <TextField
@@ -139,7 +138,7 @@ function RegisterForm() {
                             margin="normal"
                             required
                             fullWidth
-                            name="repassword"
+                            name="rePassword"
                             label="Nhập lại mật khẩu"
                             type={showRePassword ? 'text' : 'password'}
                             id="repassword"

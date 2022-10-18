@@ -55,14 +55,10 @@ function RegisterFormGoogle() {
             const data = await res.json()
             console.log(res)
             if (res.status === 201) {
-                if (data.securityCode) {
-                    setToken(data.securityCode)
-                    setData(data)
-                    toast.success('Đăng ký thành công')
-                    setShowModal(true)
-                } else {
-                    login(data)
-                }
+                toast.success('Đăng ký thành công')
+                setToken(data.securityCode)
+                setData(data)
+                setShowModal(true)
             } else {
                 toast.error(data.message)
             }
