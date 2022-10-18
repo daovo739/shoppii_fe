@@ -2,6 +2,10 @@
 @import '../../../node_modules/bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
 
+$heightNavbar: 100px;
+$heightFooter: 200px;
+// Size layout
+
 :root {
     // Overwrite bootstrap
     --bs-body-font-family: 'Roboto', sans-serif;
@@ -23,7 +27,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 hr {
@@ -41,11 +45,18 @@ a {
 }
 
 .div-body-default {
+    min-height: calc(100vh - #{$heightNavbar} - #{$heightFooter});
     background-color: #fafafa;
     height: auto;
 }
 
 .div-nav-default {
+    height: $heightNavbar;
+    background-color: #2877ee;
+}
+
+.div-footer-default {
+    height: $heightFooter;
     background-color: #2877ee;
 }
 

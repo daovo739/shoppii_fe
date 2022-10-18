@@ -15,8 +15,9 @@ body {
     outline: 0 !important;
 }
 footer {
+    height: 100%;
     background: linear-gradient(65deg, var(--main-blue), var(--main-dark));
-    padding: 5rem;
+    padding: 2rem;
 }
 
 .socialMedia li {
