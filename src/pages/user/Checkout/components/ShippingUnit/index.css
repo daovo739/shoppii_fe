@@ -1,0 +1,6 @@
+.shipping-unit:hover {
+  padding: 2rem;
+  background-color: #f0f8ff;
+  border-radius: 6px;
+  cursor: pointer;
+}

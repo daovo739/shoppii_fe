@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Button } from '@mui/material'
 
@@ -59,6 +60,7 @@ function Bill() {
                             fontSize: '1.5rem',
                             marginTop: '2rem',
                         }}
+                        className="checkout-btn"
                     >
                         Đặt hàng
                     </Button>
