@@ -2,9 +2,17 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Store } from '@mui/icons-material'
 import CheckoutProduct from '../CheckoutProduct'
-import {Button} from '@mui/material';
+import ShippingUnitModal from '../ShippingUnitModal'
+import {shippingUnit} from '../CheckoutShop/ShippingUnitData'
+
 
 function CheckoutShop() {
+    const [selectedUnit, setSelectedUnit] = React.useState(shippingUnit[0])
+    console.log(selectedUnit)
+    const getSelectedUnit = index => {
+        setSelectedUnit(shippingUnit[index])
+    }
+
     return (
         <div className="checkout-shop py-4 px-3">
             <Container fluid="md">
@@ -43,9 +51,9 @@ function CheckoutShop() {
                             </Col>
                         </Row>
                         {[0, 1].map(item => (
-                            <Row>
+                            <Row key={item} >
                                 <Col md={12}>
-                                    <CheckoutProduct key={item} />
+                                    <CheckoutProduct/>
                                 </Col>
                             </Row>
                         ))}
@@ -59,15 +67,15 @@ function CheckoutShop() {
                             </Col>
                             <Col md={6}>
                                 <div className="delivery-info">
-                                    <h3 className="fw-bold">Standard Express</h3>
+                                    <h3 className="fw-bold">{selectedUnit.name}</h3>
                                     <div className="note fs-5" style={{color: 'gray'}}>(Do ảnh hưởng bởi Covid19, thời gian giao hàng quốc tế có thể kéo dài hơn dự kiến)</div>
                                 </div>
                             </Col>
                             <Col md={2}>
-                                <Button sx={{ fontSize: '1.5rem', fontWeight: 'bold'}}>THAY ĐỔI</Button>
+                                <ShippingUnitModal onClick={getSelectedUnit}/>
                             </Col>
                             <Col md={2}>
-                                <div style={{textAlign: 'right'}}>15.000₫</div>
+                                <div style={{textAlign: 'right'}}>{selectedUnit.price}</div>
                             </Col>
                         </Row>
                         <Row style={{ borderTop: '2px dashed #fafafa'}} className="pt-3">

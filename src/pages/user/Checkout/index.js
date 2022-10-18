@@ -1,7 +1,7 @@
 import { Container, Row, Col } from 'react-bootstrap'
 import CheckoutProduct from "./components/CheckoutProduct"
 import CheckoutShop from "./components/CheckoutShop"
-import PaymentMethods from "./PaymentMethods"
+import PaymentMethods from "./components/PaymentMethods"
 import SendTo from "./components/SendTo"
 import Bill from "./components/Bill"
 
