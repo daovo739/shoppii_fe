@@ -66,6 +66,10 @@ const publicRoutes = [
         path: '/register-success',
         component: AlertToken,
     },
+    {
+        path: '/registerGG',
+        component: CardAuth,
+    },
 ]
 
 const privateRoutes = [

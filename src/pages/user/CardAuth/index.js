@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import LoginForm from '../../../components/LoginForm'
 import RegisterForm from '../../../components/RegisterForm'
+import RegisterFormGoogle from '../../../components/RegisterFormGoogle'
 
 function CardAuth() {
     const { pathname } = useLocation()
@@ -19,7 +20,9 @@ function CardAuth() {
             </Col>
             <Col md={6} className="right d-flex justify-content-center">
                 <div className="d-flex flex-column">
-                    {pathname === '/login' ? <LoginForm /> : <RegisterForm />}
+                    {pathname === '/login' && <LoginForm />}
+                    {pathname === '/register' && <RegisterForm />}
+                    {pathname === '/registerGG' && <RegisterFormGoogle />}
                 </div>
             </Col>
         </Row>

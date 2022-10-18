@@ -1,6 +1,5 @@
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import logoGoogle from '../.././assets/images/2991148.png'
 import {
     InputAdornment,
     IconButton,
@@ -14,45 +13,61 @@ import {
     Tooltip,
 } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { handleChange } from '../.././utils/handleForm'
 import { toast } from 'react-toastify'
 import { post } from '../../utils/httprequest'
 import { style } from '.././ModalStyle/index'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { handleFormData } from '../.././utils/handleForm'
+import { useAuth } from '../.././hooks/useAuth'
 
-function RegisterForm() {
+function RegisterFormGoogle() {
+    const { login } = useAuth()
+    const location = useLocation()
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [token, setToken] = useState('')
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({
+        name: location.state.profileObj.name,
+        email: location.state.profileObj.email,
+    })
+    const [data, setData] = useState(null)
 
     const handleSubmit = async event => {
         event.preventDefault()
-        const { email, password, repassword } = user
+        const { password, rePassword } = user
         console.log(user)
-        if (password !== repassword) {
+        if (password !== rePassword) {
             toast.error('Mật khẩu không khớp')
         } else {
-            const formData = new FormData()
-            formData.append('email', email)
-            formData.append('password', password)
-            formData.append('rePassword', repassword)
-            const res = await post('user/register', formData)
+            setUser(prevState => {
+                return {
+                    ...prevState,
+                    password: password,
+                    rePassword: rePassword,
+                }
+            })
+            const formData = handleFormData(user)
+            const res = await post('user/googleAuthentication', formData)
             const data = await res.json()
             console.log(res)
             if (res.status === 201) {
-                toast.success('Đăng ký thành công')
-                setToken(data.securityCode)
-                setShowModal(true)
+                if (data.securityCode) {
+                    setToken(data.securityCode)
+                    setData(data)
+                    toast.success('Đăng ký thành công')
+                    setShowModal(true)
+                } else {
+                    login(data)
+                }
             } else {
                 toast.error(data.message)
             }
         }
     }
-
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -68,31 +83,13 @@ function RegisterForm() {
                         <AppRegistrationIcon sx={{ fontSize: '24px' }} />
                     </Avatar>
                     <Typography component="h1" variant="h4">
-                        Đăng Ký
+                        Tạo mật khẩu
                     </Typography>
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
                         sx={{ mt: 1 }}
                     >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Nhập email hoặc số điện thoại"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            InputProps={{
-                                onChange: e => handleChange(e, setUser),
-                                inputProps: {
-                                    pattern: process.env.REACT_APP_REGEX_AUTH,
-                                    title: 'Vui lòng nhập email hoặc số điện thoại',
-                                },
-                                label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
-                            }}
-                        />
                         <TextField
                             margin="normal"
                             required
@@ -139,7 +136,7 @@ function RegisterForm() {
                             margin="normal"
                             required
                             fullWidth
-                            name="repassword"
+                            name="rePassword"
                             label="Nhập lại mật khẩu"
                             type={showRePassword ? 'text' : 'password'}
                             id="repassword"
@@ -257,15 +254,16 @@ function RegisterForm() {
                             marginTop: '10px',
                         }}
                     >
-                        <Link
-                            to="/login"
+                        <Button
+                            to="#"
                             style={{
                                 color: '#fff',
                                 fontSize: '1.5rem',
                             }}
+                            onClick={() => login(data)}
                         >
-                            Đăng nhập
-                        </Link>
+                            Về trang chủ
+                        </Button>
                     </Button>
                 </Box>
             </Modal>
@@ -273,4 +271,4 @@ function RegisterForm() {
     )
 }
 
-export default RegisterForm
+export default RegisterFormGoogle

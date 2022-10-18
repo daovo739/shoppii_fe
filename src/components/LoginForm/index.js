@@ -1,7 +1,6 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import logoGoogle from '../.././assets/images/2991148.png'
 import {
     InputAdornment,
     IconButton,
@@ -37,11 +36,7 @@ function LoginForm() {
 
     const handleLoginGoogle = response => {
         console.log(response)
-        const { email, name, imageUrl } = response.profileObj
-        login({
-            email,
-            name,
-        })
+        navigate('/registerGG', { state: response }, { replace: true })
     }
 
     const handleSubmit = async event => {
