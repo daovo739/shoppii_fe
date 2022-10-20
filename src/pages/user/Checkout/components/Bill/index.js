@@ -23,7 +23,7 @@ function Bill() {
                     </Col>
                     <Col
                         md={6}
-                        style={{ textAlign: 'right', color: '#00ab56' }}
+                        style={{ textAlign: 'right', color: 'var(--main-green)' }}
                     >
                         293.000đ
                     </Col>
@@ -34,7 +34,7 @@ function Bill() {
                     </Col>
                     <Col
                         md={6}
-                        style={{ textAlign: 'right', color: '#00ab56' }}
+                        style={{ textAlign: 'right', color: 'var(--main-green)' }}
                     >
                         32.000đ
                     </Col>
@@ -45,7 +45,7 @@ function Bill() {
                         md={6}
                         style={{
                             textAlign: 'right',
-                            color: '#ff424e',
+                            color: 'var(--main-red)',
                             fontSize: '2.3rem',
                         }}
                     >
@@ -55,10 +55,11 @@ function Bill() {
                 <Row className="px-4">
                     <Button
                         sx={{
-                            backgroundColor: '#ff424e',
+                            backgroundColor: 'var(--main-red)',
                             color: 'white',
                             fontSize: '1.5rem',
                             marginTop: '2rem',
+                            border: '2px solid var(--main-red)'
                         }}
                         className="checkout-btn"
                     >

@@ -2,11 +2,14 @@
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
         rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    border-radius: 6px;
 }
 
 .order-header {
     background-color: #2877ee;
     color: white;
+    border-start-end-radius: 6px;
+    border-start-start-radius: 6px;
 }
 
 .view-shop-btn {
@@ -34,6 +37,7 @@
 .order-footer{
     text-align: right;
     font-size: 2.5rem;
-    color: #2877ee;
+    color: var(--main-red);
     font-weight: 500;
+    margin-right: 2rem;
 }

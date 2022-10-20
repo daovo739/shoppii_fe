@@ -27,12 +27,12 @@ function AddressItem() {
                     </Col>
                     <Col md={2}>
                         <p className="d-flex justify-content-end align-content-center">
-                            <DeleteOutline className="mt-1" sx={{ fontSize: '18px', color: 'red'}}/>
+                            <DeleteOutline className="mt-1" sx={{ fontSize: '18px', color: 'var(--main-red)'}}/>
                             <span className="fs-5 mt-2" style={{color: 'red'}}>Xóa</span>
                         </p>
                         <p className="d-flex justify-content-end align-content-center">
-                            <BorderColorOutlined className="mt-1" sx={{ fontSize: '18px', color: 'success.main'}}/>
-                            <span className="fs-5 mt-2" style={{color: 'green'}}>Chỉnh sửa</span>
+                            <BorderColorOutlined className="mt-1" sx={{ fontSize: '18px', color: 'var(--main-green)'}}/>
+                            <span className="fs-5 mt-2" style={{color: 'var(--main-green)'}}>Chỉnh sửa</span>
                         </p>
                     </Col>
                 </Row>

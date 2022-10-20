@@ -16,11 +16,11 @@ function ShippingUnit({ index, name, price, style, onClick }) {
                     <Col md={3} className="fw-bold">
                         {name}
                     </Col>
-                    <Col md={8} style={{ color: 'red' }}>
+                    <Col md={8} style={{ color: 'var(--main-red)' }}>
                         {price}
                     </Col>
                     <Col md={1}>
-                      {style.backgroundColor ? <Check sx={{fontSize: '25px', color: 'red'}}/> : <></>}
+                      {style.backgroundColor ? <Check sx={{fontSize: '25px', color: 'var(--main-red)'}}/> : <></>}
                     </Col>
                 </Row>
             </Container>

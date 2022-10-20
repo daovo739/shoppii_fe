@@ -77,10 +77,11 @@ function ShippingUnitModal({ onClick }) {
                               className="shipping-unit-btn"
                               sx={{
                                   width: '20%',
-                                  backgroundColor: '#2877ee',
+                                  backgroundColor: 'var(--main-blue)',
                                   color: 'white',
                                   fontSize: '1.3rem',
-                                  margin: '1.5rem'
+                                  margin: '1.5rem',
+                                  border: '2px solid var(--main-blue)'
                               }}
                           >
                               Hoàn thành

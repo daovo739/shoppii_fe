@@ -17,7 +17,7 @@ function CartShop() {
                         className="d-flex align-items-center"
                         style={{
                             height: '5rem',
-                            borderBottom: '3px solid #fafafa',
+                            borderBottom: '3px solid var(--box-color)',
                             backgroundColor: 'white',
                         }}
                     >
@@ -29,11 +29,11 @@ function CartShop() {
                         />
                         <h4 className="pt-2 me-2">Tên cửa hàng gì đó</h4>
                         <div style={{color: 'gray'}}>|</div>
-                        <div style={{ marginLeft: '7px', fontSize: '1.5rem', color: '#7ca5b8'}}>
+                        <div style={{ marginLeft: '7px', fontSize: '1.5rem', color: 'var(--main-green)'}}>
                             <Store
                                 sx={{
                                     fontSize: '22px',
-                                    color: '#7ca5b8',
+                                    color: 'var(--main-green)',
                                     marginRight: '5px'
                                 }}
                             />
@@ -48,7 +48,7 @@ function CartShop() {
                             className="d-flex align-items-center py-4"
                             style={{
                                 height: 'auto',
-                                borderBottom: '3px solid #fafafa',
+                                borderBottom: '3px solid var(--box-color)',
                                 backgroundColor: 'white',
                             }}
                         >
