@@ -45,7 +45,7 @@ const Navbar = () => {
                             onMouseLeave={() => setShowDropdownCategory(false)}
                             show={showDropdownCategory}
                         >
-                            <Dropdown.Toggle className="header-catalog">
+                            <Dropdown.Toggle className="header-catalog dropdownBtn">
                                 <div className="d-flex">
                                     <ListAltOutlined
                                         sx={{ fontSize: '20px' }}
@@ -121,7 +121,7 @@ const Navbar = () => {
                                         }
                                         show={showDropdownProfile}
                                     >
-                                        <Dropdown.Toggle>
+                                        <Dropdown.Toggle className="dropdownBtn">
                                             <PersonOutline
                                                 sx={{
                                                     fontSize: '30px',

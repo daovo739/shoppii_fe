@@ -7,7 +7,8 @@ function PrivateLayout({ children }) {
             <div
                 style={{
                     marginLeft: '250px',
-                    padding: '30px 0 0 50px',
+                    padding: '0 30px',
+                    minHeight: '100vh',
                 }}
             >
                 {children}
