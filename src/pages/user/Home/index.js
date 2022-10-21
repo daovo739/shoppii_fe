@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { get } from '../../../utils/./httprequest'
-import ShopHeader from '../ViewShop/components/ShopHeader'
-
+import Categories from './components/Categories'
 function Home() {
     const [category, setCategory] = useState([])
 
@@ -11,7 +10,7 @@ function Home() {
     //     }
     // }, [])
 
-    return <ShopHeader/>
+    return <Categories/>
 }
 
 export default Home

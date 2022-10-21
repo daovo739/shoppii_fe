@@ -1,4 +1,8 @@
+.product-card{
+  width: 200px !important;
+}
 .product-card:hover {
+  width: 200px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   cursor: pointer;
 }
