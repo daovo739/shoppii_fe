@@ -4,7 +4,14 @@ function PrivateLayout({ children }) {
     return (
         <div>
             <SideBar />
-            <div className="container">{children}</div>
+            <div
+                style={{
+                    marginLeft: '250px',
+                    padding: '30px 0 0 50px',
+                }}
+            >
+                {children}
+            </div>
         </div>
     )
 }

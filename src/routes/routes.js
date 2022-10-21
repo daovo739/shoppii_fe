@@ -21,7 +21,7 @@ const {
     CardAuth,
 } = paths
 
-const { shopHomePage } = shopPaths
+const { ShopHomePage, ShopOrders, ShopProducts, ShopProfile } = shopPaths
 // Routes
 const publicRoutes = [
     {
@@ -77,8 +77,11 @@ const publicRoutes = [
 const shopRoutes = [
     {
         path: '/shop',
-        component: shopHomePage,
+        component: ShopHomePage,
     },
+    { path: '/shop/profiles', component: ShopProfile },
+    { path: '/shop/products', component: ShopProducts },
+    { path: '/shop/orders', component: ShopOrders },
 ]
 const privateRoutes = [
     {

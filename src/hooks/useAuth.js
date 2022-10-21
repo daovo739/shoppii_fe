@@ -7,7 +7,7 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('user', null)
-    const [role, setRole] = useState('user')
+    const [role, setRole] = useLocalStorage('role', ROLE_USER)
     const navigate = useNavigate()
 
     const login = async (data, role) => {
