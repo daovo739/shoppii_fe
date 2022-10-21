@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
 import {
     TextField,
@@ -14,51 +14,14 @@ import {
     Avatar,
 } from '@mui/material'
 import { Row, Container, Col } from 'react-bootstrap'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { handleChange } from '../../../../../utils/handleForm'
 
 function EditProfileForm() {
-    const [date, setDate] = React.useState('')
-    const [month, setMonth] = React.useState('')
-    const [year, setYear] = React.useState('')
-
-    const handleChange = (event, item) => {
-        switch (item) {
-            case 'date':
-                setDate(event.target.value)
-                break
-            case 'month':
-                setMonth(event.target.value)
-                break
-            case 'year':
-                setYear(event.target.value)
-                break
-            default:
-                return 'Error'
-        }
-    }
-
-    const createArray = item => {
-        let array = []
-        switch (item) {
-            case 'date':
-                for (let i = 0; i < 31; i++) {
-                    array = [...array, i + 1]
-                }
-                return array
-            case 'month':
-                for (let i = 0; i < 12; i++) {
-                    array = [...array, i + 1]
-                }
-                return array
-            case 'year':
-                for (let i = 1980; i < 2022; i++) {
-                    array = [...array, i + 1]
-                }
-                return array
-            default:
-                return array
-        }
-    }
-
+    const [date, setDate] = useState()
+    // console.log(date)
     return (
         <Container fluid="md">
             <Row>
@@ -73,7 +36,7 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
                                 }}
@@ -88,9 +51,12 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
+                                }}
+                                InputProps={{
+                                    label: 'Email aa',
                                 }}
                             />
                         </Row>
@@ -103,15 +69,21 @@ function EditProfileForm() {
                                 size="small"
                                 margin="normal"
                                 fullWidth
-                                inputProps={{ style: {fontSize: '1.3rem'} }}
+                                inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
+                                }}
+                                InputProps={{
+                                    label: 'Số điện thoại aaaa',
                                 }}
                             />
                         </Row>
                         <Row>
                             <FormControl>
-                                <FormLabel id="demo-row-radio-buttons-group-label" sx={{ fontSize: '1.2rem'}}>
+                                <FormLabel
+                                    id="demo-row-radio-buttons-group-label"
+                                    sx={{ fontSize: '1.2rem' }}
+                                >
                                     Giới tính
                                 </FormLabel>
                                 <RadioGroup
@@ -132,82 +104,51 @@ function EditProfileForm() {
                                 </RadioGroup>
                             </FormControl>{' '}
                         </Row>
-                        <Row>
-                            <FormLabel id="demo-row-radio-buttons-group-label" sx={{ fontSize: '1.2rem'}}>
-                                Ngày sinh
-                            </FormLabel>{' '}
-                            <br></br>
-                            <Col md={2}>
-                                <FormControl
-                                    sx={{ m: 1, minWidth: 70 }}
-                                    size="small"
+                        <Row className="mt-3">
+                            <Col md={12}>
+                                <LocalizationProvider
+                                    dateAdapter={AdapterDayjs}
                                 >
-                                    <InputLabel id="demo-select-small">
-                                        Ngày
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-select-small"
-                                        id="demo-select-small"
+                                    <DatePicker
+                                        label="Ngày sinh"
                                         value={date}
-                                        onChange={event =>
-                                            handleChange(event, 'date')
-                                        }
-                                    >
-                                        {createArray('date').map(index => (
-                                            <MenuItem key={index} value={index}>
-                                                {index}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                            <Col md={2}>
-                                <FormControl
-                                    sx={{ m: 1, minWidth: 70 }}
-                                    size="small"
-                                >
-                                    <InputLabel id="demo-select-small">
-                                        Tháng
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-select-small"
-                                        id="demo-select-small"
-                                        value={month}
-                                        onChange={event =>
-                                            handleChange(event, 'month')
-                                        }
-                                    >
-                                        {createArray('month').map(index => (
-                                            <MenuItem key={index} value={index}>
-                                                {index}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                            <Col md={4}>
-                                <FormControl
-                                    sx={{ m: 1, minWidth: 100 }}
-                                    size="small"
-                                >
-                                    <InputLabel id="demo-select-small">
-                                        Năm
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-select-small"
-                                        id="demo-select-small"
-                                        value={year}
-                                        onChange={event =>
-                                            handleChange(event, 'year')
-                                        }
-                                    >
-                                        {createArray('year').map(index => (
-                                            <MenuItem key={index} value={index}>
-                                                {index}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>{' '}
+                                        onChange={newValue => {
+                                            setDate(newValue)
+                                        }}
+                                        renderInput={params => {
+                                            params = {
+                                                ...params,
+                                                InputProps: {
+                                                    ...params.InputProps,
+                                                    label: 'Ngày sinh aaaa',
+                                                },
+                                                inputProps: {
+                                                    ...params.inputProps,
+                                                    placeholder: 'dd/mm/yyyy',
+                                                    value:
+                                                        `0${date.$D}`.slice(
+                                                            -2,
+                                                        ) +
+                                                        `/` +
+                                                        `0${date.$M}`.slice(
+                                                            -2,
+                                                        ) +
+                                                        `/` +
+                                                        `${date.$y}`,
+                                                },
+                                            }
+                                            return (
+                                                <TextField
+                                                    {...params}
+                                                    InputProps={{
+                                                        ...params.InputProps,
+                                                        label: 'Ngày sinh aaaa',
+                                                    }}
+                                                />
+                                            )
+                                        }}
+                                    />
+                                </LocalizationProvider>
                             </Col>
                         </Row>
                         <Row className="d-flex justify-content-center pt-2">
