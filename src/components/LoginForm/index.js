@@ -19,6 +19,7 @@ import { gapi } from 'gapi-script'
 import { post } from '../.././utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../.././hooks/useAuth'
+import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
 
 function LoginForm() {
     const { login } = useAuth()
@@ -44,7 +45,7 @@ function LoginForm() {
         if (data.statusCode === 404) {
             navigate('/registerGG', { state: response }, { replace: true })
         } else {
-            login(data)
+            login(data, ROLE_USER)
         }
     }
 
@@ -52,9 +53,7 @@ function LoginForm() {
         event.preventDefault()
         const { email, password } = user
         if (email === 'admin' && password === 'admin') {
-            login({
-                isAdmin: true,
-            })
+            login(null, ROLE_ADMIN)
         }
         const formData = handleFormData(user)
         const res = await post('auth', formData)
@@ -62,7 +61,7 @@ function LoginForm() {
         console.log(user)
         console.log(data)
         if (res.status === 200) {
-            login(data)
+            login(data, ROLE_USER)
         } else {
             toast.error(data.message)
         }

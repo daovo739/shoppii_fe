@@ -76,10 +76,10 @@ function RegisterForm() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
+                            id="phone"
                             label="Nhập số điện thoại"
-                            name="email"
-                            autoComplete="email"
+                            name="phone"
+                            autoComplete="phone"
                             autoFocus
                             InputProps={{
                                 onChange: e => handleChange(e, setUser),
