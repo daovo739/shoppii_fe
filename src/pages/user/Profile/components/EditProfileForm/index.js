@@ -112,31 +112,12 @@ function EditProfileForm() {
                                     <DatePicker
                                         label="Ngày sinh"
                                         value={date}
+                                        inputFormat="DD-MM-YYYY"
                                         onChange={newValue => {
+                                            console.log(newValue)
                                             setDate(newValue)
                                         }}
                                         renderInput={params => {
-                                            params = {
-                                                ...params,
-                                                InputProps: {
-                                                    ...params.InputProps,
-                                                    label: 'Ngày sinh aaaa',
-                                                },
-                                                inputProps: {
-                                                    ...params.inputProps,
-                                                    placeholder: 'dd/mm/yyyy',
-                                                    value:
-                                                        `0${date.$D}`.slice(
-                                                            -2,
-                                                        ) +
-                                                        `/` +
-                                                        `0${date.$M}`.slice(
-                                                            -2,
-                                                        ) +
-                                                        `/` +
-                                                        `${date.$y}`,
-                                                },
-                                            }
                                             return (
                                                 <TextField
                                                     {...params}
