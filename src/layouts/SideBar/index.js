@@ -1,8 +1,14 @@
-import './index.scss'
-import { Button } from 'react-bootstrap'
+import './index.css'
 import { useAuth } from '.././../hooks/useAuth'
 import { Link, useNavigate } from 'react-router-dom'
 import { ROLE_USER } from '../../hooks/constants'
+import {
+    Home,
+    StoreMallDirectory,
+    Inventory,
+    History,
+} from '@mui/icons-material'
+import { Nav, Button } from 'react-bootstrap'
 
 function SideBar() {
     const navigate = useNavigate()
@@ -15,97 +21,34 @@ function SideBar() {
 
     return (
         <nav className="sidebar ">
-            <Button onClick={handleSwitchUser}>Trở về shoppii</Button>
-            <header>
-                <div className="image-text">
-                    <span className="image">
-                        {/* <!--<img src="logo.png" alt="">--> */}
-                    </span>
-
-                    <div className="text logo-text">
-                        <span className="name">Left-Nav</span>
-                        <span className="profession">Web developer</span>
-                    </div>
-                </div>
-
-                <i className="bx bx-chevron-right toggle"></i>
+            <header className="d-flex" style={{ paddingRight: '20px' }}>
+                <Button
+                    variant="secondary"
+                    onClick={handleSwitchUser}
+                    className="backBtn"
+                >
+                    Trở lại shoppii
+                </Button>
             </header>
 
-            <div className="menu-bar">
-                <div className="menu">
-                    <li className="search-box">
-                        <i className="bx bx-search icon"></i>
-                        <input type="text" placeholder="Search..." />
-                    </li>
-
-                    <ul className="menu-links">
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-home-alt icon"></i>
-                                <span className="text nav-text">Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-bar-chart-alt-2 icon"></i>
-                                <span className="text nav-text">Revenue</span>
-                            </a>
-                        </li>
-
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-bell icon"></i>
-                                <span className="text nav-text">
-                                    Notifications
-                                </span>
-                            </a>
-                        </li>
-
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-pie-chart-alt icon"></i>
-                                <span className="text nav-text">Analytics</span>
-                            </a>
-                        </li>
-
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-heart icon"></i>
-                                <span className="text nav-text">Likes</span>
-                            </a>
-                        </li>
-
-                        <li className="nav-link">
-                            <a href="#">
-                                <i className="bx bx-wallet icon"></i>
-                                <span className="text nav-text">Wallets</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div className="bottom-content">
-                    <li className="">
-                        <a href="#">
-                            <i className="bx bx-log-out icon"></i>
-                            <span className="text nav-text">Logout</span>
-                        </a>
-                    </li>
-
-                    <li className="mode">
-                        <div className="sun-moon">
-                            <i className="bx bx-moon icon moon"></i>
-                            <i className="bx bx-sun icon sun"></i>
-                        </div>
-                        <span className="mode-text text">Dark mode</span>
-
-                        <div className="toggle-switch">
-                            <span className="switch"></span>
-                        </div>
-                    </li>
-                </div>
-            </div>
+            <Nav variant="pills" className="flex-column menu">
+                <Link className="link" to="/shop">
+                    <Home className="icon" />
+                    <Nav.Item>Trang chủ</Nav.Item>
+                </Link>
+                <Link className="link" to="/shop/profiles">
+                    <StoreMallDirectory className="icon" />
+                    <Nav.Item>Thông tin cửa hàng</Nav.Item>
+                </Link>
+                <Link className="link" to="/shop/products">
+                    <Inventory className="icon" />
+                    <Nav.Item>Quản lý sản phẩm</Nav.Item>
+                </Link>
+                <Link className="link" to="/shop/orders">
+                    <History className="icon" />
+                    <Nav.Item>Quản lý đơn hàng</Nav.Item>
+                </Link>
+            </Nav>
         </nav>
     )
 }

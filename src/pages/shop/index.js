@@ -1,3 +1,6 @@
-import shopHomePage from './home'
+import ShopHomePage from './home'
+import ShopOrders from './orders'
+import ShopProducts from './products'
+import ShopProfile from './profile'
 
-export { shopHomePage }
+export { ShopHomePage, ShopOrders, ShopProducts, ShopProfile }

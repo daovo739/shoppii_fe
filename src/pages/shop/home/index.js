@@ -1,5 +1,5 @@
-function shopHomePage() {
+function ShopHomePage() {
     return <h1>Shop home page</h1>
 }
 
-export default shopHomePage
+export default ShopHomePage

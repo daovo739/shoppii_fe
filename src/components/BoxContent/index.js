@@ -12,7 +12,6 @@ import {
     orderHistory,
     addressList,
 } from '../../pages/user/Profile/components/ProfileSidebar'
-import { Backdrop } from '@mui/material'
 
 const headerList = [
     {
@@ -39,21 +38,21 @@ const headerList = [
     {
         action: 'view products',
         title: 'Kết quả tìm kiếm',
-        comment: ''
-    }
+        comment: '',
+    },
 ]
 
 function BoxContent({ content }) {
     const renderContent = () => {
         switch (content) {
             case addressList:
-                return <AddressList/>
+                return <AddressList />
             case changePass:
                 return <ChangPassword />
             case orderHistory:
                 return <OrderHistory />
             case 'view products':
-                return <ViewProduct/>
+                return <ViewProduct />
             default:
                 return <EditProfileForm />
         }
