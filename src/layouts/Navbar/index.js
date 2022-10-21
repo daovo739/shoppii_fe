@@ -6,15 +6,17 @@ import {
     PersonOutline,
     ListAltOutlined,
 } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Row, Container, Col, Dropdown } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { ROLE_SHOP } from '../.././hooks/constants'
 
 const Navbar = () => {
-    const { user, logout } = useAuth()
+    const navigate = useNavigate()
+    const { user, logout, changeRole } = useAuth()
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIsLogin] = useState(() => (user ? true : false))
@@ -22,7 +24,12 @@ const Navbar = () => {
     useEffect(() => {
         setIsLogin(user ? true : false)
     }, [user])
-    console.log('isLogin: ' + isLogin)
+
+    const handleSwitchShop = () => {
+        changeRole(ROLE_SHOP)
+        navigate('/shop', { replace: true })
+    }
+
     return (
         <>
             <Container fluid="md">
@@ -136,9 +143,11 @@ const Navbar = () => {
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="div">
-                                                <Link to="/shop">
+                                                <Button
+                                                    onClick={handleSwitchShop}
+                                                >
                                                     Kênh người bán
-                                                </Link>
+                                                </Button>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="div">

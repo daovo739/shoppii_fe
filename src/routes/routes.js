@@ -1,7 +1,7 @@
 // Pages
 // User
 import * as paths from '../pages/user/index'
-
+import * as shopPaths from '../pages/shop/index'
 // Shop
 
 // Admin
@@ -20,6 +20,8 @@ const {
     Product,
     CardAuth,
 } = paths
+
+const { shopHomePage } = shopPaths
 // Routes
 const publicRoutes = [
     {
@@ -72,6 +74,12 @@ const publicRoutes = [
     },
 ]
 
+const shopRoutes = [
+    {
+        path: '/shop',
+        component: shopHomePage,
+    },
+]
 const privateRoutes = [
     {
         path: '/admin',
@@ -83,4 +91,4 @@ const privateRoutes = [
     },
 ]
 
-export { publicRoutes, privateRoutes }
+export { publicRoutes, privateRoutes, shopRoutes }
