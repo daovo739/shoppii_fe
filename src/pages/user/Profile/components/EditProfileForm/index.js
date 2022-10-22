@@ -18,9 +18,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { handleChange } from '../../../../../utils/handleForm'
+import { getImage } from '../../../../../utils/format'
 
 function EditProfileForm() {
-    const [date, setDate] = useState()
+    const [date, setDate] = useState(null)
+    const [imgURI, setImgURI] = useState()
+    const [infoUpdate, setInfoUpdate] = useState()
+
+    const handleUpdate = () => {
+        console.log(infoUpdate)
+    }
     // console.log(date)
     return (
         <Container fluid="md">
@@ -33,9 +40,11 @@ function EditProfileForm() {
                                 id="outlined-required"
                                 label="Tên"
                                 defaultValue=""
+                                name="name"
                                 size="small"
                                 margin="normal"
                                 fullWidth
+                                onChange={e => handleChange(e, setInfoUpdate)}
                                 inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
@@ -50,7 +59,9 @@ function EditProfileForm() {
                                 defaultValue=""
                                 size="small"
                                 margin="normal"
+                                name="email"
                                 fullWidth
+                                onChange={e => handleChange(e, setInfoUpdate)}
                                 inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
@@ -66,9 +77,11 @@ function EditProfileForm() {
                                 id="outlined-required"
                                 label="Số điện thoại"
                                 defaultValue=""
+                                name="phone"
                                 size="small"
                                 margin="normal"
                                 fullWidth
+                                onChange={e => handleChange(e, setInfoUpdate)}
                                 inputProps={{ style: { fontSize: '1.3rem' } }}
                                 InputLabelProps={{
                                     style: { fontSize: '1.3rem' },
@@ -89,7 +102,10 @@ function EditProfileForm() {
                                 <RadioGroup
                                     row
                                     aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
+                                    name="sex"
+                                    onChange={e =>
+                                        handleChange(e, setInfoUpdate)
+                                    }
                                 >
                                     <FormControlLabel
                                         value="male"
@@ -112,31 +128,18 @@ function EditProfileForm() {
                                     <DatePicker
                                         label="Ngày sinh"
                                         value={date}
+                                        inputFormat="DD-MM-YYYY"
                                         onChange={newValue => {
+                                            const dob = `${newValue.$D}/${
+                                                newValue.$M + 1
+                                            }/${newValue.$y}`
                                             setDate(newValue)
+                                            setInfoUpdate({
+                                                ...infoUpdate,
+                                                dob,
+                                            })
                                         }}
                                         renderInput={params => {
-                                            params = {
-                                                ...params,
-                                                InputProps: {
-                                                    ...params.InputProps,
-                                                    label: 'Ngày sinh aaaa',
-                                                },
-                                                inputProps: {
-                                                    ...params.inputProps,
-                                                    placeholder: 'dd/mm/yyyy',
-                                                    value:
-                                                        `0${date.$D}`.slice(
-                                                            -2,
-                                                        ) +
-                                                        `/` +
-                                                        `0${date.$M}`.slice(
-                                                            -2,
-                                                        ) +
-                                                        `/` +
-                                                        `${date.$y}`,
-                                                },
-                                            }
                                             return (
                                                 <TextField
                                                     {...params}
@@ -152,7 +155,11 @@ function EditProfileForm() {
                             </Col>
                         </Row>
                         <Row className="d-flex justify-content-center pt-2">
-                            <Button variant="contained" className="fs-6 w-25">
+                            <Button
+                                variant="contained"
+                                className="fs-6 w-25"
+                                onClick={handleUpdate}
+                            >
                                 Lưu
                             </Button>
                         </Row>
@@ -163,7 +170,7 @@ function EditProfileForm() {
                         <Row>
                             <Avatar
                                 alt="Remy Sharp"
-                                src="/static/images/avatar/1.jpg"
+                                src={imgURI}
                                 sx={{ width: 125, height: 125 }}
                                 className="mx-auto my-0"
                             />
@@ -171,10 +178,21 @@ function EditProfileForm() {
                         <Row className="d-flex justify-content-center">
                             <Button
                                 variant="outlined"
-                                className="fs-6 w-50 mt-3"
+                                className="fs-5 w-50 mt-3"
                                 size="medium"
+                                component="label"
                             >
                                 Chọn ảnh
+                                <input
+                                    hidden
+                                    accept=".jpeg,.jpg,.png,.gif,image/*"
+                                    type="file"
+                                    name="avatar"
+                                    onChange={e => {
+                                        setImgURI(getImage(e))
+                                        handleChange(e, setInfoUpdate)
+                                    }}
+                                />
                             </Button>
                         </Row>
                     </Container>

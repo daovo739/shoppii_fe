@@ -73,6 +73,10 @@ const publicRoutes = [
         path: '/registerGG',
         component: CardAuth,
     },
+    {
+        path: '*',
+        component: Home,
+    },
 ]
 
 const shopRoutes = [
@@ -83,6 +87,7 @@ const shopRoutes = [
     { path: '/shop/profiles', component: ShopProfile },
     { path: '/shop/products', component: ShopProducts },
     { path: '/shop/orders', component: ShopOrders },
+    { path: '*', component: ShopHomePage },
 ]
 const privateRoutes = [
     {

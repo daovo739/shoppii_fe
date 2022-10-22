@@ -7,7 +7,7 @@ nav {
     left: 0;
     z-index: 1;
     overflow-x: hidden;
-    padding: 20px 0 0 20px;
+    padding: 30px 0 0 20px;
 }
 
 .menu {
@@ -59,8 +59,8 @@ nav {
 .backBtn {
     background-color: #6c757d !important;
     width: 100%;
-    padding: 10px 0;
-    font-size: 1.8rem;
+    padding: 8px 0 !important;
+    font-size: 1.8rem !important;
     transition: var(--transition-normal);
     border-radius: 8px;
 }
