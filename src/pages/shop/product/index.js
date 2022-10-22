@@ -6,6 +6,7 @@ import { handleChange } from '../../../utils/handleForm'
 import { useLocation } from 'react-router-dom'
 import { fontSize } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
+import ImageGallery from '../../../components/ImageGallery'
 
 function SingleShopProduct() {
     const { state } = useLocation()
@@ -20,7 +21,9 @@ function SingleShopProduct() {
             </Box>
             <Box component="form">
                 <Row>
-                    <Col md={6}></Col>
+                    <Col md={6}>
+                        <ImageGallery />
+                    </Col>
                     <Col md={6}>
                         <TextField
                             margin="normal"
