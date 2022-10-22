@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import LoginForm from '../../../components/LoginForm'
 import RegisterForm from '../../../components/RegisterForm'
 import RegisterFormGoogle from '../../../components/RegisterFormGoogle'
+import ForgetPasswordForm from '../../../components/ForgetPasswordForm'
 
 function CardAuth() {
     const { pathname } = useLocation()
@@ -23,6 +24,7 @@ function CardAuth() {
                     {pathname === '/login' && <LoginForm />}
                     {pathname === '/register' && <RegisterForm />}
                     {pathname === '/registerGG' && <RegisterFormGoogle />}
+                    {pathname === '/forget-password' && <ForgetPasswordForm/>}
                 </div>
             </Col>
         </Row>

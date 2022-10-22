@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { get } from '../../../utils/./httprequest'
-import Categories from './components/Categories'
 function Home() {
     const [category, setCategory] = useState([])
 
@@ -10,7 +9,7 @@ function Home() {
     //     }
     // }, [])
 
-    return <Categories/>
+    return <h1>Home</h1>
 }
 
 export default Home
