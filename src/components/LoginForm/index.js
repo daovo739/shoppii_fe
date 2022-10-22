@@ -26,7 +26,6 @@ function LoginForm() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
-
     useEffect(() => {
         gapi.load('client:auth2', () => {
             gapi.auth2.getAuthInstance({
