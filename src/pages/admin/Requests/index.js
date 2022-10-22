@@ -1,5 +1,7 @@
+import RequestTable from "./components/RequestTable"
+
 function Requests() {
-    return <h1>Requests page admin</h1>
+    return <RequestTable/>
 }
 
 export default Requests
