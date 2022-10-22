@@ -42,7 +42,7 @@ function LoginForm() {
         const data = await res.json()
         if (data.statusCode === 404) {
             navigate('/registerGG', { state: response }, { replace: true })
-        } else if (data.statusCode === 200) {
+        } else if (res.status === 200) {
             login(data, ROLE_USER)
         } else {
             toast.error('Đăng nhập thất bại')
@@ -63,7 +63,7 @@ function LoginForm() {
         if (res.status === 200) {
             login(data, ROLE_USER)
         } else {
-            toast.error(data.message)
+            toast.error('Đăng nhập thất bại')
         }
     }
 

@@ -8,8 +8,9 @@ const post = async (path, formData) => {
     return res
 }
 
-const get = async (path, queries = {}) => {
-    const res = await fetch(`${API_URL}/${path}`, {
+const get = async (path, q = {}) => {
+    console.log(q)
+    const res = await fetch(`${API_URL}/${path}?${q}`, {
         method: 'GET',
     })
     return res
