@@ -51,8 +51,8 @@ function LoginForm() {
 
     const handleSubmit = async event => {
         event.preventDefault()
-        const { email, password } = user
-        if (email === 'admin' && password === 'admin') {
+        const { info, password } = user
+        if (info === 'admin' && password === 'admin') {
             login(null, ROLE_ADMIN)
         }
         const formData = handleFormData(user)

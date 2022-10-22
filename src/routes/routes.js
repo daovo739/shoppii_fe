@@ -91,10 +91,6 @@ const shopRoutes = [
 const privateRoutes = [
     {
         path: '/admin',
-        component: Dashboard,
-    },
-    {
-        path: '/admin/requests',
         component: Requests,
     },
 ]

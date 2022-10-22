@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLocalStorage } from './useLocalStorage'
-import { ROLE_USER } from './constants'
+import { ROLE_USER, ROLE_ADMIN } from './constants'
 
 const AuthContext = createContext()
 
@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
     const login = async (data, role) => {
         setUser(data)
         setRole(role)
+        if (role === ROLE_ADMIN) {
+            navigate('/admin', { replace: true })
+        }
         navigate('/', { replace: true })
     }
 
