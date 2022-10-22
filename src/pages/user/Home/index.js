@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { get } from '../../../utils/./httprequest'
-<<<<<<< HEAD
 import Categories from './components/Categories'
-import Carousel from './components/Carousel'
-=======
->>>>>>> 52683f55894e4d8c4da12e2201e6b11c49cd72b2
+import ControlledCarousel from './components/Carousel'
+import { Container, Row, Col } from 'react-bootstrap'
+import FilterSidebar from '../../../components/FilterSidebar'
 function Home() {
     const [category, setCategory] = useState([])
 
@@ -14,16 +13,26 @@ function Home() {
     //     }
     // }, [])
 
-<<<<<<< HEAD
     return (
         <div>
-            <Carousel />
-            <Categories />
+            <Container>
+                <Row style={{ marginBottom: '4rem' }}>
+                    <ControlledCarousel />
+                </Row>
+                <Row>
+                    <Col
+                        md={'auto'}
+                        className="p-4 d-flex justify-content-center align-items-center"
+                    >
+                        <FilterSidebar />
+                    </Col>
+                    <Col md="10">
+                        <Categories />
+                    </Col>
+                </Row>
+            </Container>
         </div>
     )
-=======
-    return <h1>Home</h1>
->>>>>>> 52683f55894e4d8c4da12e2201e6b11c49cd72b2
 }
 
 export default Home

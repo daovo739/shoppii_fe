@@ -1,63 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import Carousel from 'react-bootstrap/Carousel'
 import { SliderData } from './SliderData'
-import { ArrowBack, ArrowForward } from '@mui/icons-material/'
-import './index.css'
-const Carousel = () => {
-    const [currentSlide, setCurrentSlide] = useState(0)
-    const slideLength = SliderData.length
+function ControlledCarousel() {
+    const [index, setIndex] = useState(0)
 
-    const autoScroll = true
-    let slideInterval
-    let intervalTime = 5000
-
-    const nextSlide = () => {
-        setCurrentSlide(currentSlide === slideLength - 1 ? 0 : currentSlide + 1)
-        console.log('next')
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex)
     }
 
-    const prevSlide = () => {
-        setCurrentSlide(currentSlide === 0 ? slideLength - 1 : currentSlide - 1)
-        console.log('prev')
-    }
-
-    function auto() {
-        slideInterval = setInterval(nextSlide, intervalTime)
-    }
-
-    useEffect(() => {
-        setCurrentSlide(0)
-    }, [])
-
-    useEffect(() => {
-        if (autoScroll) {
-            auto()
-        }
-        return () => clearInterval(slideInterval)
-    }, [currentSlide])
-    console.log(currentSlide)
     return (
-        <div className="slider">
-            <ArrowBack className="left-arrow" onClick={prevSlide} />
-            <ArrowForward className="right-arrow " onClick={nextSlide} />
+        <Carousel activeIndex={index} onSelect={handleSelect}>
             {SliderData.map((slide, index) => {
                 return (
-                    <div
-                        className={
-                            index === currentSlide ? 'slide active' : 'slide'
-                        }
-                        key={index}
-                    >
-                        {index === currentSlide && (
-                            <img
-                                src={slide.image}
-                                alt="rick and moldy"
-                                className="image"
-                            />
-                        )}
-                    </div>
+                    <Carousel.Item key={index}>
+                        <img
+                            className="d-block w-100"
+                            src={slide.image}
+                            alt="Carousel"
+                        />
+                    </Carousel.Item>
                 )
             })}
-        </div>
+        </Carousel>
     )
 }
-export default Carousel
+
+export default ControlledCarousel
