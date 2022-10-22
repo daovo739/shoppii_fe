@@ -40,11 +40,12 @@ function LoginForm() {
         const formData = handleFormData({ email })
         const res = await post('isRegistered', formData)
         const data = await res.json()
-
         if (data.statusCode === 404) {
             navigate('/registerGG', { state: response }, { replace: true })
-        } else {
+        } else if (data.statusCode === 200) {
             login(data, ROLE_USER)
+        } else {
+            toast.error('Đăng nhập thất bại')
         }
     }
 
