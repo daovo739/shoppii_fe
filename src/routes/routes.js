@@ -46,7 +46,8 @@ const publicRoutes = [
     },
     {
         path: '/forget-password',
-        component: ForgetPassword,
+        // component: ForgetPassword,
+        component: CardAuth,
     },
     {
         path: '/login',
@@ -91,10 +92,6 @@ const shopRoutes = [
 const privateRoutes = [
     {
         path: '/admin',
-        component: Dashboard,
-    },
-    {
-        path: '/admin/requests',
         component: Requests,
     },
 ]

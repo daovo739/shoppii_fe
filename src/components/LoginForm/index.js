@@ -26,7 +26,6 @@ function LoginForm() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
-
     useEffect(() => {
         gapi.load('client:auth2', () => {
             gapi.auth2.getAuthInstance({
@@ -51,8 +50,8 @@ function LoginForm() {
 
     const handleSubmit = async event => {
         event.preventDefault()
-        const { email, password } = user
-        if (email === 'admin' && password === 'admin') {
+        const { info, password } = user
+        if (info === 'admin' && password === 'admin') {
             login(null, ROLE_ADMIN)
         }
         const formData = handleFormData(user)
