@@ -46,7 +46,8 @@ const publicRoutes = [
     },
     {
         path: '/forget-password',
-        component: ForgetPassword,
+        // component: ForgetPassword,
+        component: CardAuth,
     },
     {
         path: '/login',
