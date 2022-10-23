@@ -52,23 +52,31 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                             </Row>
                             <Row>
                                 <Col md={12}>
-                                    <h4 style={{ color: 'gray' }}>
-                                        {address}
-                                    </h4>
+                                    <h4 style={{ color: 'gray' }}>{address}</h4>
                                 </Col>
                             </Row>
-                            {isDefault ? (
+                            {true ? (
                                 <Row>
                                     <Chip
-                                        label="Mặc định"
+                                        label={
+                                            <span
+                                                style={{
+                                                    color: '#fff',
+                                                }}
+                                            >
+                                                Mặc định
+                                            </span>
+                                        }
                                         size="small"
-                                        variant="outlined"
+                                        // variant="outlined"
                                         sx={{
                                             width: '7rem',
                                             height: '1.8rem',
-                                            border: '1px solid #ff424e',
+                                            // border: '1px solid #ff424e ',
                                             marginTop: '0.5rem',
+                                            color: '#fff !important',
                                         }}
+                                        color="error"
                                     />
                                 </Row>
                             ) : (
