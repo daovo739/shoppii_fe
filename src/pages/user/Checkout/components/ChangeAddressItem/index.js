@@ -63,6 +63,7 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                                         label="Mặc định"
                                         size="small"
                                         variant="outlined"
+                                        color="success"
                                         sx={{
                                             width: '7rem',
                                             height: '1.8rem',
