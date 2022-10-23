@@ -2,7 +2,8 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Button, Chip, Radio, FormControlLabel } from '@mui/material'
 import { EditLocationAlt } from '@mui/icons-material'
-import './index.css'
+import styles from './Index.module.css'
+import clsx from 'clsx'
 
 function ChangeAddressItem({ isDefault, name, phone, id, address }) {
     return (
@@ -70,6 +71,7 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                                             border: '1px solid #ff424e',
                                             marginTop: '0.5rem',
                                         }}
+                                        // className={clsx("css-wjsjww-MuiChip-label")}
                                     />
                                 </Row>
                             ) : (
