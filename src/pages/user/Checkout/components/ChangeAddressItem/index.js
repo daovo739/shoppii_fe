@@ -51,16 +51,22 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                             </Row>
                             <Row>
                                 <Col md={12}>
-                                    <h4 style={{ color: 'gray' }}>
-                                        {address}
-                                    </h4>
+                                    <h4 style={{ color: 'gray' }}>{address}</h4>
                                 </Col>
                             </Row>
-                            {isDefault ? (
+                            {true ? (
                                 <Row>
                                     <Chip
                                         label={
+<<<<<<< HEAD
                                             <span style={{ color: 'var(--main-red)'}}>
+=======
+                                            <span
+                                                style={{
+                                                    color: '#fff',
+                                                }}
+                                            >
+>>>>>>> f44580e56d4e65b4ae46cb59b522ccb72c840131
                                                 Mặc định
                                             </span>
                                         }
@@ -70,8 +76,9 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                                         sx={{
                                             width: '7rem',
                                             height: '1.8rem',
-                                            border: '1px solid #ff424e',
+                                            // border: '1px solid #ff424e ',
                                             marginTop: '0.5rem',
+                                            color: '#fff !important',
                                         }}
                                         style={{ backgroundColor: 'white'}}
                                     />
