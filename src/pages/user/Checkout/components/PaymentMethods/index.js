@@ -39,7 +39,7 @@ function PaymentMethods() {
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
                                         value="money"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium" />}
                                     />
                                     <LocalAtm
                                         sx={{
@@ -55,7 +55,7 @@ function PaymentMethods() {
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
                                         value="zalopay"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium"  />}
                                     />
                                     <Avatar
                                         alt="zalopay"
@@ -71,7 +71,7 @@ function PaymentMethods() {
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
                                         value="momo"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium"  />}
                                     />
                                     <Avatar
                                         alt="momo"
@@ -87,7 +87,7 @@ function PaymentMethods() {
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
                                         value="viettelpay"
-                                        control={<Radio size="large" />}
+                                        control={<Radio size="medium"  />}
                                     />
                                     <Avatar
                                         alt="viettelpay"

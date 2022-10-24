@@ -17,7 +17,7 @@ function FilterSidebar() {
             </div>
             <div className="filter-body">
                 {listFilterTitle.map(item => (
-                    <FilterPart title={item}></FilterPart>
+                    <FilterPart key={item} title={item}></FilterPart>
                 ))}
 
                 <div className="price-range">

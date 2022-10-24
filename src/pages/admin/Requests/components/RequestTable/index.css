@@ -18,7 +18,7 @@
 
 .admin-request-table tr:hover {
   background-color: var(--light-blue);
-  color: black;
+  color: rgba(0, 0, 0, 0.566);
   font-weight: bold;
 }
 
@@ -37,15 +37,3 @@
   padding-bottom: 1rem;
   padding-left: 2.5rem;
 }
-
-/* .css-1t53hjd-MuiChip-root{
-  width: 8rem !important;
-  border: 1px solid green !important;
-  color: green !important;
-  background-color: rgba(234, 22, 22, 0.249) !important;
-  height: 2.5rem !important;
-} */
-
-/* .css-wjsjww-MuiChip-label{
-  font-size: 1.4rem !important;
-} */
