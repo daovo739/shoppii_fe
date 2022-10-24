@@ -1,7 +1,6 @@
 import './index.css'
 import Logo from '../../assets/images/—Pngtree—modern logo blue logos_7718360.png'
 import {
-    Search,
     ShoppingCartOutlined,
     PersonOutline,
     ListAltOutlined,
@@ -13,6 +12,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { ROLE_SHOP } from '../.././hooks/constants'
+import SearchProducts from './components/SearchProducts'
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -84,18 +84,7 @@ const Navbar = () => {
                         </Dropdown>
                     </Col>
                     <Col md={7} className="col-flex">
-                        <div className="header-search">
-                            <input
-                                type="text"
-                                placeholder="Search in the market"
-                            />
-                            <button htmlFor="">
-                                <Search
-                                    className="text-white"
-                                    fontSize="large"
-                                />
-                            </button>
-                        </div>
+                        <SearchProducts />
                     </Col>
                     <Col md={2} className="col-flex">
                         {' '}

@@ -54,16 +54,17 @@ function LoginForm() {
         const { info, password } = user
         if (info === 'admin' && password === 'admin') {
             login(null, ROLE_ADMIN)
-        }
-        const formData = handleFormData(user)
-        const res = await post('auth', formData)
-        const data = await res.json()
-        console.log(user)
-        console.log(data)
-        if (res.status === 200) {
-            login(data, ROLE_USER)
         } else {
-            toast.error('Đăng nhập thất bại')
+            const formData = handleFormData(user)
+            const res = await post('auth', formData)
+            const data = await res.json()
+            console.log(user)
+            console.log(data)
+            if (res.status === 200) {
+                login(data, ROLE_USER)
+            } else {
+                toast.error('Đăng nhập thất bại')
+            }
         }
     }
 

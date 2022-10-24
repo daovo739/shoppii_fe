@@ -3,7 +3,7 @@ import { get } from '../../../utils/./httprequest'
 import Categories from './components/Categories'
 import ControlledCarousel from './components/Carousel'
 import { Container, Row, Col } from 'react-bootstrap'
-import FilterSidebar from '../../../components/FilterSidebar'
+
 function Home() {
     const [category, setCategory] = useState([])
 
@@ -20,13 +20,7 @@ function Home() {
                     <ControlledCarousel />
                 </Row>
                 <Row>
-                    <Col
-                        md={'auto'}
-                        className="p-4 d-flex justify-content-center align-items-center"
-                    >
-                        <FilterSidebar />
-                    </Col>
-                    <Col md="10">
+                    <Col>
                         <Categories />
                     </Col>
                 </Row>

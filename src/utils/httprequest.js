@@ -9,7 +9,6 @@ const post = async (path, formData) => {
 }
 
 const get = async (path, q = {}) => {
-    console.log(q)
     const res = await fetch(`${API_URL}/${path}?${q}`, {
         method: 'GET',
     })

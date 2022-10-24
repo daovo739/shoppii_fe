@@ -58,15 +58,11 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                                 <Row>
                                     <Chip
                                         label={
-<<<<<<< HEAD
-                                            <span style={{ color: 'var(--main-red)'}}>
-=======
                                             <span
                                                 style={{
-                                                    color: '#fff',
+                                                    color: 'var(--main-red)',
                                                 }}
                                             >
->>>>>>> f44580e56d4e65b4ae46cb59b522ccb72c840131
                                                 Mặc định
                                             </span>
                                         }
@@ -80,7 +76,7 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                                             marginTop: '0.5rem',
                                             color: '#fff !important',
                                         }}
-                                        style={{ backgroundColor: 'white'}}
+                                        style={{ backgroundColor: 'white' }}
                                     />
                                 </Row>
                             ) : (
