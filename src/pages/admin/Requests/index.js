@@ -70,7 +70,13 @@ function Requests() {
                     </Col>
                 </Row>
                 <Row>
-                    <RequestTable rows={filter === '' || filter === 'all' ? rows :  rows.filter(row => row.status === filter) }/>
+                    <RequestTable
+                        rows={
+                            filter === '' || filter === 'all'
+                                ? rows
+                                : rows.filter(row => row.status === filter)
+                        }
+                    />
                 </Row>
             </Container>
         </>
