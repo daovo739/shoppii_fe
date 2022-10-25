@@ -4,12 +4,12 @@ import './index.css'
 import FilterAltIcon from '@mui/icons-material/FilterAltOutlined'
 import Button from '@mui/material/Button'
 
-function FilterSidebar({ filters }) {
+function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
     const listFilterTitle = [
         {
             title: 'Theo thể loại',
             name: 'categoryId',
-            element: filters.categories.map(category => {
+            element: filtersMap.categories.map(category => {
                 return {
                     id: category.category_id,
                     value: category.category_name,
@@ -20,7 +20,7 @@ function FilterSidebar({ filters }) {
         {
             title: 'Theo nơi bán',
             name: 'location',
-            element: filters.locations.map(location => {
+            element: filtersMap.locations.map(location => {
                 return {
                     id: location.shopId,
                     value: location.address,
@@ -38,27 +38,46 @@ function FilterSidebar({ filters }) {
             </div>
             <div className="filter-body">
                 {listFilterTitle.map((item, index) => (
-                    <FilterPart key={index} elements={item}></FilterPart>
+                    <FilterPart
+                        key={index}
+                        elements={item}
+                        setFilters={setFilters}
+                        filters={filters}
+                    ></FilterPart>
                 ))}
 
                 <div className="price-range">
                     <h4>Khoảng giá</h4>
-                    <div className="range d-flex align-content-center mt-5 mb-5">
+                    <div className="range d-flex align-content-center mt-5 mb-5 justify-content-between ">
                         <input
-                            className="input-price"
-                            type="text"
+                            className="input-price w-100"
+                            type="number"
+                            min="1"
                             placeholder="₫ Từ"
+                            name="startPrice"
+                            onChange={e =>
+                                setFilters(prev => {
+                                    return {
+                                        ...prev,
+                                        startPrice: e.target.value,
+                                    }
+                                })
+                            }
                         />
                         <p>-</p>
                         <input
-                            className="input-price"
-                            type="text"
+                            className="input-price w-100"
+                            type="number"
+                            min="1"
+                            name="endPrice"
                             placeholder="₫ Đến"
+                            onChange={e =>
+                                setFilters(prev => {
+                                    return { ...prev, endPrice: e.target.value }
+                                })
+                            }
                         />
                     </div>
-                    <Button variant="contained" className="price-btn">
-                        ÁP DỤNG
-                    </Button>
                 </div>
             </div>
         </div>

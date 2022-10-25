@@ -9,46 +9,51 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import Typography from '@mui/material/Typography'
+import { formatPrice } from '../../../../../utils/format'
 
-function ProductCard() {
+function ProductCard({ product }) {
     return (
-        <div className="product-card">
-            <Card sx={{ maxWidth: 200 }}>
-                {' '}
-                <CardMedia
-                    component="img"
-                    height="200"
-                    image={Product}
-                    alt="green iguana"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Lizard
-                    </Typography>
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        component="div"
-                    ></Typography>
-                </CardContent>
-                <CardActions className="d-flex justify-content-between">
-                    <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        sx={{ color: '#ff424e' }}
-                    >
-                        100.000₫
-                    </Typography>
-                    <Button className="add-cart-btn">
-                        <AddShoppingCartIcon
-                            fontSize="large"
-                            color="primary"
-                        ></AddShoppingCartIcon>
-                    </Button>
-                </CardActions>
-            </Card>
-        </div>
+        <Card
+            sx={{
+                maxWidth: '200px',
+                height: '340px',
+                borderRadius: 'transparent',
+            }}
+            className="d-flex flex-column justify-content-between product-card"
+        >
+            <CardMedia
+                component="img"
+                height="200"
+                image={Product}
+                alt="green iguana"
+            />
+            <CardContent sx={{ padding: '0 8px 8px 8px' }}>
+                <Typography gutterBottom variant="h5" component="div">
+                    {product.name}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    component="div"
+                ></Typography>
+            </CardContent>
+            <CardActions className="d-flex justify-content-between">
+                <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    sx={{ color: '#ff424e' }}
+                >
+                    {formatPrice(product.price)}
+                </Typography>
+                <Button className="add-cart-btn">
+                    <AddShoppingCartIcon
+                        fontSize="large"
+                        color="primary"
+                    ></AddShoppingCartIcon>
+                </Button>
+            </CardActions>
+        </Card>
     )
 }
 

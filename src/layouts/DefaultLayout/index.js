@@ -2,12 +2,12 @@ import Navbar from '../Navbar'
 import Footer from '../Footer'
 import { Container } from 'react-bootstrap'
 import { HomeProvider } from '../../hooks/useHome'
-import ProductProvider from '../../store/Provider'
+import UserProvider from '../../store/UserProvider'
 
 function DefaultLayout({ children }) {
     return (
         <HomeProvider>
-            <ProductProvider>
+            <UserProvider>
                 <div className="w-100 div-nav-default">
                     <Navbar />
                 </div>
@@ -23,7 +23,7 @@ function DefaultLayout({ children }) {
                 <div className=" div-footer-default">
                     <Footer />
                 </div>
-            </ProductProvider>
+            </UserProvider>
         </HomeProvider>
     )
 }

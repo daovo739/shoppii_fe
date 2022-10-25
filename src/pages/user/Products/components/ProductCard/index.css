@@ -1,8 +1,11 @@
-.product-card{
-  width: 200px !important;
+.product-card {
+    width: 200px !important;
+    max-width: 200px !important;
+    transition: var(--transition-normal) !important;
+    cursor: pointer;
+    border-radius: 10px;
 }
 .product-card:hover {
-  width: 200px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

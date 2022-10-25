@@ -3,15 +3,18 @@ import { Row, Col, Dropdown } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { get } from '../../../../utils/httprequest'
-
+import useStore from '../../../../store/hooks'
 function ListCategories({ categories }) {
     const navigate = useNavigate()
-
+    const { setProducts } = useStore()
     const getProducts = async id => {
         const q = queryString.stringify({ categoryId: id })
         const res = await get('/products', q)
         const data = await res.json()
-        navigate('/products', { state: { products: data } })
+        setProducts(data)
+        navigate(`/products`, {
+            state: { categoryId: [id] },
+        })
     }
 
     return (

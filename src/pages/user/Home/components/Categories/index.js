@@ -2,7 +2,6 @@ import Category from '../Category'
 import { Container, Row, Col } from 'react-bootstrap'
 
 function Categories({ categories }) {
-    console.log(categories)
     return (
         <div className="categories">
             <Container fluid="md">
