@@ -18,7 +18,7 @@ function ProductTab() {
             </Row>
             <Row>
                 <Col md={12} className="d-flex justify-content-center py-5">
-                    <Stack spacing={2}>
+                    <Stack spacing={2} component="div">
                         <Pagination size="large" count={10} color="primary" />
                     </Stack>
                 </Col>

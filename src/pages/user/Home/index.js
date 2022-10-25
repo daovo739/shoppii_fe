@@ -19,7 +19,7 @@ function Home() {
                 <Row style={{ marginBottom: '4rem' }}>
                     <ControlledCarousel />
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col
                         md={'auto'}
                         className="p-4 d-flex justify-content-center align-items-center"
@@ -29,6 +29,9 @@ function Home() {
                     <Col md="10">
                         <Categories />
                     </Col>
+                </Row> */}
+                <Row>
+                    <Categories />
                 </Row>
             </Container>
         </div>
