@@ -1,40 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Checkbox from '@mui/material/Checkbox'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
 import { List, Collapse } from '@mui/material'
-import { Storefront, ExpandLess, ExpandMore } from '@mui/icons-material'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import './index.css'
 
-const listProps = [0, 1, 2, 3, 4, 5]
-const firstItem = listProps.slice(0, 4)
-const remain = listProps.slice(4)
-
-function FilterPart({ title }) {
-    const [checked, setChecked] = React.useState([0])
-    // const [show, setShow] = React.useState(false)
-    const [open, setOpen] = React.useState(false)
-
+function FilterPart({ elements }) {
+    const { title, element, name } = elements
+    const firstItems = element.slice(0, 4)
+    const remain = element.slice(4)
+    const [checked, setChecked] = useState([0])
+    // const [show, setShow] = useState(false)
+    const [open, setOpen] = useState(false)
     const handleClick = () => {
         setOpen(!open)
     }
 
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value)
-        const newChecked = [...checked]
-
-        if (currentIndex === -1) {
-            newChecked.push(value)
-        } else {
-            newChecked.splice(currentIndex, 1)
-        }
-
-        setChecked(newChecked)
+    const handleToggle = ele => () => {
+        console.log(ele)
     }
 
     return (
@@ -50,18 +37,20 @@ function FilterPart({ title }) {
                 aria-labelledby="nested-list-subheader"
             >
                 {/* first Item */}
-                {firstItem.map(value => {
-                    const labelId = `checkbox-list-label-${value}`
+                {firstItems.map(ele => {
+                    const labelId = `checkbox-list-label-${name}`
+                    const { id, value } = ele
                     return (
-                        <ListItem key={value} disablePadding>
+                        <ListItem key={id} disablePadding>
                             <ListItemButton
                                 role={undefined}
-                                onClick={handleToggle(value)}
+                                onClick={handleToggle(ele)}
+                                name={name}
                                 dense
                             >
                                 <ListItemIcon>
                                     <Checkbox
-                                        checked={checked.indexOf(value) !== -1}
+                                        checked={checked.indexOf(ele) !== -1}
                                         tabIndex={-1}
                                         disableRipple
                                         inputProps={{
@@ -72,7 +61,7 @@ function FilterPart({ title }) {
                                 <ListItemText
                                     className="fs-1"
                                     id={labelId}
-                                    primary={`Line item ${value + 1}`}
+                                    primary={value}
                                 />
                             </ListItemButton>
                         </ListItem>
@@ -81,20 +70,21 @@ function FilterPart({ title }) {
 
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        {remain.map(value => {
-                            const labelId = `checkbox-list-label-${value}`
+                        {remain.map(ele => {
+                            const labelId = `checkbox-list-label-${name}`
+                            const { id, value } = ele
                             return (
-                                <ListItem key={value} disablePadding>
+                                <ListItem key={id} disablePadding>
                                     <ListItemButton
                                         role={undefined}
-                                        onClick={handleToggle(value)}
+                                        onClick={handleToggle(ele)}
+                                        name={name}
                                         dense
                                     >
                                         <ListItemIcon>
                                             <Checkbox
                                                 checked={
-                                                    checked.indexOf(value) !==
-                                                    -1
+                                                    checked.indexOf(ele) !== -1
                                                 }
                                                 tabIndex={-1}
                                                 disableRipple
@@ -106,7 +96,7 @@ function FilterPart({ title }) {
                                         <ListItemText
                                             className="fs-1"
                                             id={labelId}
-                                            primary={`Line item ${value + 1}`}
+                                            primary={value}
                                         />
                                     </ListItemButton>
                                 </ListItem>

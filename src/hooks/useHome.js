@@ -5,17 +5,26 @@ const HomeContext = createContext()
 
 export const HomeProvider = ({ children }) => {
     const [categories, setCategories] = useState([])
+    const [locations, setLocations] = useState([])
 
     useEffect(() => {
-        getCategories()
+        getData()
     }, [])
 
-    const getCategories = async () => {
-        const res = await get('/category')
-        setCategories(await res.json())
+    const getData = () => {
+        Promise.all([
+            get('/category').then(res => res.json()),
+            get('/shop/locations').then(res => res.json()),
+        ]).then(values => {
+            setCategories(values[0])
+            setLocations(values[1])
+        })
     }
 
-    const value = useMemo(() => ({ categories }), [categories])
+    const value = {
+        categories,
+        locations,
+    }
 
     return (
         categories && (

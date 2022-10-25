@@ -4,9 +4,30 @@ import './index.css'
 import FilterAltIcon from '@mui/icons-material/FilterAltOutlined'
 import Button from '@mui/material/Button'
 
-const listFilterTitle = ['Theo thể loại', 'Theo nơi bán']
-
-function FilterSidebar() {
+function FilterSidebar({ filters }) {
+    const listFilterTitle = [
+        {
+            title: 'Theo thể loại',
+            name: 'categoryId',
+            element: filters.categories.map(category => {
+                return {
+                    id: category.category_id,
+                    value: category.category_name,
+                    getValueById: true,
+                }
+            }),
+        },
+        {
+            title: 'Theo nơi bán',
+            name: 'location',
+            element: filters.locations.map(location => {
+                return {
+                    id: location.shopId,
+                    value: location.address,
+                }
+            }),
+        },
+    ]
     return (
         <div className="filter-sidebar">
             <div className="filter-title">
@@ -16,8 +37,8 @@ function FilterSidebar() {
                 <div className="title-body mt-1">BỘ LỌC TÌM KIẾM</div>
             </div>
             <div className="filter-body">
-                {listFilterTitle.map(item => (
-                    <FilterPart key={item} title={item}></FilterPart>
+                {listFilterTitle.map((item, index) => (
+                    <FilterPart key={index} elements={item}></FilterPart>
                 ))}
 
                 <div className="price-range">

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import FilterSidebar from '../../../components/FilterSidebar'
 import BoxContent from '../../../components/BoxContent'
 import { useLocation } from 'react-router-dom'
+import { useHome } from '../../../hooks/useHome'
 
 function Products() {
     const { state } = useLocation()
-    console.log(state)
+    const { categories, locations } = useHome()
+    console.log(categories, locations)
+    const [products, setProducts] = useState(state)
+
     return (
         <main
             className="container d-flex justify-content-between h-auto"
@@ -18,7 +22,7 @@ function Products() {
             <Container fluid="">
                 <Row>
                     <Col md={3}>
-                        <FilterSidebar />
+                        <FilterSidebar filters={{ categories, locations }} />
                     </Col>
                     <Col md={9}>
                         <BoxContent content="view products" />
