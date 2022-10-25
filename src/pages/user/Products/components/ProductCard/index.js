@@ -7,13 +7,15 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import Typography from '@mui/material/Typography'
 
 function ProductCard() {
     return (
         <div className="product-card">
-            <Card sx={{ maxWidth: 200}}> <CardMedia
+            <Card sx={{ maxWidth: 200 }}>
+                {' '}
+                <CardMedia
                     component="img"
                     height="200"
                     image={Product}
@@ -23,24 +25,30 @@ function ProductCard() {
                     <Typography gutterBottom variant="h5" component="div">
                         Lizard
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    </Typography>
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        component="div"
+                    ></Typography>
                 </CardContent>
-                <CardActions className='d-flex justify-content-between'>
-                    <Typography gutterBottom variant="h5" component="div" sx={{color: '#ff424e'}}>
+                <CardActions className="d-flex justify-content-between">
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        sx={{ color: '#ff424e' }}
+                    >
                         100.000₫
                     </Typography>
-                    <Button className='add-cart-btn'>
-                        <AddShoppingCartIcon 
-                            fontSize='large' 
+                    <Button className="add-cart-btn">
+                        <AddShoppingCartIcon
+                            fontSize="large"
                             color="primary"
-                        >
-                        </AddShoppingCartIcon>
+                        ></AddShoppingCartIcon>
                     </Button>
                 </CardActions>
             </Card>
         </div>
-        
     )
 }
 

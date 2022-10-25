@@ -43,7 +43,7 @@ function ChangeAddressModal({ onClick }) {
                         />
                         Thay đổi địa chỉ
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
                         <FormControl sx={{ width: '100%' }}>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"

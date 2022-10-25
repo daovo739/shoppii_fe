@@ -53,7 +53,7 @@ function ShippingUnitModal({ onClick }) {
                         />
                         Chọn đơn vị vận chuyển
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
                         {shippingUnit.map((unit, index) => (
                             <ShippingUnit
                                 key={index}

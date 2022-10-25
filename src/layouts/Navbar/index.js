@@ -44,7 +44,6 @@ const Navbar = () => {
 
     return (
         <>
-            (
             <Container fluid="md">
                 <Row>
                     <Col md={3} className="col-flex">
@@ -176,7 +175,7 @@ const Navbar = () => {
                     </Col>
                 </Row>
             </Container>
-            ){/* <Divider sx={{ border: '1px #000000 solid' }} /> */}
+            {/* <Divider sx={{ border: '1px #000000 solid' }} /> */}
         </>
     )
 }

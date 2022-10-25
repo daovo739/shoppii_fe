@@ -6,7 +6,7 @@ function OrderHistory() {
     return (
         <div className="order-history w-100">
             {[0,1,2].map(item => (
-                <OrderHistoryItem/>
+                <OrderHistoryItem key={item}/>
             ))}
         </div>
     )

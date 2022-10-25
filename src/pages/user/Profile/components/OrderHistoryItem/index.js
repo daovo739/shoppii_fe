@@ -59,7 +59,7 @@ function OrderHistoryItem() {
                         
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                {remain.map((item) => <PurchasedProduct/>)}
+                                {remain.map((item, index) => <PurchasedProduct key={index}/>)}
                             </List>
                         </Collapse>
                     </List>

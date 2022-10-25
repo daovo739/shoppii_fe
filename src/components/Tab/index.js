@@ -1,6 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import {Tabs, Tab, Typography, Box} from '@mui/material'
+import { Tabs, Tab, Typography, Box } from '@mui/material'
 import ProductTab from '../../pages/user/Products/components/ProductTab'
 import ShopTab from '../../pages/user/Products/components/ShopTab'
 import './index.css'
@@ -18,7 +18,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component="div">{children}</Typography>
                 </Box>
             )}
         </div>
@@ -58,10 +58,10 @@ function BasicTabs() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <ProductTab/>
+                <ProductTab />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ShopTab/>
+                <ShopTab />
             </TabPanel>
         </Box>
     )

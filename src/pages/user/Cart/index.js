@@ -33,9 +33,9 @@ function Cart() {
                     </Col>
                 </Row>
                 {[0, 1, 2].map(item => (
-                    <Row>
+                    <Row key={item} >
                         <Col md={12}>
-                            <CartShop key={item} />
+                            <CartShop/>
                         </Col>
                     </Row>
                 ))}
