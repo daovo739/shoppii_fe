@@ -6,7 +6,6 @@ import { handleChange } from '../../../../utils/handleForm'
 import queryString from 'query-string'
 function SearchProducts() {
     const navigate = useNavigate()
-    const [products, setProducts] = useState([])
     const [search, setSearch] = useState({ keyword: '' })
 
     const handleSearch = async () => {

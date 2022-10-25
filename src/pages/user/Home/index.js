@@ -1,17 +1,10 @@
-import { useState, useEffect } from 'react'
-import { get } from '../../../utils/./httprequest'
 import Categories from './components/Categories'
 import ControlledCarousel from './components/Carousel'
 import { Container, Row, Col } from 'react-bootstrap'
+import { useHome } from '../../../hooks/useHome'
 
 function Home() {
-    const [category, setCategory] = useState([])
-
-    // useEffect(() => {
-    //     get('category').then((res) => {
-    //         setCategory(res)
-    //     }
-    // }, [])
+    const { categories } = useHome()
 
     return (
         <div>
@@ -21,7 +14,7 @@ function Home() {
                 </Row>
                 <Row>
                     <Col>
-                        <Categories />
+                        <Categories categories={categories} />
                     </Col>
                 </Row>
             </Container>

@@ -7,39 +7,31 @@ import {
 } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom'
 import { Row, Container, Col, Dropdown } from 'react-bootstrap'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { ROLE_SHOP } from '../.././hooks/constants'
 import SearchProducts from './components/SearchProducts'
 import ListCategories from './components/ListCategories'
-import { get } from '../.././utils/httprequest'
+import { useHome } from '../.././hooks/./useHome'
 
 const Navbar = () => {
+    const { categories } = useHome()
+
     const navigate = useNavigate()
     const { user, logout, changeRole } = useAuth()
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIsLogin] = useState(() => (user ? true : false))
-    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         setIsLogin(user ? true : false)
     }, [user])
 
-    useEffect(() => {
-        getCategories()
-    }, [])
-
     const handleSwitchShop = () => {
         changeRole(ROLE_SHOP)
         navigate('/shop', { replace: true })
-    }
-
-    const getCategories = async () => {
-        const res = await get('/category')
-        setCategories(await res.json())
     }
 
     return (
@@ -180,4 +172,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default memo(Navbar)
