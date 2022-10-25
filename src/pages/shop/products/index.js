@@ -6,17 +6,16 @@ import { Row, Col, Button, Modal } from 'react-bootstrap'
 import { get } from '../../../utils/httprequest'
 import queryString from 'query-string'
 import { useAuth } from '.././.././../hooks/useAuth'
-import CardProductShop from '../../../components/CardProductShop'
 import { toast } from 'react-toastify'
 import { handleChange } from '../../../utils/handleForm'
-import { useNavigate } from 'react-router-dom'
+
+import CreateAndSearch from './components/createSearch'
+import ProductsList from './components/ProductsList'
 
 function ShopProducts() {
-    const navigate = useNavigate()
     const { user } = useAuth()
     const [products, setProducts] = useState([])
     const [showModalDel, setShowModalDelete] = useState(false)
-    const [productAction, setProductAction] = useState({})
 
     useEffect(() => {
         getProducts()
@@ -27,11 +26,6 @@ function ShopProducts() {
         const product = products.find(product => product.productId === id)
         return product
         // setProductAction(product)
-    }
-
-    const showProductEdit = id => {
-        const product = getProductAction(id)
-        navigate(`/shop/product/${id}`, { state: product })
     }
 
     const showModalDelete = id => {
@@ -59,68 +53,15 @@ function ShopProducts() {
                     alignItems: 'center',
                 }}
             >
-                <Button
-                    variant="primary"
-                    className="h-100"
-                    style={{
-                        fontSize: '1.6rem',
-                        maxWidth: '80%',
-                        padding: '1.5rem 1.7rem',
-                    }}
-                >
-                    Tạo sản phẩm mới
-                </Button>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginLeft: '3rem',
-                        width: '600px',
-                        maxWidth: '600px',
-                    }}
-                >
-                    <Search
-                        sx={{
-                            color: 'action.active',
-                            mr: 1,
-                            my: 0.5,
-                            fontSize: '3rem',
-                        }}
-                    />
-                    <TextField
-                        id="input-with-sx"
-                        label="Tìm kiếm sản phẩm"
-                        variant="filled"
-                        sx={{
-                            width: '100%',
-                        }}
-                    />
-                </Box>
+                <CreateAndSearch setProducts={setProducts} />
             </Box>
 
-            <Box sx={{ marginTop: '2rem' }}>
-                <Row>
-                    <Col md={1}>NO</Col>
-                    <Col md={2}>Hình ảnh</Col>
-                    <Col md={5}>Thông tin sản phẩm</Col>
-                    <Col md={2}>Số lượng còn lại</Col>
-                    <Col md={2}></Col>
-                </Row>
-                <Divider sx={{ borderColor: '#333' }} />
-            </Box>
+            <ProductsList
+                products={products}
+                showModalDelete={showModalDelete}
+                getProductAction={getProductAction}
+            />
 
-            <Box>
-                {products.map((product, index) => {
-                    return (
-                        <CardProductShop
-                            product={{ ...product, index }}
-                            key={index}
-                            showModalDelete={showModalDelete}
-                            showProductEdit={showProductEdit}
-                        />
-                    )
-                })}
-            </Box>
             <Modal
                 show={showModalDel}
                 onHide={() => setShowModalDelete(false)}

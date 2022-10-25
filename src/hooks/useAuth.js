@@ -14,9 +14,12 @@ export const AuthProvider = ({ children }) => {
         setUser(data)
         setRole(role)
         if (role === ROLE_ADMIN) {
+            setRole(ROLE_ADMIN)
             navigate('/admin', { replace: true })
         }
-        navigate('/', { replace: true })
+        if (role === ROLE_USER) {
+            navigate('/', { replace: true })
+        }
     }
 
     const logout = () => {

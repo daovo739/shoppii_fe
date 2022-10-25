@@ -1,9 +1,12 @@
-import React from "react"
-import {Container, Row, Col} from 'react-bootstrap'
-import FilterSidebar from "../../../components/FilterSidebar"
-import BoxContent from "../../../components/BoxContent"
+import React from 'react'
+import { Container, Row, Col } from 'react-bootstrap'
+import FilterSidebar from '../../../components/FilterSidebar'
+import BoxContent from '../../../components/BoxContent'
+import { useLocation } from 'react-router-dom'
 
 function Products() {
+    const { state } = useLocation()
+    console.log(state)
     return (
         <main
             className="container d-flex justify-content-between h-auto"
@@ -15,10 +18,10 @@ function Products() {
             <Container fluid="">
                 <Row>
                     <Col md={3}>
-                        <FilterSidebar/>
+                        <FilterSidebar />
                     </Col>
                     <Col md={9}>
-                        <BoxContent content='view products'/>
+                        <BoxContent content="view products" />
                     </Col>
                 </Row>
             </Container>

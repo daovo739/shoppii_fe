@@ -1,7 +1,6 @@
 import './index.css'
 import Logo from '../../assets/images/—Pngtree—modern logo blue logos_7718360.png'
 import {
-    Search,
     ShoppingCartOutlined,
     PersonOutline,
     ListAltOutlined,
@@ -13,6 +12,9 @@ import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { ROLE_SHOP } from '../.././hooks/constants'
+import SearchProducts from './components/SearchProducts'
+import ListCategories from './components/ListCategories'
+import { get } from '../.././utils/httprequest'
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -20,18 +22,29 @@ const Navbar = () => {
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIsLogin] = useState(() => (user ? true : false))
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         setIsLogin(user ? true : false)
     }, [user])
+
+    useEffect(() => {
+        getCategories()
+    }, [])
 
     const handleSwitchShop = () => {
         changeRole(ROLE_SHOP)
         navigate('/shop', { replace: true })
     }
 
+    const getCategories = async () => {
+        const res = await get('/category')
+        setCategories(await res.json())
+    }
+
     return (
         <>
+            (
             <Container fluid="md">
                 <Row>
                     <Col md={3} className="col-flex">
@@ -54,48 +67,12 @@ const Navbar = () => {
                                 </div>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-category">
-                                <Row
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        margin: 0,
-                                        overflow: 'scroll',
-                                        overflowX: 'hidden',
-                                        width: '280px',
-                                        maxHeight: '250px',
-                                    }}
-                                >
-                                    {[
-                                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                                        13, 14,
-                                    ].map(ele => {
-                                        return (
-                                            <div key={ele}>
-                                                <Col md={6}>
-                                                    <Dropdown.Item>
-                                                        Item {ele}
-                                                    </Dropdown.Item>
-                                                </Col>
-                                            </div>
-                                        )
-                                    })}
-                                </Row>
+                                <ListCategories categories={categories} />
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
                     <Col md={7} className="col-flex">
-                        <div className="header-search">
-                            <input
-                                type="text"
-                                placeholder="Search in the market"
-                            />
-                            <button htmlFor="">
-                                <Search
-                                    className="text-white"
-                                    fontSize="large"
-                                />
-                            </button>
-                        </div>
+                        <SearchProducts />
                     </Col>
                     <Col md={2} className="col-flex">
                         {' '}
@@ -199,7 +176,7 @@ const Navbar = () => {
                     </Col>
                 </Row>
             </Container>
-            {/* <Divider sx={{ border: '1px #000000 solid' }} /> */}
+            ){/* <Divider sx={{ border: '1px #000000 solid' }} /> */}
         </>
     )
 }

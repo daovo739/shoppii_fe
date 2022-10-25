@@ -11,17 +11,12 @@ const formatDay = date => {
 const getImage = event => {
     let file = event.target.files[0]
     return URL.createObjectURL(file)
-    // console.log(file)
-    // let result
-    // if (file) {
-    //     const reader = new FileReader()
-    //     reader.onload = () => {
-    //         result = reader.result
-    //     }
-    //     reader.readAsDataURL(file)
-    //     console.log(result)
-    //     return result
-    // }
 }
 
-export { formatDate, formatDay, getImage }
+const formatPrice = price => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    }).format(price)
+}
+export { formatDate, formatDay, getImage, formatPrice }
