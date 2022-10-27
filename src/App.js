@@ -6,6 +6,8 @@ import PrivateLayout from './layouts/PrivateLayout'
 import { useAuth } from './hooks/useAuth'
 
 function App() {
+    console.log('app render')
+    const [isInit, setIsInit] = useState(false)
     const { user, role } = useAuth()
     const [routes, setRoutes] = useState(() => {
         let routes = publicRoutes
@@ -17,7 +19,7 @@ function App() {
         if (role === 'shop') {
             routes = shopRoutes
         }
-
+        setIsInit(true)
         return routes
     })
 
@@ -31,34 +33,37 @@ function App() {
             routes = shopRoutes
         }
         setRoutes(routes)
+        setIsInit(true)
     }, [role])
 
     return (
-        <div className="App">
-            <Routes>
-                {routes.map((route, index) => {
-                    let Layout = DefaultLayout
+        isInit && (
+            <div className="App">
+                <Routes>
+                    {routes.map((route, index) => {
+                        let Layout = DefaultLayout
 
-                    Layout =
-                        role === 'admin' || role === 'shop'
-                            ? PrivateLayout
-                            : DefaultLayout
+                        Layout =
+                            role === 'admin' || role === 'shop'
+                                ? PrivateLayout
+                                : DefaultLayout
 
-                    const Page = route.component
-                    return (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={
-                                <Layout>
-                                    <Page />
-                                </Layout>
-                            }
-                        />
-                    )
-                })}
-            </Routes>
-        </div>
+                        const Page = route.component
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        )
+                    })}
+                </Routes>
+            </div>
+        )
     )
 }
 

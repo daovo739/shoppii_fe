@@ -7,6 +7,7 @@ import * as shopPaths from '../pages/shop/index'
 // Admin
 import Dashboard from '../pages/admin/Dashboard'
 import Requests from '../pages/admin/Requests'
+import NotFound from '../errors/notFound'
 
 const {
     AlertToken,
@@ -64,7 +65,7 @@ const publicRoutes = [
         component: CardAuth,
     },
     {
-        path: '/shop/:id',
+        path: '/viewshop/:id',
         component: ViewShop,
     },
     {
@@ -81,7 +82,7 @@ const publicRoutes = [
     },
     {
         path: '*',
-        component: Home,
+        component: NotFound,
     },
 ]
 
@@ -96,6 +97,7 @@ const shopRoutes = [
     { path: '/shop/product/:id', component: SingleShopProduct },
     { path: '*', component: ShopHomePage },
 ]
+
 const privateRoutes = [
     {
         path: '/admin',

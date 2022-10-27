@@ -18,11 +18,11 @@ root.render(
     <React.StrictMode>
         <Router>
             <AuthProvider>
-                <PayPalScriptProvider options={initialOptions}>
-                    <GlobalStyles>
+                <GlobalStyles>
+                    <PayPalScriptProvider options={initialOptions}>
                         <App />
-                    </GlobalStyles>
-                </PayPalScriptProvider>
+                    </PayPalScriptProvider>
+                </GlobalStyles>
             </AuthProvider>
             <ToastContainer
                 position="top-right"
