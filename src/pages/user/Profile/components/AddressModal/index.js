@@ -14,7 +14,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { BorderColorOutlined } from '@mui/icons-material'
-import reducer, { initState } from './reducer'
+import reducer, { initState } from './hook/reducer'
 import {
     setCities,
     setDistricts,
@@ -22,7 +22,7 @@ import {
     setCity,
     setDistrict,
     setWard,
-} from './action'
+} from './hook/actions'
 
 const style = {
     position: 'absolute',

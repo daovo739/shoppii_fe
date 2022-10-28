@@ -1,4 +1,4 @@
-import { set_city, set_ward, set_district, set_cities, set_districts, set_wards } from "../instant";
+import { set_city, set_ward, set_district, set_cities, set_districts, set_wards } from "./instant";
 
 export const setCity = (city) => {
   return {
