@@ -1,21 +1,27 @@
 import React from 'react'
-import Typography from '@mui/material/Typography'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Link from '@mui/material/Link'
 import './index.css'
 import ProductImage from '../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
-import Chip from '@mui/material/Chip'
-import Button from '@mui/material/Button'
+import {
+    IconButton,
+    Button,
+    Chip,
+    Typography,
+    Breadcrumbs,
+    Link,
+} from '@mui/material'
 import {
     Storefront,
-    ArrowForwardIos,
-    ArrowBackIos,
     Add,
     Remove,
     AddShoppingCart,
+    LocationOn,
 } from '@mui/icons-material'
+import { Link as LinkRouter } from 'react-router-dom'
+import { formatPrice } from '../../utils/format'
+import ImageGallery from '../ImageGallery'
 
-const ProductDetail = () => {
+const ProductDetail = ({ product }) => {
+    console.log(product)
     return (
         <>
             <div className="container">
@@ -25,14 +31,14 @@ const ProductDetail = () => {
                             aria-label="breadcrumb"
                             className="breadcrumbs-product"
                         >
-                            <Link underline="hover" color="inherit" href="/">
-                                HomePage
-                            </Link>
-                            <Link
+                            <LinkRouter
                                 underline="hover"
                                 color="inherit"
-                                href="/material-ui/getting-started/installation/"
+                                to="/"
                             >
+                                HomePage
+                            </LinkRouter>
+                            <Link underline="hover" color="inherit">
                                 Shop
                             </Link>
                             <Typography
@@ -47,7 +53,7 @@ const ProductDetail = () => {
 
                 <div className="row page-box">
                     <div className="col-xs-12 col-sm-6">
-                        <div className="product-images">
+                        {/* <div className="product-images">
                             <div
                                 id="imagesCarousel"
                                 className="carousel slide"
@@ -104,48 +110,42 @@ const ProductDetail = () => {
                             <img src={ProductImage} alt="img1"></img>
                             <img src={ProductImage} alt="img1"></img>
                             <img src={ProductImage} alt="img1"></img>
-                        </div>
+                        </div> */}
+
+                        <ImageGallery isDelete={false} />
                     </div>
 
                     <div className="col-xs-12 col-sm-6">
                         <div className="detail">
-                            <p>Sản phẩm gì gì đó</p>
-                            <Chip label="Thời trang" className="catalog" />
-                            <p>₫100.000</p>
+                            <p>{product.name}</p>
+                            <Chip
+                                label={product?.category?.category_name}
+                                className="catalog"
+                            />
+                            <p>{formatPrice(product.price)}</p>
                             <div className="quantity">
-                                <Add fontSize="large"></Add>
-                                <input value="1"></input>
-                                <Remove fontSize="large"></Remove>
+                                <IconButton>
+                                    <Add fontSize="large" />
+                                </IconButton>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    defaultValue={1}
+                                    style={{
+                                        padding: '0',
+                                        textAlign: 'center',
+                                        outline: 'none',
+                                    }}
+                                />
+                                <IconButton>
+                                    <Remove fontSize="large" />
+                                </IconButton>
                             </div>
-                            {/* <table className='detail-table'>
-                                <tr>
-                                    <th>Thể loại</th>
-                                    <td>
-                                        <Chip label="Thời trang" className='catalog'/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Giá</th>
-                                    <td>
-                                        <p>₫100.000</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Số lượng</th>
-                                    <td>
-                                        <div className='quantity'>
-                                            <Add fontSize='large'></Add>
-                                            <input value="1"></input>
-                                            <Remove fontSize='large'></Remove>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table> */}
                         </div>
                         <Button
                             variant="outlined"
                             startIcon={<AddShoppingCart fontSize="large" />}
-                            className="add-cart-btn"
+                            className="add-cart-btn ms-5"
                         >
                             Thêm vào giỏ hàng
                         </Button>
@@ -161,11 +161,21 @@ const ProductDetail = () => {
                                 <img src={ProductImage} alt="img1"></img>
                             </div>
                             <div className="shop-info">
-                                <p>Cửa hàng nào đó</p>
+                                <p style={{ marginBottom: 0 }}>
+                                    {product?.shop?.name}
+                                </p>
+                                <div className="d-flex">
+                                    <LocationOn />
+                                    <p style={{ fontSize: '1.2rem' }}>
+                                        {product?.shop?.address}
+                                    </p>
+                                </div>
                                 <Button
                                     variant="outlined"
                                     startIcon={<Storefront fontSize="medium" />}
                                     className="view-shop-btn"
+                                    component={LinkRouter}
+                                    to={`/viewshop/${product?.shop?.shopId}`}
                                 >
                                     Xem cửa hàng
                                 </Button>
@@ -174,21 +184,12 @@ const ProductDetail = () => {
                     </div>
                 </div>
 
-                {/* <hr></hr> */}
-
                 <div className="row page-box">
                     <div className="col-xs-12 col-xs-8">
                         <div className="product-decs">
                             <p>Mô tả sản phẩm</p>
                             <div className="product-decs-detail">
-                                <textarea>
-                                    🌈 Bảng kích thước áo Polo lỡ unisex: Size M
-                                    : dài 63cm, rộng 47cm , 40-59 kg, cao 1m50 –
-                                    1m60 Size L : dài 68cm, rộng 51cm, 60 - 70
-                                    kg, cao 1m61 – 1m70 Size XL : dài 72cm, rộng
-                                    57cm, 71 - 85 kg, cao 1m71 – 1m80 mọi người
-                                    ưu tiên chọn size theo chiều cao nhé
-                                </textarea>
+                                <p>{product.description}</p>
                             </div>
                         </div>
                     </div>

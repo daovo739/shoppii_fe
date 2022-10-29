@@ -7,18 +7,22 @@ import {
     EventAvailable,
     ViewInAr,
     Storefront,
+    LocationOn,
 } from '@mui/icons-material'
 import blueBackground from '../../../../../assets/images/bluebg.png'
 import tempAvatar from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import './index.css'
 
-function ShopHeader() {
+function ShopHeader({ profile }) {
     return (
-        <div className="shop-header" style={{
-          backgroundColor: 'var(--white)',
-          padding: '2rem',
-          boxShadow: 'var(--box-shadow-main)'
-        }}>
+        <div
+            className="shop-header"
+            style={{
+                backgroundColor: 'var(--white)',
+                padding: '2rem',
+                boxShadow: 'var(--box-shadow-main)',
+            }}
+        >
             <Container fluid="md">
                 <Row>
                     <Col
@@ -84,7 +88,7 @@ function ShopHeader() {
                                     width: '80%',
                                 }}
                             >
-                                <h2>Tên shop gì đó</h2>
+                                <h2>{profile.name}</h2>
                                 <h4 style={{ color: 'green' }}>
                                     <Circle
                                         sx={{
@@ -94,14 +98,17 @@ function ShopHeader() {
                                     />
                                     Đang mở cửa
                                 </h4>
-                                <h4>
-                                    84/42 Hoàng Diệu, quận Hải Châu, Đà Nẵng
-                                </h4>
+                                <div className="d-flex">
+                                    <LocationOn />
+                                    <p style={{ fontSize: '1.2rem' }}>
+                                        {profile?.address}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </Col>
                     <Col md={7}>
-                        <Container fluid="md" style={{fontSize: '1.4rem'}}>
+                        <Container fluid="md" style={{ fontSize: '1.4rem' }}>
                             <Row
                                 style={{
                                     marginLeft: '2rem',
@@ -152,10 +159,7 @@ function ShopHeader() {
                                     Mô tả cửa hàng
                                 </Col>
                                 <Col md={8}>
-                                    Mua online sản phẩm của cửa hàng Tiki
-                                    Trading trên Tiki.vn. ✓ chất lượng cao, uy
-                                    tín, giá tốt ✓ Chính hãng ✓ Giao hàng toàn
-                                    quốc
+                                    <p>{profile.description}</p>
                                 </Col>
                             </Row>
                         </Container>
