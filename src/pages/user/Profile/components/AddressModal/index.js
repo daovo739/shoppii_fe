@@ -13,7 +13,8 @@ import {
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
-import reducer, { initState } from './reducer'
+import { BorderColorOutlined } from '@mui/icons-material'
+import reducer, { initState } from './hook/reducer'
 import {
     setCities,
     setDistricts,
@@ -21,7 +22,7 @@ import {
     setCity,
     setDistrict,
     setWard,
-} from './action'
+} from './hook/actions'
 
 const style = {
     position: 'absolute',
@@ -37,10 +38,16 @@ const style = {
     pb: 3,
 }
 
-function AddressModal() {
+function AddressModal({test}) {
+    
     const [open, setOpen] = React.useState(false)
     const [state, dispatch] = React.useReducer(reducer, initState)
-    const [anotherInfo, setAnotherInfo] = useState({name: null, phone: null, address: null})
+    const [action, setAction] = React.useState("")
+    const [anotherInfo, setAnotherInfo] = useState({
+        name: null,
+        phone: null,
+        address: null,
+    })
     const { cities, districts, wards, city, district, ward } = state
 
     const handleOpen = () => {
@@ -49,6 +56,8 @@ function AddressModal() {
     const handleClose = () => {
         setOpen(false)
     }
+
+    console.log(action)
 
     React.useEffect(() => {
         const fetchAddress = async () =>
@@ -59,7 +68,7 @@ function AddressModal() {
             dispatch(setCities(cities))
         })
     }, [])
-    
+
     React.useEffect(() => {
         city && dispatch(setDistricts(city.districts))
     }, [city])
@@ -68,18 +77,45 @@ function AddressModal() {
         district && dispatch(setWards(district.wards))
     }, [district])
 
-
     return (
         <div>
-            <Box
-                className="add-new-address d-flex justify-content-center"
-                component="span"
-                onClick={handleOpen}
-                sx={{ p: 2, border: '1px dashed grey' }}
-            >
-                <AddOutlinedIcon sx={{ fontSize: '25px', color: 'gray' }} />
-                <div className="ms-3 pt-1">THÊM ĐỊA CHỈ MỚI</div>
-            </Box>
+            {test ? (
+                <p
+                    className="d-flex justify-content-end align-content-center"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                        handleOpen()
+                        setAction("update")
+                    }}
+                >
+                    <BorderColorOutlined
+                        className="mt-1"
+                        sx={{
+                            fontSize: '18px',
+                            color: 'var(--main-green)',
+                        }}
+                    />
+                    <span
+                        className="fs-5 mt-2"
+                        style={{ color: 'var(--main-green)' }}
+                    >
+                        Chỉnh sửa
+                    </span>
+                </p>
+            ) : (
+                <Box
+                    className="add-new-address d-flex justify-content-center"
+                    component="span"
+                    onClick={() => {
+                        handleOpen()
+                        setAction("add")
+                    }}
+                    sx={{ p: 2, border: '1px dashed grey' }}
+                >
+                    <AddOutlinedIcon sx={{ fontSize: '25px', color: 'gray' }} />
+                    <div className="ms-3 pt-1">THÊM ĐỊA CHỈ MỚI</div>
+                </Box>
+            )}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -92,7 +128,7 @@ function AddressModal() {
                         variant="h4"
                         component="h2"
                     >
-                        Thêm địa chỉ mới
+                        {action === "add" ? "Thêm địa chỉ mới" : "Chỉnh sửa địa chỉ"}
                     </Typography>
                     <Container fluid="md">
                         <Row>
@@ -139,7 +175,11 @@ function AddressModal() {
                                         id="demo-simple-select"
                                         value={city}
                                         label="Tỉnh/Thành phố #"
-                                        onChange={event => dispatch(setCity(event.target.value))}
+                                        onChange={event =>
+                                            dispatch(
+                                                setCity(event.target.value),
+                                            )
+                                        }
                                     >
                                         {cities.map(city => (
                                             <MenuItem
@@ -167,17 +207,22 @@ function AddressModal() {
                                         id="demo-simple-select"
                                         value={district}
                                         label="Quận/Huyện #"
-                                        onChange={event => dispatch(setDistrict(event.target.value))}
+                                        onChange={event =>
+                                            dispatch(
+                                                setDistrict(event.target.value),
+                                            )
+                                        }
                                         disabled={!city}
                                     >
-                                        {city && districts.map(district => (
-                                            <MenuItem
-                                                value={district}
-                                                key={district.code}
-                                            >
-                                                {district.name}
-                                            </MenuItem>
-                                        ))}
+                                        {city &&
+                                            districts.map(district => (
+                                                <MenuItem
+                                                    value={district}
+                                                    key={district.code}
+                                                >
+                                                    {district.name}
+                                                </MenuItem>
+                                            ))}
                                     </Select>
                                 </FormControl>
                             </Col>
@@ -196,12 +241,22 @@ function AddressModal() {
                                         id="demo-simple-select"
                                         value={ward}
                                         label="Phường/Xã #"
-                                        onChange={event => dispatch(setWard(event.target.value))}
+                                        onChange={event =>
+                                            dispatch(
+                                                setWard(event.target.value),
+                                            )
+                                        }
                                         disabled={!district}
                                     >
-                                        {district && wards.map(ward => (
-                                            <MenuItem value={ward} key={ward.code}>{ward.name}</MenuItem>
-                                        ))}
+                                        {district &&
+                                            wards.map(ward => (
+                                                <MenuItem
+                                                    value={ward}
+                                                    key={ward.code}
+                                                >
+                                                    {ward.name}
+                                                </MenuItem>
+                                            ))}
                                     </Select>
                                 </FormControl>
                             </Col>
