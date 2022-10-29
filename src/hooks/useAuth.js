@@ -10,9 +10,6 @@ export const AuthProvider = ({ children }) => {
     const [role, setRole] = useLocalStorage('role', ROLE_USER)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        console.log('1')
-    }, [role])
     const login = async (data, role) => {
         setUser(data)
         setRole(role)

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BoxContent from '../../../components/BoxContent'
 import ProfileSideBar from './components/ProfileSidebar'
 import { editPro } from '../Profile/components/ProfileSidebar'
-import {Container, Row, Col} from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 
 function Profile() {
-    const [content, setContent] = React.useState(editPro)
+    const [content, setContent] = useState(editPro)
 
     const getActionFromSidebar = action => setContent(action)
 
