@@ -120,8 +120,8 @@ function EditProfileForm() {
                                 </RadioGroup>
                             </FormControl>{' '}
                         </Row>
-                        <Row className="mt-3">
-                            <Col md={12}>
+                        <Row className="my-3">
+                            <Col md={12} className="p-0">
                                 <LocalizationProvider
                                     dateAdapter={AdapterDayjs}
                                 >
@@ -143,6 +143,7 @@ function EditProfileForm() {
                                             return (
                                                 <TextField
                                                     {...params}
+                                                    size='small'
                                                     InputProps={{
                                                         ...params.InputProps,
                                                         label: 'Ngày sinh aaaa',
@@ -157,7 +158,7 @@ function EditProfileForm() {
                         <Row className="d-flex justify-content-center pt-2">
                             <Button
                                 variant="contained"
-                                className="fs-6 w-25"
+                                className="fs-6 w-25 mt-3"
                                 onClick={handleUpdate}
                             >
                                 Lưu
