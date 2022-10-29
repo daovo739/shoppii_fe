@@ -38,11 +38,10 @@ const style = {
     pb: 3,
 }
 
-function AddressModal({test}) {
-    
+function AddressModal({ test }) {
     const [open, setOpen] = React.useState(false)
     const [state, dispatch] = React.useReducer(reducer, initState)
-    const [action, setAction] = React.useState("")
+    // const [action, setAction] = React.useState("")
     const [anotherInfo, setAnotherInfo] = useState({
         name: null,
         phone: null,
@@ -57,23 +56,23 @@ function AddressModal({test}) {
         setOpen(false)
     }
 
-    console.log(action)
+    const fetchAddress = async () => {
+        const res = await fetch('https://provinces.open-api.vn/api/?depth=3')
+        const data = await res.json()
+        console.log(res)
+        console.log(data)
+        setCities(data)
+    }
 
-    React.useEffect(() => {
-        const fetchAddress = async () =>
-            await (
-                await fetch('https://provinces.open-api.vn/api/?depth=3')
-            ).json()
-        fetchAddress().then(cities => {
-            dispatch(setCities(cities))
-        })
+    useEffect(() => {
+       fetchAddress()
     }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         city && dispatch(setDistricts(city.districts))
     }, [city])
 
-    React.useEffect(() => {
+    useEffect(() => {
         district && dispatch(setWards(district.wards))
     }, [district])
 
@@ -83,10 +82,7 @@ function AddressModal({test}) {
                 <p
                     className="d-flex justify-content-end align-content-center"
                     style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                        handleOpen()
-                        setAction("update")
-                    }}
+                    onClick={handleOpen}
                 >
                     <BorderColorOutlined
                         className="mt-1"
@@ -106,10 +102,7 @@ function AddressModal({test}) {
                 <Box
                     className="add-new-address d-flex justify-content-center"
                     component="span"
-                    onClick={() => {
-                        handleOpen()
-                        setAction("add")
-                    }}
+                    onClick={handleOpen}
                     sx={{ p: 2, border: '1px dashed grey' }}
                 >
                     <AddOutlinedIcon sx={{ fontSize: '25px', color: 'gray' }} />
@@ -128,7 +121,7 @@ function AddressModal({test}) {
                         variant="h4"
                         component="h2"
                     >
-                        {action === "add" ? "Thêm địa chỉ mới" : "Chỉnh sửa địa chỉ"}
+                        {!test ? 'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ'}
                     </Typography>
                     <Container fluid="md">
                         <Row>
