@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './index.css'
 import {
     TextField,
@@ -19,16 +19,49 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { handleChange } from '../../../../../utils/handleForm'
 import { getImage } from '../../../../../utils/format'
+import { useAuth } from '../../../../../hooks/useAuth'
+import { toast } from 'react-toastify'
+import moment from 'moment'
 
 function EditProfileForm() {
-    const [date, setDate] = useState(null)
+    const { user } = useAuth()
+    const [date, setDate] = useState(user.dob)
     const [imgURI, setImgURI] = useState()
-    const [infoUpdate, setInfoUpdate] = useState()
-
+    const [infoUpdate, setInfoUpdate] = useState({})
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [sexBoolean, SetSexBoolean] = useState(user.sex)
     const handleUpdate = () => {
         console.log(infoUpdate)
     }
-    // console.log(date)
+
+    useEffect(() => {
+        Object.keys(infoUpdate).forEach(key => {
+            if (key === 'dob') {
+                const date = moment(infoUpdate[key], 'DD/MM/YYYY').format(
+                    'MMM DD, YYYY',
+                )
+                if (date === user[key]) {
+                    delete infoUpdate[key]
+                }
+            }
+            if (infoUpdate[key] === '' || infoUpdate[key] === user[key]) {
+                delete infoUpdate[key]
+            }
+            if (key === 'sex') {
+                let sexBoolean = infoUpdate[key] === 'male' ? true : false
+                if (sexBoolean === user[key]) {
+                    delete infoUpdate[key]
+                }
+                SetSexBoolean(sexBoolean)
+            }
+        })
+
+        console.log(infoUpdate)
+        Object.keys(infoUpdate).length > 0
+            ? setIsUpdate(true)
+            : setIsUpdate(false)
+    }, [infoUpdate])
+
     return (
         <Container fluid="md">
             <Row>
@@ -39,7 +72,7 @@ function EditProfileForm() {
                                 required
                                 id="outlined-required"
                                 label="Tên"
-                                defaultValue=""
+                                defaultValue={user.name}
                                 name="name"
                                 size="small"
                                 margin="normal"
@@ -56,7 +89,7 @@ function EditProfileForm() {
                                 required
                                 id="outlined-required"
                                 label="Email"
-                                defaultValue=""
+                                defaultValue={user.email}
                                 size="small"
                                 margin="normal"
                                 name="email"
@@ -69,6 +102,7 @@ function EditProfileForm() {
                                 InputProps={{
                                     label: 'Email aa',
                                 }}
+                                disabled={user.email ? true : false}
                             />
                         </Row>
                         <Row>
@@ -76,7 +110,7 @@ function EditProfileForm() {
                                 required
                                 id="outlined-required"
                                 label="Số điện thoại"
-                                defaultValue=""
+                                defaultValue={user.phone}
                                 name="phone"
                                 size="small"
                                 margin="normal"
@@ -89,6 +123,7 @@ function EditProfileForm() {
                                 InputProps={{
                                     label: 'Số điện thoại aaaa',
                                 }}
+                                disabled={user.phone ? true : false}
                             />
                         </Row>
                         <Row>
@@ -111,11 +146,17 @@ function EditProfileForm() {
                                         value="male"
                                         control={<Radio size="medium" />}
                                         label="Nam"
+                                        checked={
+                                            sexBoolean === true ? true : false
+                                        }
                                     />
                                     <FormControlLabel
                                         value="female"
                                         control={<Radio size="medium" />}
                                         label="Nữ"
+                                        checked={
+                                            sexBoolean === false ? true : false
+                                        }
                                     />
                                 </RadioGroup>
                             </FormControl>{' '}
@@ -160,6 +201,7 @@ function EditProfileForm() {
                                 variant="contained"
                                 className="fs-6 w-25 mt-3"
                                 onClick={handleUpdate}
+                                disabled={!isUpdate}
                             >
                                 Lưu
                             </Button>

@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap'
 import { IconButton } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-function ImageGallery() {
+function ImageGallery({ isDelete = true }) {
     const [showModalDel, setShowModalDelete] = useState(false)
     const [imgSelected, setImgSelected] = useState(
         'https://picsum.photos/id/1015/600/400.jpg',
@@ -20,17 +20,19 @@ function ImageGallery() {
     return (
         <section className="gallery">
             <div className="gallery_image">
-                <IconButton
-                    className="gallery__img--clear"
-                    onClick={() => setShowModalDelete(true)}
-                >
-                    <Clear
-                        sx={{
-                            fontSize: '3rem',
-                            fontWeight: 'bold',
-                        }}
-                    />
-                </IconButton>
+                {isDelete && (
+                    <IconButton
+                        className="gallery__img--clear"
+                        onClick={() => setShowModalDelete(true)}
+                    >
+                        <Clear
+                            sx={{
+                                fontSize: '3rem',
+                                fontWeight: 'bold',
+                            }}
+                        />
+                    </IconButton>
+                )}
                 <img className="gallery__img" src={imgSelected} alt="" />
             </div>
             <div className="gallery_items">
