@@ -55,8 +55,6 @@ function EditProfileForm() {
                 SetSexBoolean(sexBoolean)
             }
         })
-
-        console.log(infoUpdate)
         Object.keys(infoUpdate).length > 0
             ? setIsUpdate(true)
             : setIsUpdate(false)

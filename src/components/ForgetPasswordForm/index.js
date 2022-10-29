@@ -1,22 +1,17 @@
-import React from 'react'
+import { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import {Password} from '@mui/icons-material';
-import {
-    Box,
-    Avatar,
-    Typography,
-    TextField,
-    InputAdornment,
-    IconButton,
-    Button,
-} from '@mui/material'
+
+import { Password } from '@mui/icons-material'
+import { Box, Avatar } from '@mui/material'
+import FormAuth from './components/FormAuth'
+import FormReset from './components/FormReset'
 
 function ForgetPasswordForm() {
+    const [isAuth, setIsAuth] = useState(false)
+
     return (
         <>
-            <Container component="div" maxWidth="xs">
+            <Container component="div">
                 <Box className="d-flex flex-column align-items-center mt-4">
                     <Avatar
                         sx={{
@@ -28,53 +23,11 @@ function ForgetPasswordForm() {
                     >
                         <Password sx={{ fontSize: '24px' }} />
                     </Avatar>
-                    <Typography component="h1" variant="h4">
-                        Quên Mật Khẩu
-                    </Typography>
-                    <Box
-                        component="form"
-                        // onSubmit={handleSubmit}
-                        sx={{ mt: 1 }}
-                    >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Nhập email hoặc số điện thoại"
-                            name="info"
-                            autoComplete="email"
-                            autoFocus
-                            InputProps={{
-                                label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
-                                // onChange: e => handleChange(e, setUser),
-                                inputProps: {
-                                    pattern:
-                                        process.env.REACT_APP_REGEX_AUTH_LOGIN,
-                                    title: 'Vui lòng nhập email hoặc số điện thoại',
-                                },
-                            }}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="token"
-                            label="Nhập mã bảo mật"
-                            id="token"
-                            InputProps={{
-                                label: 'Nhập mã bảo mật aaaaaa'
-                            }}
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, fontSize: '1.4rem' }}
-                        >
-                            Gửi
-                        </Button>
-                    </Box>
+                    {isAuth ? (
+                        <FormReset />
+                    ) : (
+                        <FormAuth setIsAuth={setIsAuth} />
+                    )}
                 </Box>
             </Container>
         </>

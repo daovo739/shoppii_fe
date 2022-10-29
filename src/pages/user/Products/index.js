@@ -18,6 +18,9 @@ function Products() {
         keyword: state.keyword || '',
         startPrice: '',
         endPrice: '',
+        // Change limit to change page size
+        limit: 4,
+        page: 1,
     })
 
     const getProducts = async () => {

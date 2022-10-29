@@ -4,6 +4,7 @@ import { Pagination, Stack } from '@mui/material'
 import ShopCard from '../ShopCard'
 
 function ShopTab() {
+    console.log('shop tab')
     return (
         <Container fluid="md">
             {[0, 1, 2, 3, 4].map(item => (

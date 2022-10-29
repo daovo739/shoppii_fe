@@ -1,6 +1,5 @@
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import logoGoogle from '../.././assets/images/2991148.png'
 import {
     InputAdornment,
     IconButton,

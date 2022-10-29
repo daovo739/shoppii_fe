@@ -8,6 +8,14 @@ const post = async (path, formData) => {
     return res
 }
 
+const put = async (path, formData) => {
+    const res = await fetch(`${API_URL}/${path}`, {
+        method: 'PUT',
+        body: formData,
+    })
+    return res
+}
+
 const get = async (path, q = '') => {
     const URI = q ? `${API_URL}/${path}?${q}` : `${API_URL}/${path}`
     const res = await fetch(URI, {
@@ -16,4 +24,4 @@ const get = async (path, q = '') => {
     return res
 }
 
-export { post, get }
+export { post, get, put }
