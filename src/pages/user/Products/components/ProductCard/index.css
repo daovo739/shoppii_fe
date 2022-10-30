@@ -39,11 +39,11 @@
 
 .add-cart-container:hover svg {
     color: #fff !important;
-    animation: rotation 0.5s linear;
+    animation: rotation 0.4s linear;
 }
 
 .add-cart-container:hover .add-cart-content {
-    animation: appear 0.4s 0.3s linear forwards;
+    animation: appear 0.2s 0.1s linear forwards;
 }
 
 @keyframes rotation {

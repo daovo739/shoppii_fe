@@ -7,13 +7,33 @@ import {
     CardActions,
     CardContent,
     CardMedia,
-    Button,
     Typography,
     IconButton,
 } from '@mui/material'
 import { formatPrice } from '../../../../../utils/format'
+import { post } from '../../../../../utils/httprequest'
+import { handleFormData } from '../../../../../utils/handleForm'
+import { useAuth } from '../../../../../hooks/useAuth'
+import { toast } from 'react-toastify'
 
 function ProductCard({ product }) {
+    const { user } = useAuth()
+    const handleAddToCart = async (e, id) => {
+        e.preventDefault()
+        const formData = handleFormData({
+            productId: id,
+            quantity: 1,
+            userId: user.userId,
+        })
+        const res = await post('cart', formData)
+        const data = await res.json()
+        if (res.status > 200 && res.status < 300) {
+            toast.success('Thêm vào giỏ hàng thành công')
+        } else {
+            toast.error('Có lỗi xảy ra! Thử lại sau')
+        }
+    }
+
     return (
         <Card
             sx={{
@@ -37,7 +57,7 @@ function ProductCard({ product }) {
             <CardActions className="d-flex justify-content-between align-items-center">
                 <IconButton
                     className="add-cart-container "
-                    onClick={e => e.preventDefault()}
+                    onClick={e => handleAddToCart(e, product.productId)}
                 >
                     <AddShoppingCartIcon fontSize="large" color="primary" />
 
