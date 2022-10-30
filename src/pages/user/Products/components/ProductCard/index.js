@@ -1,17 +1,19 @@
-import React from 'react'
+import { memo } from 'react'
 import './index.css'
 import Product from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
-import { styled } from '@mui/material/styles'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Button from '@mui/material/Button'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
-import Typography from '@mui/material/Typography'
+import {
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Button,
+    Typography,
+} from '@mui/material'
 import { formatPrice } from '../../../../../utils/format'
 
 function ProductCard({ product }) {
+    console.log('render')
     return (
         <Card
             sx={{
@@ -57,4 +59,4 @@ function ProductCard({ product }) {
     )
 }
 
-export default ProductCard
+export default memo(ProductCard)

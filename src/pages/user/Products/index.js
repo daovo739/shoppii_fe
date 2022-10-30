@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import FilterSidebar from '../../../components/FilterSidebar'
-import BoxContent from '../../../components/BoxContent'
 import { useLocation } from 'react-router-dom'
 import { useHome } from '../../../hooks/useHome'
 import useStore from '../../../store/hooks'
 import queryString from 'query-string'
 import { get } from '../../.././utils/httprequest'
+import ViewProduct from './components/ViewProducts'
 
 function Products() {
     const { categories, locations } = useHome()
-    const { products, setProducts } = useStore()
+    const { productsData, setProductsData } = useStore()
     const { state } = useLocation()
     const [filters, setFilters] = useState({
         categoryId: [state.categoryId] || [],
@@ -19,7 +20,7 @@ function Products() {
         startPrice: '',
         endPrice: '',
         // Change limit to change page size
-        limit: 4,
+        limit: 1,
         page: 1,
     })
 
@@ -29,8 +30,7 @@ function Products() {
         })
         const res = await get(`products`, q)
         const data = await res.json()
-        console.log('get')
-        setProducts(data)
+        setProductsData(data)
     }
 
     useEffect(() => {
@@ -65,7 +65,17 @@ function Products() {
                         />
                     </Col>
                     <Col md={9}>
-                        <BoxContent content="view products" />
+                        {productsData.products.length > 0 ? (
+                            <ViewProduct
+                                totalPage={productsData.totalPage}
+                                setFilters={setFilters}
+                                filters={filters}
+                            />
+                        ) : (
+                            <div className="d-flex justify-content-center mt-5">
+                                <h1>No Products Found</h1>
+                            </div>
+                        )}
                     </Col>
                 </Row>
             </Container>

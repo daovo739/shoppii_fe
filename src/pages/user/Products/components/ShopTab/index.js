@@ -1,10 +1,19 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Pagination, Stack } from '@mui/material'
 import ShopCard from '../ShopCard'
 
-function ShopTab() {
-    console.log('shop tab')
+function ShopTab({ filters }) {
+    const [filtersShop, setFiltersShop] = useState({
+        keyword: filters.keyword || '',
+        location: filters.location || '',
+        limit: 1,
+        page: 1,
+    })
+
+    useEffect(() => {}, [filtersShop])
+
+    const getData = async () => {}
     return (
         <Container fluid="md">
             {[0, 1, 2, 3, 4].map(item => (

@@ -1,18 +1,18 @@
 import UserContext from './UserContext'
 import { useReducer, useState } from 'react'
-import reducer, {initState} from './AddressHook/reducer'
+import reducer, { initState } from './AddressHook/reducer'
 
 function UserProvider({ children }) {
-    const [products, setProducts] = useState([])
+    const [productsData, setProductsData] = useState({})
     const [state, dispatch] = useReducer(reducer, initState)
 
     const value = {
-        products,
-        setProducts,
+        productsData,
+        setProductsData,
         addressHook: {
             state,
-            dispatch
-        }
+            dispatch,
+        },
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

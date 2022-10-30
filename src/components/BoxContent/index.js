@@ -51,8 +51,6 @@ function BoxContent({ content }) {
                 return <ChangPassword />
             case orderHistory:
                 return <OrderHistory />
-            case 'view products':
-                return <ViewProduct />
             default:
                 return <EditProfileForm />
         }

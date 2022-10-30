@@ -8,7 +8,7 @@ import useStore from '../../../../store/hooks'
 
 function SearchProducts() {
     const navigate = useNavigate()
-    const { setProducts } = useStore()
+    const { setProductsData } = useStore()
     const [search, setSearch] = useState({ keyword: '' })
 
     const handleSearch = async () => {
@@ -18,7 +18,7 @@ function SearchProducts() {
         const data = await res.json()
         const keyword = search.keyword
         setSearch({ keyword: '' })
-        setProducts(data)
+        setProductsData(data)
         navigate(`/products`, {
             state: { keyword },
         })
