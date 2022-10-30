@@ -43,6 +43,7 @@ const ProductDetail = ({ product }) => {
             toast.error('Có lỗi xảy ra! Thử lại sau')
         }
     }
+
     const decreaseQuantity = () => {
         setQuantity(quantity => {
             if (quantity > 1) {
@@ -70,6 +71,7 @@ const ProductDetail = ({ product }) => {
             setQuantity(e.target.value)
         }
     }
+
     return (
         <>
             <div className="container">

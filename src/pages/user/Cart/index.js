@@ -1,8 +1,30 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CartShop from './components/CartShop'
 import CartTotal from './components/CartTotal'
+import { get } from '../../../utils/httprequest'
+// import { handleFormData } from '../../../utils/handleFormData'
+import queryString from 'query-string'
+import { useAuth } from '../../../hooks/useAuth'
 
 function Cart() {
+    const { user } = useAuth()
+    const [cart, setCart] = useState([])
+    console.log(cart)
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const getData = async () => {
+        const q = queryString.stringify({
+            userId: user.userId,
+        })
+        const res = await get('/cart', q)
+        const data = await res.json()
+        setCart(data)
+    }
     return (
         <div>
             <Container fluid="md">
@@ -23,7 +45,9 @@ function Cart() {
                         <div className="fs-3">Sản phẩm</div>
                     </Col>
                     <Col md={3}>
-                        <div className="fs-3" style={{marginLeft: '6rem'}}>Số lượng</div>
+                        <div className="fs-3" style={{ marginLeft: '6rem' }}>
+                            Số lượng
+                        </div>
                     </Col>
                     <Col md={2}>
                         <div className="fs-3">Số tiền</div>
@@ -32,10 +56,10 @@ function Cart() {
                         <div className="fs-3">Xóa</div>
                     </Col>
                 </Row>
-                {[0, 1, 2].map(item => (
-                    <Row key={item} >
+                {cart.map(item => (
+                    <Row key={item.shopId}>
                         <Col md={12}>
-                            <CartShop/>
+                            <CartShop item={item} />
                         </Col>
                     </Row>
                 ))}
