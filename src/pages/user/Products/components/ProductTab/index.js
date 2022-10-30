@@ -1,23 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ProductCard from '../ProductCard'
 import { Pagination, Stack } from '@mui/material'
 import useStore from '../../../../../store/hooks'
 import { Link } from 'react-router-dom'
+import { handleChange } from '../../../../../utils/handleForm'
 
 function ProductTab({ totalPage, setFilters }) {
-    const [page, setPage] = useState(1)
     const { productsData } = useStore()
+    const [page, setPage] = useState(1)
 
-    useEffect(() => {
+    const handleChangePage = (event, value) => {
+        setPage(value)
         setFilters(prev => {
             return {
                 ...prev,
-                page,
+                page: value,
             }
         })
-    }, [page])
+    }
 
     return (
         <Container fluid="md">
@@ -41,9 +43,7 @@ function ProductTab({ totalPage, setFilters }) {
                             page={page}
                             count={totalPage}
                             color="primary"
-                            onChange={(e, page) => {
-                                setPage(page)
-                            }}
+                            onChange={handleChangePage}
                         />
                     </Stack>
                 </Col>

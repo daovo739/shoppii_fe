@@ -65,7 +65,7 @@ function Products() {
                         />
                     </Col>
                     <Col md={9}>
-                        {productsData.products.length > 0 ? (
+                        {productsData?.products?.length > 0 ? (
                             <ViewProduct
                                 totalPage={productsData.totalPage}
                                 setFilters={setFilters}

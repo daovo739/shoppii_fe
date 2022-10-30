@@ -61,7 +61,7 @@ function BasicTabs({ totalPage, setFilters, filters }) {
                 <ProductTab totalPage={totalPage} setFilters={setFilters} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ShopTab filters={filters} />
+                <ShopTab filters={filters} setFilters={setFilters} />
             </TabPanel>
         </Box>
     )
