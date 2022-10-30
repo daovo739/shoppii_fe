@@ -42,7 +42,7 @@ function Products() {
     }, [state])
 
     useEffect(() => {
-        console.log(filters)
+        // console.log(filters)
         getProducts()
     }, [filters])
 

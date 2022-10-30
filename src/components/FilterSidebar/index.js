@@ -9,7 +9,7 @@ function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
         {
             title: 'Theo thể loại',
             name: 'categoryId',
-            element: filtersMap.categories.map(category => {
+            element: filtersMap?.categories?.map(category => {
                 return {
                     id: category.category_id,
                     value: category.category_name,
@@ -20,7 +20,7 @@ function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
         {
             title: 'Theo nơi bán',
             name: 'location',
-            element: filtersMap.locations.map(location => {
+            element: filtersMap?.locations?.map(location => {
                 return {
                     id: location.shopId,
                     value: location.address,
@@ -37,7 +37,7 @@ function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
                 <div className="title-body mt-1">BỘ LỌC TÌM KIẾM</div>
             </div>
             <div className="filter-body">
-                {listFilterTitle.map((item, index) => (
+                {listFilterTitle?.map((item, index) => (
                     <FilterPart
                         key={index}
                         elements={item}

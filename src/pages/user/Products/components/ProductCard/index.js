@@ -9,11 +9,11 @@ import {
     CardMedia,
     Button,
     Typography,
+    IconButton,
 } from '@mui/material'
 import { formatPrice } from '../../../../../utils/format'
 
 function ProductCard({ product }) {
-    console.log('render')
     return (
         <Card
             sx={{
@@ -29,31 +29,29 @@ function ProductCard({ product }) {
                 image={Product}
                 alt="green iguana"
             />
-            <CardContent sx={{ padding: '0 8px 8px 8px' }}>
+            <CardContent sx={{ padding: '8px' }}>
                 <Typography gutterBottom variant="h5" component="div">
                     {product.name}
                 </Typography>
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    component="div"
-                ></Typography>
             </CardContent>
-            <CardActions className="d-flex justify-content-between">
+            <CardActions className="d-flex justify-content-between align-items-center">
+                <IconButton
+                    className="add-cart-container "
+                    onClick={e => e.preventDefault()}
+                >
+                    <AddShoppingCartIcon fontSize="large" color="primary" />
+
+                    <p className="add-cart-content">Add to cart</p>
+                </IconButton>
                 <Typography
                     gutterBottom
                     variant="h5"
                     component="div"
                     sx={{ color: '#ff424e' }}
+                    className="product-price-main"
                 >
                     {formatPrice(product.price)}
                 </Typography>
-                <Button className="add-cart-btn">
-                    <AddShoppingCartIcon
-                        fontSize="large"
-                        color="primary"
-                    ></AddShoppingCartIcon>
-                </Button>
             </CardActions>
         </Card>
     )

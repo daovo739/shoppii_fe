@@ -22,18 +22,16 @@ function ShopTab({ filters, setFilters }) {
     }
 
     useEffect(() => {
-        console.log('render')
         let filtersShop = {
             keyword: filters.keyword || '',
             location: filters.location || '',
             limit: filters.limit || 1,
             page: filters.page || 1,
         }
-        console.log('filtersShop', filtersShop)
+        // console.log('filtersShop', filtersShop)
         getData(filtersShop)
     }, [filters])
 
-    console.log(shopsData)
     const getData = async filtersShop => {
         const q = queryString.stringify(filtersShop, { skipEmptyString: true })
         const res = await get(`user/getShops`, q)

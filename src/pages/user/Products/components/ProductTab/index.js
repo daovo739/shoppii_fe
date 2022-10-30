@@ -5,7 +5,6 @@ import ProductCard from '../ProductCard'
 import { Pagination, Stack } from '@mui/material'
 import useStore from '../../../../../store/hooks'
 import { Link } from 'react-router-dom'
-import { handleChange } from '../../../../../utils/handleForm'
 
 function ProductTab({ totalPage, setFilters }) {
     const { productsData } = useStore()
