@@ -1,31 +1,32 @@
 import UserContext from './UserContext'
-import { useReducer, useState } from 'react'
-<<<<<<< HEAD
+import { useState, useEffect } from 'react'
+import queryString from 'query-string'
+import { useAuth } from '../hooks/useAuth'
+import { get } from '../utils/httprequest'
 
 function UserProvider({ children }) {
+    const { user } = useAuth()
     const [products, setProducts] = useState([])
     const [addresses, setAddresses] = useState([])
+
+    const getAddresses = async () => {
+        const q = queryString.stringify({
+            userId: user.userId,
+        })
+        const res = await get('address', q)
+        const data = await res.json()
+        setAddresses(data)
+    }
+
+    useEffect(() => {
+        getAddresses()
+    }, [])
 
     const value = {
         products,
         setProducts,
         addresses,
-        setAddresses
-=======
-import reducer, { initState } from './AddressHook/reducer'
-
-function UserProvider({ children }) {
-    const [productsData, setProductsData] = useState({})
-    const [state, dispatch] = useReducer(reducer, initState)
-
-    const value = {
-        productsData,
-        setProductsData,
-        addressHook: {
-            state,
-            dispatch,
-        },
->>>>>>> 23afe75d35b4df3f1b5f47a48c98f34ab5f17098
+        getAddresses,
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

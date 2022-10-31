@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, memo } from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
 import './index.css'
 import { DeleteOutline, BorderColorOutlined } from '@mui/icons-material'
@@ -7,10 +7,7 @@ import { style } from '../../../../../components/ModalStyle'
 import AddressModal from '../AddressModal'
 import UpdateAddressModal from './components/UpdateAddressModal'
 
-function AddressItem({ address }) {
-    const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
     // const addressArray = address.split(', ')
 
     return (
@@ -19,7 +16,13 @@ function AddressItem({ address }) {
                 <Row>
                     <Col md={10}>
                         <div>
-                            <h3>{address.receiverName}</h3>
+                            <h3
+                                style={{
+                                    textTransform: 'capitalize',
+                                }}
+                            >
+                                {address.receiverName}
+                            </h3>
                         </div>
                         <p className="fs-4">
                             <span className="fs-4" style={{ color: 'gray' }}>
@@ -39,7 +42,7 @@ function AddressItem({ address }) {
                             <p
                                 className="d-flex justify-content-end align-content-center"
                                 style={{ cursor: 'pointer' }}
-                                onClick={handleOpen}
+                                onClick={() => handleOpen(address.addressId)}
                             >
                                 <DeleteOutline
                                     className="mt-1"
@@ -55,75 +58,29 @@ function AddressItem({ address }) {
                                     Xóa
                                 </span>
                             </p>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
+                            <p
+                                className="d-flex justify-content-end align-content-center"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() =>
+                                    handleOpenModalEdit(address.addressId)
+                                } // <--- this is the problem
                             >
-                                <Box sx={{ ...style, width: '400px' }}>
-                                    <Typography
-                                        id="modal-modal-title"
-                                        variant="h4"
-                                        component="h2"
-                                        style={{
-                                            textAlign: 'center',
-                                            marginBottom: '2rem',
-                                        }}
-                                    >
-                                        Xóa địa chỉ này
-                                    </Typography>
-                                    <Typography
-                                        id="modal-modal-description"
-                                        sx={{ mt: 2 }}
-                                        component="div"
-                                    >
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            <Button
-                                                sx={{
-                                                    marginRight: '8rem',
-                                                    fontSize: '1.5rem',
-                                                    fontWeight: 'bold',
-                                                    color: 'var(--main-green)',
-                                                }}
-                                                onClick={handleClose}
-                                            >
-                                                Hủy
-                                            </Button>
-                                            <Button
-                                                sx={{
-                                                    fontSize: '1.5rem',
-                                                    fontWeight: 'bold',
-                                                    color: 'var(--main-red)',
-                                                }}
-                                                onClick={handleClose}
-                                            >
-                                                Có
-                                            </Button>
-                                        </div>
-                                    </Typography>
-                                </Box>
-                            </Modal>
+                                <BorderColorOutlined
+                                    className="mt-1"
+                                    sx={{
+                                        fontSize: '18px',
+                                        color: 'var(--main-green)',
+                                    }}
+                                />
+                                <span
+                                    className="fs-5 mt-2"
+                                    style={{ color: 'var(--main-green)' }}
+                                >
+                                    Chỉnh sửa
+                                </span>
+                            </p>
                         </div>
-                        <div>
-                            
-                            <AddressModal
-                                test={true}
-                                // values={{
-                                //     name: name,
-                                //     phone: phone,
-                                //     city: addressArray[3],
-                                //     district: addressArray[2],
-                                //     ward: addressArray[1],
-                                //     address: addressArray[0],
-                                // }}
-                            />
-                        </div>
+
                         {/* <UpdateAddressModal
                             values={{
                                 name: name,
@@ -141,4 +98,4 @@ function AddressItem({ address }) {
     )
 }
 
-export default AddressItem
+export default memo(AddressItem)

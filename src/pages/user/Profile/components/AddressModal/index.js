@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState, useReducer, memo } from 'react'
 import {
     Box,
     Modal,
@@ -10,7 +11,7 @@ import {
     Select,
     Button,
 } from '@mui/material'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { BorderColorOutlined } from '@mui/icons-material'
@@ -23,6 +24,7 @@ import {
     setDistrict,
     setWard,
 } from './hook/actions'
+import { handleChange } from '../../../../../utils/handleForm'
 
 const style = {
     position: 'absolute',
@@ -38,257 +40,312 @@ const style = {
     pb: 3,
 }
 
-function AddressModal({ test }) {
-    const [open, setOpen] = React.useState(false)
-    const [state, dispatch] = React.useReducer(reducer, initState)
+const API_URI = 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data'
+function AddressModal({
+    open,
+    handleClose,
+    isEdit,
+    handleFunction,
+    addressAction,
+    setAddressAction,
+    state,
+    dispatch,
+}) {
     // const [action, setAction] = React.useState("")
-    const [anotherInfo, setAnotherInfo] = useState({
-        name: null,
-        phone: null,
-        address: null,
-    })
+    const [anotherInfo, setAnotherInfo] = useState(addressAction)
     const { cities, districts, wards, city, district, ward } = state
 
-    const handleOpen = () => {
-        setOpen(true)
-    }
-    const handleClose = () => {
-        setOpen(false)
-    }
-
-    const fetchAddress = async () => {
-        const res = await fetch('https://provinces.open-api.vn/api/?depth=3')
-        const data = await res.json()
-        // console.log(res)
-        // console.log(data)
-        setCities(data)
-    }
-
+    console.log(state)
     useEffect(() => {
-       fetchAddress()
+        console.log('render')
+        if (!isEdit) {
+            getCities()
+        }
     }, [])
-    console.log(cities)
+
+    const getCities = async () => {
+        const res = await fetch(`${API_URI}/province`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+            },
+        })
+        const data = await res.json()
+        dispatch(setCities(data.data))
+    }
+
+    const getDistricts = async () => {
+        const res = await fetch(
+            `${API_URI}/district?province_id=${city.ProvinceID}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+                },
+            },
+        )
+        const data = await res.json()
+        dispatch(setDistricts(data.data))
+    }
+
+    const getWards = async () => {
+        const res = await fetch(
+            `${API_URI}/ward?district_id=${district.DistrictID}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+                },
+            },
+        )
+        const data = await res.json()
+        dispatch(setWards(data.data))
+    }
+
     useEffect(() => {
-        city && dispatch(setDistricts(city.districts))
+        if (city) {
+            getDistricts()
+        }
     }, [city])
 
     useEffect(() => {
-        district && dispatch(setWards(district.wards))
+        if (district) {
+            getWards()
+        }
     }, [district])
 
     return (
         <div>
-            {test ? (
-                <p
-                    className="d-flex justify-content-end align-content-center"
-                    style={{ cursor: 'pointer' }}
-                    onClick={handleOpen}
-                >
-                    <BorderColorOutlined
-                        className="mt-1"
-                        sx={{
-                            fontSize: '18px',
-                            color: 'var(--main-green)',
-                        }}
-                    />
-                    <span
-                        className="fs-5 mt-2"
-                        style={{ color: 'var(--main-green)' }}
-                    >
-                        Chỉnh sửa
-                    </span>
-                </p>
-            ) : (
-                <Box
-                    className="add-new-address d-flex justify-content-center"
-                    component="span"
-                    onClick={handleOpen}
-                    sx={{ p: 2, border: '1px dashed grey' }}
-                >
-                    <AddOutlinedIcon sx={{ fontSize: '25px', color: 'gray' }} />
-                    <div className="ms-3 pt-1">THÊM ĐỊA CHỈ MỚI</div>
-                </Box>
-            )}
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h4"
-                        component="h2"
-                    >
-                        {!test ? 'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ'}
-                    </Typography>
-                    <Container fluid="md">
-                        <Row>
-                            <Col md={6}>
-                                <TextField
-                                    label="Họ và tên"
-                                    variant="outlined"
-                                    sx={{
-                                        marginTop: '1.5rem',
-                                        marginBottom: '2.5rem',
-                                        width: '100%',
-                                    }}
-                                    InputProps={{
-                                        label: 'Họ và tên ###',
-                                    }}
-                                />
-                            </Col>
-                            <Col md={6}>
-                                <TextField
-                                    label="Số điện thoại"
-                                    variant="outlined"
-                                    sx={{
-                                        marginTop: '1.5rem',
-                                        marginBottom: '2.5rem',
-                                        width: '100%',
-                                    }}
-                                    InputProps={{
-                                        label: 'Số điện thoại ####',
-                                    }}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <FormControl
-                                    fullWidth
-                                    sx={{ marginBottom: '2.5rem' }}
-                                >
-                                    <InputLabel id="demo-simple-select-label">
-                                        Tỉnh/Thành phố
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={city}
-                                        label="Tỉnh/Thành phố #"
-                                        onChange={event =>
-                                            dispatch(
-                                                setCity(event.target.value),
-                                            )
+                <form action="" onSubmit={e => handleFunction(e)}>
+                    <Box sx={style}>
+                        <Typography
+                            id="modal-modal-title"
+                            variant="h4"
+                            component="h2"
+                        >
+                            {!isEdit ? 'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ'}
+                        </Typography>
+                        <Container fluid="md">
+                            <Row>
+                                <Col md={6}>
+                                    <TextField
+                                        required
+                                        name="receiverName" // name of input
+                                        label="Họ và tên"
+                                        variant="outlined"
+                                        defaultValue={
+                                            addressAction?.receiverName
                                         }
-                                    >
-                                        {cities.map(city => (
-                                            <MenuItem
-                                                value={city}
-                                                key={city.code}
-                                            >
-                                                {city.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <FormControl
-                                    fullWidth
-                                    sx={{ marginBottom: '2.5rem' }}
-                                >
-                                    <InputLabel id="demo-simple-select-label">
-                                        Quận/Huyện
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={district}
-                                        label="Quận/Huyện #"
-                                        onChange={event =>
-                                            dispatch(
-                                                setDistrict(event.target.value),
-                                            )
+                                        sx={{
+                                            marginTop: '1.5rem',
+                                            marginBottom: '2.5rem',
+                                            width: '100%',
+                                        }}
+                                        InputProps={{
+                                            label: 'Họ và tên ###',
+                                        }}
+                                        onChange={e =>
+                                            handleChange(e, setAddressAction)
                                         }
-                                        disabled={!city}
+                                    />
+                                </Col>
+                                <Col md={6}>
+                                    <TextField
+                                        name="receiverPhone" // name of input
+                                        required
+                                        label="Số điện thoại"
+                                        variant="outlined"
+                                        defaultValue={
+                                            addressAction?.receiverPhone
+                                        }
+                                        sx={{
+                                            marginTop: '1.5rem',
+                                            marginBottom: '2.5rem',
+                                            width: '100%',
+                                        }}
+                                        InputProps={{
+                                            label: 'Số điện thoại ####',
+                                        }}
+                                        onChange={e =>
+                                            handleChange(e, setAddressAction)
+                                        }
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <FormControl
+                                        fullWidth
+                                        sx={{ marginBottom: '2.5rem' }}
                                     >
-                                        {city &&
-                                            districts.map(district => (
+                                        <InputLabel id="demo-simple-select-label">
+                                            Tỉnh/Thành phố
+                                        </InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={city}
+                                            label="Tỉnh/Thành phố #"
+                                            onChange={event =>
+                                                dispatch(
+                                                    setCity(event.target.value),
+                                                )
+                                            }
+                                        >
+                                            {cities?.map(city => (
                                                 <MenuItem
-                                                    value={district}
-                                                    key={district.code}
+                                                    value={city}
+                                                    key={city.ProvinceID}
                                                 >
-                                                    {district.name}
+                                                    {city.ProvinceName}
                                                 </MenuItem>
                                             ))}
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <FormControl
-                                    fullWidth
-                                    sx={{ marginBottom: '2.5rem' }}
-                                >
-                                    <InputLabel id="demo-simple-select-label">
-                                        Phường/Xã
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={ward}
-                                        label="Phường/Xã #"
-                                        onChange={event =>
-                                            dispatch(
-                                                setWard(event.target.value),
-                                            )
-                                        }
-                                        disabled={!district}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <FormControl
+                                        fullWidth
+                                        sx={{ marginBottom: '2.5rem' }}
                                     >
-                                        {district &&
-                                            wards.map(ward => (
-                                                <MenuItem
-                                                    value={ward}
-                                                    key={ward.code}
-                                                >
-                                                    {ward.name}
-                                                </MenuItem>
-                                            ))}
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <TextField
-                                    label="Địa chỉ cụ thể"
-                                    variant="outlined"
-                                    sx={{
-                                        marginBottom: '2.5rem',
-                                        width: '100%',
-                                    }}
-                                    InputProps={{
-                                        label: 'Địa chỉ cụ thể ####',
-                                    }}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{
-                                        fontSize: '1.5rem',
-                                        height: '4rem',
-                                        marginBottom: '2.5rem',
-                                    }}
-                                >
-                                    Hoàn Thành
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Container>
-                </Box>
+                                        <InputLabel id="demo-simple-select-label">
+                                            Quận/Huyện
+                                        </InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={district}
+                                            label="Quận/Huyện #"
+                                            onChange={event =>
+                                                dispatch(
+                                                    setDistrict(
+                                                        event.target.value,
+                                                    ),
+                                                )
+                                            }
+                                            disabled={!city}
+                                        >
+                                            {city &&
+                                                districts?.map(district => (
+                                                    <MenuItem
+                                                        value={district}
+                                                        key={
+                                                            district.DistrictID
+                                                        }
+                                                    >
+                                                        {district.DistrictName}
+                                                    </MenuItem>
+                                                ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <FormControl
+                                        fullWidth
+                                        sx={{ marginBottom: '2.5rem' }}
+                                    >
+                                        <InputLabel id="demo-simple-select-label">
+                                            Phường/Xã
+                                        </InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={ward}
+                                            label="Phường/Xã #"
+                                            onChange={event =>
+                                                dispatch(
+                                                    setWard(event.target.value),
+                                                )
+                                            }
+                                            disabled={!district}
+                                        >
+                                            {district &&
+                                                wards?.map(ward => (
+                                                    <MenuItem
+                                                        value={ward}
+                                                        key={ward.WardCode}
+                                                    >
+                                                        {ward.WardName}
+                                                    </MenuItem>
+                                                ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={12}>
+                                    <TextField
+                                        name="receiverAddress" // name of input
+                                        label="Địa chỉ cụ thể"
+                                        defaultValue={
+                                            addressAction?.receiverAddress
+                                        }
+                                        variant="outlined"
+                                        sx={{
+                                            marginBottom: '2.5rem',
+                                            width: '100%',
+                                        }}
+                                        InputProps={{
+                                            label: 'Địa chỉ cụ thể ####',
+                                        }}
+                                        onChange={e =>
+                                            handleChange(e, setAddressAction)
+                                        }
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Button
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            height: '4rem',
+                                            marginBottom: '2.5rem',
+                                        }}
+                                        onClick={handleClose}
+                                    >
+                                        Huỷ
+                                    </Button>
+                                </Col>
+                                <Col md={6}>
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{
+                                            fontSize: '1.5rem',
+                                            height: '4rem',
+                                            marginBottom: '2.5rem',
+                                        }}
+                                        type="submit"
+                                    >
+                                        Hoàn Thành
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Box>
+                </form>
             </Modal>
         </div>
     )
 }
 
-export default AddressModal
+export default memo(AddressModal)
