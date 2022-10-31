@@ -16,6 +16,14 @@ const put = async (path, formData) => {
     return res
 }
 
+const _delete = async (path, formData) => {
+    const res = await fetch(`${API_URL}/${path}`, {
+        method: 'DELETE',
+        body: formData,
+    })
+    return res
+}
+
 const get = async (path, q = '') => {
     const URI = q ? `${API_URL}/${path}?${q}` : `${API_URL}/${path}`
     const res = await fetch(URI, {
@@ -24,4 +32,4 @@ const get = async (path, q = '') => {
     return res
 }
 
-export { post, get, put }
+export { post, get, put, _delete }

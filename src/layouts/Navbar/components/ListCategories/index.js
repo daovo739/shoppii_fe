@@ -29,7 +29,7 @@ function ListCategories({ categories }) {
                 maxHeight: '250px',
             }}
         >
-            {categories.map(ele => {
+            {categories?.map(ele => {
                 const { category_id, category_name } = ele
                 return (
                     <div key={category_id}>

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Category from '../Category'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -21,7 +22,7 @@ function Categories({ categories }) {
                     </Col>
                 </Row>
                 <Row>
-                    {categories.map(category => {
+                    {categories?.map(category => {
                         const { category_id, category_name, categoryImg } =
                             category
                         return (
@@ -38,4 +39,4 @@ function Categories({ categories }) {
     )
 }
 
-export default Categories
+export default memo(Categories)
