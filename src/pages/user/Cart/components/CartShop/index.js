@@ -4,6 +4,7 @@ import './index.css'
 import { Checkbox, Chip } from '@mui/material'
 import { Store } from '@mui/icons-material'
 import CartProduct from '../CartProduct'
+import { Link } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -29,12 +30,13 @@ function CartShop({ item }) {
                         />
                         <h4 className="pt-2 me-2">{item?.shopName}</h4>
                         <div style={{ color: 'gray' }}>|</div>
-                        <div
+                        <Link
                             style={{
                                 marginLeft: '7px',
                                 fontSize: '1.5rem',
                                 color: 'var(--main-green)',
                             }}
+                            to={`/viewshop/${item?.shopId}`}
                         >
                             <Store
                                 sx={{
@@ -44,7 +46,7 @@ function CartShop({ item }) {
                                 }}
                             />
                             Xem cửa hàng
-                        </div>
+                        </Link>
                     </Col>
                 </Row>
                 {item?.products?.map(product => (

@@ -13,7 +13,7 @@ import { formatPrice } from '../../../../../utils/format'
 function CartProduct({ product }) {
     const [quantity, setQuantity] = useState(1)
     const totalPrice = useMemo(() => {
-        return formatPrice(product?.quantity * product?.price)
+        return formatPrice(product?.cartQuantity * product?.price)
     }, [product])
     const decreaseQuantity = () => {
         setQuantity(quantity => {
@@ -51,11 +51,17 @@ function CartProduct({ product }) {
                         <div className="cart-product-info d-flex">
                             <img src={ProductImage} alt="img" />
                             <div className="pt-3 ms-3">
-                                <h3 className="mb-4">{product?.productName}</h3>
-                                <h4 style={{ color: 'gray' }}>
+                                <h3 className="mb-2">{product?.productName}</h3>
+                                <h4
+                                    style={{
+                                        color: 'gray',
+                                    }}
+                                >
                                     {formatPrice(product?.price)}
                                 </h4>
-                                {/* <h4 style={{color: 'var(--main-red)'}}>Sản phẩm này đã hết hàng</h4> */}
+                                {/* <h4 style={{ color: 'var(--main-red)' }}>
+                                    Sản phẩm này đã hết hàng
+                                </h4> */}
                             </div>
                         </div>
                     </Col>
@@ -64,22 +70,22 @@ function CartProduct({ product }) {
                             <IconButton onClick={increaseQuantity}>
                                 <AddCircleOutline
                                     sx={{
-                                        fontSize: '30px',
+                                        fontSize: '24px',
                                         color: 'var(--main-blue)',
                                     }}
                                 />
                             </IconButton>
                             <input
-                                className="quantity-input mx-3"
+                                className="quantity-input"
                                 type="number"
-                                value={product?.quantity}
+                                value={product?.cartQuantity}
                                 onChange={handleQuantity}
                                 disabled
                             />
                             <IconButton onClick={decreaseQuantity}>
                                 <RemoveCircleOutline
                                     sx={{
-                                        fontSize: '30px',
+                                        fontSize: '24px',
                                         color: 'var(--main-blue)',
                                     }}
                                 />

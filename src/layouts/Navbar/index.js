@@ -99,7 +99,12 @@ const Navbar = () => {
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="div">
-                                                <Link to="/profile">
+                                                <Link
+                                                    to="/profile"
+                                                    state={{
+                                                        action: 'Order History',
+                                                    }}
+                                                >
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
