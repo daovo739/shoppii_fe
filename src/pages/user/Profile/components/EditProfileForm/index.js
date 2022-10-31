@@ -30,6 +30,7 @@ function EditProfileForm() {
     const [infoUpdate, setInfoUpdate] = useState({})
     const [isUpdate, setIsUpdate] = useState(false)
     const [sexBoolean, SetSexBoolean] = useState(user.sex)
+
     const handleUpdate = () => {
         console.log(infoUpdate)
     }
@@ -182,7 +183,7 @@ function EditProfileForm() {
                                             return (
                                                 <TextField
                                                     {...params}
-                                                    size='small'
+                                                    size="small"
                                                     InputProps={{
                                                         ...params.InputProps,
                                                         label: 'Ngày sinh aaaa',
@@ -228,7 +229,7 @@ function EditProfileForm() {
                                     hidden
                                     accept=".jpeg,.jpg,.png,.gif,image/*"
                                     type="file"
-                                    name="avatar"
+                                    name="filePart"
                                     onChange={e => {
                                         setImgURI(getImage(e))
                                         handleChange(e, setInfoUpdate)

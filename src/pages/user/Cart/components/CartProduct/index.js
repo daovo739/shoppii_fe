@@ -9,22 +9,36 @@ import {
 } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { formatPrice } from '../../../../../utils/format'
+import { put } from '../../../../../utils/httprequest'
+import { handleFormData } from '../../../../../utils/handleForm'
+import { useAuth } from '../../../../../hooks/useAuth'
 
-function CartProduct({ product }) {
+function CartProduct({ product, getData }) {
+    const { user } = useAuth()
     const [quantity, setQuantity] = useState(1)
+
     const totalPrice = useMemo(() => {
         return formatPrice(product?.cartQuantity * product?.price)
     }, [product])
-    const decreaseQuantity = () => {
-        setQuantity(quantity => {
-            if (quantity > 1) {
-                return quantity - 1
-            }
-            return quantity
+
+    const decreaseQuantity = async id => {
+        const newQuantity = product.cartQuantity - 1
+        const formData = handleFormData({
+            userId: user.userId,
+            quantity: newQuantity,
+            productId: id,
         })
+        console.log({
+            userId: user.userId,
+            quantity: newQuantity,
+            productId: id,
+        })
+        const res = await put('cart', formData)
+        const data = await res.json()
+        getData()
     }
 
-    const increaseQuantity = () => {
+    const increaseQuantity = id => {
         setQuantity(quantity => {
             if (quantity < product.quantity) {
                 return quantity + 1
@@ -33,7 +47,8 @@ function CartProduct({ product }) {
         })
     }
 
-    const handleQuantity = e => {
+    const handleQuantity = (e, id) => {
+        console.log(id)
         if (quantity > product.quantity) {
             setQuantity(product.quantity)
         } else if (quantity < 1) {
@@ -67,7 +82,11 @@ function CartProduct({ product }) {
                     </Col>
                     <Col md={3} className="d-flex align-items-center">
                         <div>
-                            <IconButton onClick={increaseQuantity}>
+                            <IconButton
+                                onClick={() =>
+                                    increaseQuantity(product.productId)
+                                }
+                            >
                                 <AddCircleOutline
                                     sx={{
                                         fontSize: '24px',
@@ -79,10 +98,16 @@ function CartProduct({ product }) {
                                 className="quantity-input"
                                 type="number"
                                 value={product?.cartQuantity}
-                                onChange={handleQuantity}
-                                disabled
+                                onChange={e =>
+                                    handleQuantity(e, product.productId)
+                                }
+                                // disabled
                             />
-                            <IconButton onClick={decreaseQuantity}>
+                            <IconButton
+                                onClick={() =>
+                                    decreaseQuantity(product.productId)
+                                }
+                            >
                                 <RemoveCircleOutline
                                     sx={{
                                         fontSize: '24px',

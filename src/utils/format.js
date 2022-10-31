@@ -10,7 +10,7 @@ const formatDay = date => {
 
 const getImage = event => {
     let file = event.target.files[0]
-    return URL.createObjectURL(file)
+    return URL.createObjectURL(file) || null
 }
 
 const formatPrice = price => {

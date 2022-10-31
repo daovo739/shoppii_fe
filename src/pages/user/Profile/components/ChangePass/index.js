@@ -11,6 +11,7 @@ import { useAuth } from '../../../../../hooks/useAuth'
 function ChangPassword() {
     const { user } = useAuth()
     const [showPassword, setShowPassword] = useState(false)
+    const [showOldPassword, setShowOldPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
     const [auth, setAuth] = useState({
         oldPassword: '',
@@ -21,20 +22,24 @@ function ChangPassword() {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        const formData = handleFormData(auth)
-        const res = await put('user/change-password', formData)
-        const data = await res.json()
-        if (res.status >= 200 && res.status < 300) {
-            toast.success('Đổi mật khẩu thành công`')
+        if (auth.newPassword !== auth.reNewPassword) {
+            toast.error('Mật khẩu không khớp')
         } else {
-            toast.error(data.message)
+            const formData = handleFormData(auth)
+            const res = await put('user/change-password', formData)
+            const data = await res.json()
+            if (res.status >= 200 && res.status < 300) {
+                toast.success('Đổi mật khẩu thành công')
+            } else {
+                toast.error('Mật khẩu cũ không đúng')
+            }
+            setAuth({
+                oldPassword: '',
+                newPassword: '',
+                reNewPassword: '',
+                userId: user.userId,
+            })
         }
-        setAuth({
-            oldPassword: '',
-            newPassword: '',
-            reNewPassword: '',
-            userId: user.userId,
-        })
     }
 
     return (
@@ -43,24 +48,48 @@ function ChangPassword() {
                 <Row>
                     <Col md={12} className="d-flex justify-content-center">
                         <TextField
+                            className="w-50"
                             required
-                            id="outlined-required"
-                            label="Mật khẩu hiện tại"
                             value={auth.oldPassword}
                             size="small"
                             margin="normal"
-                            className="w-50"
                             name="oldPassword"
-                            inputProps={{
-                                style: { fontSize: '1.6rem' },
-                            }}
+                            label="Mật khẩu hiện tại"
+                            type={showOldPassword ? 'text' : 'password'}
+                            id="password"
+                            autoComplete="current-password"
                             InputProps={{
                                 label: 'Mật khẩu hiện tại aaaaaa',
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onMouseDown={e => {
+                                                setShowOldPassword(true)
+                                            }}
+                                            onMouseUp={e => {
+                                                setShowOldPassword(false)
+                                            }}
+                                            edge="end"
+                                        >
+                                            {showOldPassword ? (
+                                                <VisibilityOff
+                                                    sx={{
+                                                        fontSize: '2.2rem',
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Visibility
+                                                    sx={{
+                                                        fontSize: '2.2rem',
+                                                    }}
+                                                />
+                                            )}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                                onChange: e => handleChange(e, setAuth),
                             }}
-                            InputLabelProps={{
-                                style: { fontSize: '1.3rem' },
-                            }}
-                            onChange={e => handleChange(e, setAuth)}
                         />
                     </Col>
                 </Row>

@@ -25,6 +25,7 @@ function Cart() {
         const data = await res.json()
         setCart(data)
     }
+
     return (
         <div>
             <Container fluid="md">
@@ -59,7 +60,7 @@ function Cart() {
                 {cart.map(item => (
                     <Row key={item.shopId}>
                         <Col md={12}>
-                            <CartShop item={item} />
+                            <CartShop item={item} getData={getData} />
                         </Col>
                     </Row>
                 ))}

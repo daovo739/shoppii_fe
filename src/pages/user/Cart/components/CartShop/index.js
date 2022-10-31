@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-function CartShop({ item }) {
+function CartShop({ item, getData }) {
     return (
         <div className="cart-shop mb-5">
             <Container fluid="md">
@@ -67,7 +67,7 @@ function CartShop({ item }) {
                                 }}
                             />
                             {/* <Chip size="small" label="Hết hàng" disabled/> */}
-                            <CartProduct product={product} />
+                            <CartProduct product={product} getData={getData} />
                         </Col>
                     </Row>
                 ))}
