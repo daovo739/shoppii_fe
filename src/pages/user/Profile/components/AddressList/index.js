@@ -12,6 +12,7 @@ import reducer, { initState } from '../AddressModal/hook/reducer'
 import { reset } from '../AddressModal/hook/instant'
 import { handleFormData } from '../../../../../utils/handleForm'
 import { post, put } from '../../../../../utils/httprequest'
+import { toast } from 'react-toastify'
 
 const style = {
     position: 'absolute',
@@ -26,7 +27,6 @@ const style = {
     px: 4,
     pb: 3,
 }
-
 function AddressList() {
     const { user } = useAuth()
     const [state, dispatch] = useReducer(reducer, initState)
@@ -93,6 +93,14 @@ function AddressList() {
 
     const handleCreate = async e => {
         e.preventDefault()
+        if (
+            !state.city.ProvinceName ||
+            !state.district.DistrictName ||
+            !state.ward.WardName
+        ) {
+            toast.error('Vui lòng chọn đầy đủ địa chỉ')
+            return
+        }
         const data = {
             ...addressAction,
             province: state.city.ProvinceName,

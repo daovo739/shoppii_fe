@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useReducer, memo } from 'react'
+import { useEffect, useState, memo, useMemo } from 'react'
 import {
     Box,
     Modal,
@@ -14,8 +14,7 @@ import {
 
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
-import { BorderColorOutlined } from '@mui/icons-material'
-import reducer, { initState } from './hook/reducer'
+
 import {
     setCities,
     setDistricts,
@@ -51,7 +50,6 @@ function AddressModal({
     state,
     dispatch,
 }) {
-    // const [action, setAction] = React.useState("")
     const [anotherInfo, setAnotherInfo] = useState(addressAction)
     const { cities, districts, wards, city, district, ward } = state
 
@@ -291,6 +289,7 @@ function AddressModal({
                             <Row>
                                 <Col md={12}>
                                     <TextField
+                                        required
                                         name="receiverAddress" // name of input
                                         label="Địa chỉ cụ thể"
                                         defaultValue={
@@ -336,7 +335,7 @@ function AddressModal({
                                         }}
                                         type="submit"
                                     >
-                                        Hoàn Thành
+                                        {isEdit ? 'Cập nhật' : 'Thêm mới'}
                                     </Button>
                                 </Col>
                             </Row>
