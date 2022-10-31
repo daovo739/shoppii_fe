@@ -2,7 +2,7 @@ import Categories from './components/Categories'
 import ControlledCarousel from './components/Carousel'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useHome } from '../../../hooks/useHome'
-import ShopHomePage from '../../shop/home'
+import Unregistered from '../GoToShop/components/Unregistered'
 
 function Home() {
     const { categories } = useHome()
@@ -18,7 +18,7 @@ function Home() {
                         <Categories categories={categories} />
                     </Col>
                 </Row>
-                <ShopHomePage/>
+                <Unregistered/>
             </Container>
         </div>
     )

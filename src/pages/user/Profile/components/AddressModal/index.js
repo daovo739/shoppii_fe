@@ -59,15 +59,15 @@ function AddressModal({ test }) {
     const fetchAddress = async () => {
         const res = await fetch('https://provinces.open-api.vn/api/?depth=3')
         const data = await res.json()
-        console.log(res)
-        console.log(data)
+        // console.log(res)
+        // console.log(data)
         setCities(data)
     }
 
     useEffect(() => {
        fetchAddress()
     }, [])
-
+    console.log(cities)
     useEffect(() => {
         city && dispatch(setDistricts(city.districts))
     }, [city])

@@ -7,11 +7,11 @@ import { style } from '../../../../../components/ModalStyle'
 import AddressModal from '../AddressModal'
 import UpdateAddressModal from './components/UpdateAddressModal'
 
-function AddressItem({ name, address, phone }) {
+function AddressItem({ address }) {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-    const addressArray = address.split(', ')
+    // const addressArray = address.split(', ')
 
     return (
         <div className="address w-100">
@@ -19,19 +19,19 @@ function AddressItem({ name, address, phone }) {
                 <Row>
                     <Col md={10}>
                         <div>
-                            <h3>{name}</h3>
+                            <h3>{address.receiverName}</h3>
                         </div>
                         <p className="fs-4">
                             <span className="fs-4" style={{ color: 'gray' }}>
                                 Địa chỉ:{' '}
                             </span>
-                            {address}
+                            {address.receiverAddress}
                         </p>
                         <p>
                             <span className="fs-4" style={{ color: 'gray' }}>
                                 Số điện thoại:{' '}
                             </span>
-                            {phone}
+                            {address.receiverPhone}
                         </p>
                     </Col>
                     <Col md={2}>
