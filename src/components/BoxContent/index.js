@@ -4,7 +4,6 @@ import EditProfileForm from '../../pages/user/Profile/components/EditProfileForm
 import ChangPassword from '../../pages/user/Profile/components/ChangePass'
 import OrderHistory from '../../pages/user/Profile/components/OrderHistory'
 import AddressList from '../../pages/user/Profile/components/AddressList'
-import ViewProduct from '../../pages/user/Products/components/ViewProducts'
 import './index.css'
 import {
     editPro,
@@ -51,8 +50,6 @@ function BoxContent({ content }) {
                 return <ChangPassword />
             case orderHistory:
                 return <OrderHistory />
-            case 'view products':
-                return <ViewProduct />
             default:
                 return <EditProfileForm />
         }

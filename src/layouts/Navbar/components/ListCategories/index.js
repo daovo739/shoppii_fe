@@ -6,12 +6,12 @@ import { get } from '../../../../utils/httprequest'
 import useStore from '../../../../store/hooks'
 function ListCategories({ categories }) {
     const navigate = useNavigate()
-    const { setProducts } = useStore()
+    const { setProductsData } = useStore()
     const getProducts = async id => {
         const q = queryString.stringify({ categoryId: id })
         const res = await get('/products', q)
         const data = await res.json()
-        setProducts(data)
+        setProductsData(data)
         navigate(`/products`, {
             state: { categoryId: [id] },
         })
@@ -20,7 +20,7 @@ function ListCategories({ categories }) {
     return (
         <Row
             style={{
-                width: '100%',
+                // width: '100%',
                 height: '100%',
                 margin: 0,
                 overflow: 'scroll',
@@ -29,7 +29,7 @@ function ListCategories({ categories }) {
                 maxHeight: '250px',
             }}
         >
-            {categories.map(ele => {
+            {categories?.map(ele => {
                 const { category_id, category_name } = ele
                 return (
                     <div key={category_id}>

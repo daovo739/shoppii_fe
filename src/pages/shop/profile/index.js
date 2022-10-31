@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './index.css'
 import { TextField, Button, Avatar } from '@mui/material'
 import {
@@ -11,11 +11,15 @@ import {
 } from 'react-bootstrap'
 import { getImage } from '../../../utils/format'
 import { handleChange } from '../../../utils/handleForm'
+import { post, put, get } from '../../../utils/httprequest'
+import { useAuth } from '../../../hooks/useAuth'
+import queryString from 'query-string'
 
 function ShopProfile() {
-    const [date, setDate] = useState()
+    const { user } = useAuth()
     const [showModalDeleteShop, setShowModalDeleteShop] = useState(false)
     const [imgURI, setImgURI] = useState()
+    const [shopInfo, setShopInfo] = useState({})
     const [infoUpdate, setInfoUpdate] = useState()
 
     const handleDeleteShop = () => {}
@@ -24,6 +28,20 @@ function ShopProfile() {
     const handleUpdate = () => {
         console.log(infoUpdate)
     }
+
+    const getInformation = async () => {
+        const q = queryString.stringify({
+            shopId: user.userId,
+        })
+        const res = await get(`/shop/profile`, q)
+        const data = await res.json()
+        console.log(data)
+        setShopInfo(data)
+    }
+
+    useEffect(() => {
+        getInformation()
+    }, [])
 
     return (
         <Container
@@ -78,7 +96,7 @@ function ShopProfile() {
                                 required
                                 id="outlined-required"
                                 label="Tên cửa hàng"
-                                defaultValue=""
+                                value={shopInfo.name}
                                 size="small"
                                 margin="normal"
                                 fullWidth
@@ -97,7 +115,7 @@ function ShopProfile() {
                             <TextField
                                 id="outlined-required"
                                 label="Địa chỉ"
-                                defaultValue=""
+                                defaultValue={shopInfo?.address}
                                 size="small"
                                 margin="normal"
                                 fullWidth
@@ -135,7 +153,7 @@ function ShopProfile() {
                     <TextField
                         id="outlined-required"
                         label="Mô tả cửa hàng"
-                        defaultValue=""
+                        defaultValue={shopInfo?.description}
                         size="small"
                         margin="normal"
                         name="description"

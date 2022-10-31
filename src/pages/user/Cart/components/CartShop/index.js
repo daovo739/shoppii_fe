@@ -4,10 +4,11 @@ import './index.css'
 import { Checkbox, Chip } from '@mui/material'
 import { Store } from '@mui/icons-material'
 import CartProduct from '../CartProduct'
+import { Link } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-function CartShop() {
+function CartShop({ item, getData }) {
     return (
         <div className="cart-shop mb-5">
             <Container fluid="md">
@@ -27,22 +28,29 @@ function CartShop() {
                                 marginRight: '7px',
                             }}
                         />
-                        <h4 className="pt-2 me-2">Tên cửa hàng gì đó</h4>
-                        <div style={{color: 'gray'}}>|</div>
-                        <div style={{ marginLeft: '7px', fontSize: '1.5rem', color: 'var(--main-green)'}}>
+                        <h4 className="pt-2 me-2">{item?.shopName}</h4>
+                        <div style={{ color: 'gray' }}>|</div>
+                        <Link
+                            style={{
+                                marginLeft: '7px',
+                                fontSize: '1.5rem',
+                                color: 'var(--main-green)',
+                            }}
+                            to={`/viewshop/${item?.shopId}`}
+                        >
                             <Store
                                 sx={{
                                     fontSize: '22px',
                                     color: 'var(--main-green)',
-                                    marginRight: '5px'
+                                    marginRight: '5px',
                                 }}
                             />
                             Xem cửa hàng
-                        </div>
+                        </Link>
                     </Col>
                 </Row>
-                {[0, 1, 2].map(item => (
-                    <Row key={item}>
+                {item?.products?.map(product => (
+                    <Row key={product.productId}>
                         <Col
                             md={12}
                             className="d-flex align-items-center py-4"
@@ -59,7 +67,7 @@ function CartShop() {
                                 }}
                             />
                             {/* <Chip size="small" label="Hết hàng" disabled/> */}
-                            <CartProduct />
+                            <CartProduct product={product} getData={getData} />
                         </Col>
                     </Row>
                 ))}

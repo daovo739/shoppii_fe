@@ -99,7 +99,12 @@ const Navbar = () => {
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="div">
-                                                <Link to="/profile">
+                                                <Link
+                                                    to="/profile"
+                                                    state={{
+                                                        action: 'Order History',
+                                                    }}
+                                                >
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
@@ -107,6 +112,12 @@ const Navbar = () => {
                                             <Dropdown.Item as="div">
                                                 <Button
                                                     onClick={handleSwitchShop}
+                                                    style={{
+                                                        fontSize: '1.6rem',
+                                                        color: '#333',
+                                                        textTransform: 'none',
+                                                        padding: '0',
+                                                    }}
                                                 >
                                                     Kênh người bán
                                                 </Button>
@@ -119,11 +130,14 @@ const Navbar = () => {
                                                         setIsLogin(false)
                                                         logout()
                                                     }}
+                                                    style={{
+                                                        padding: '0',
+                                                    }}
                                                 >
                                                     <LogoutIcon
                                                         className="bg-danger text-white"
                                                         sx={{
-                                                            fontSize: '20px',
+                                                            fontSize: '2rem',
                                                             padding: '2px',
                                                             borderRadius: '5px',
                                                         }}
@@ -131,6 +145,10 @@ const Navbar = () => {
                                                     <span
                                                         style={{
                                                             fontSize: '1.6rem',
+                                                            color: '#333',
+                                                            marginLeft: '5px',
+                                                            textTransform:
+                                                                'none',
                                                         }}
                                                     >
                                                         Đăng xuất

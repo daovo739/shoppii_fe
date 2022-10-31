@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import './index.css'
 import {
     List,
@@ -24,16 +24,21 @@ export const editPro = 'Edit Profile'
 export const orderHistory = 'Order History'
 export const addressList = 'Address'
 
-function ProfileSidebar({ getAction }) {
+function ProfileSidebar({ getAction, action }) {
     const sendAction = action => {
         getAction(action)
     }
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = useState(true)
 
     const handleClick = () => {
         setOpen(!open)
     }
 
+    useEffect(() => {
+        if (action) {
+            sendAction(action)
+        }
+    }, [])
     return (
         <div className="w-100">
             <Stack direction="row" spacing={2}>
@@ -82,7 +87,10 @@ function ProfileSidebar({ getAction }) {
                             onClick={() => sendAction(addressList)}
                         >
                             <ListItemIcon>
-                                <HomeOutlined fontSize="large" color="primary" />
+                                <HomeOutlined
+                                    fontSize="large"
+                                    color="primary"
+                                />
                             </ListItemIcon>
                             <ListItemText primary="Địa chỉ" />
                         </ListItemButton>
@@ -91,7 +99,10 @@ function ProfileSidebar({ getAction }) {
                             onClick={() => sendAction(changePass)}
                         >
                             <ListItemIcon>
-                                <VpnKeyOutlined fontSize="large" color="primary" />
+                                <VpnKeyOutlined
+                                    fontSize="large"
+                                    color="primary"
+                                />
                             </ListItemIcon>
                             <ListItemText primary="Đổi mật khẩu" />
                         </ListItemButton>

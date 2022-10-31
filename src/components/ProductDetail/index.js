@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo, useState } from 'react'
 import './index.css'
 import ProductImage from '../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import {
@@ -19,9 +19,59 @@ import {
 import { Link as LinkRouter } from 'react-router-dom'
 import { formatPrice } from '../../utils/format'
 import ImageGallery from '../ImageGallery'
+import { useAuth } from '../../hooks/useAuth'
+import { handleFormData } from '../../utils/handleForm'
+import { toast } from 'react-toastify'
+import { post } from '../../utils/httprequest'
 
 const ProductDetail = ({ product }) => {
+    const [quantity, setQuantity] = useState(1)
+    const { user } = useAuth()
     console.log(product)
+    const handleAddToCart = async (e, id) => {
+        e.preventDefault()
+        const formData = handleFormData({
+            productId: id,
+            quantity: quantity,
+            userId: user.userId,
+        })
+        const res = await post('cart', formData)
+        const data = await res.json()
+        if (res.status > 200 && res.status < 300) {
+            toast.success('Thêm vào giỏ hàng thành công')
+        } else {
+            toast.error('Có lỗi xảy ra! Thử lại sau')
+        }
+    }
+
+    const decreaseQuantity = () => {
+        setQuantity(quantity => {
+            if (quantity > 1) {
+                return quantity - 1
+            }
+            return quantity
+        })
+    }
+
+    const increaseQuantity = () => {
+        setQuantity(quantity => {
+            if (quantity < product.quantity) {
+                return quantity + 1
+            }
+            return quantity
+        })
+    }
+
+    const handleQuantity = e => {
+        if (quantity > product.quantity) {
+            setQuantity(product.quantity)
+        } else if (quantity < 1) {
+            setQuantity(1)
+        } else {
+            setQuantity(e.target.value)
+        }
+    }
+
     return (
         <>
             <div className="container">
@@ -123,29 +173,43 @@ const ProductDetail = ({ product }) => {
                                 className="catalog"
                             />
                             <p>{formatPrice(product.price)}</p>
-                            <div className="quantity">
-                                <IconButton>
-                                    <Add fontSize="large" />
-                                </IconButton>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    defaultValue={1}
+                            <div className="d-flex align-items-center">
+                                <div className="quantity">
+                                    <IconButton onClick={increaseQuantity}>
+                                        <Add fontSize="large" />
+                                    </IconButton>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max={product.quantity}
+                                        value={quantity}
+                                        style={{
+                                            textAlign: 'center',
+                                            outline: 'none',
+                                            width: '50px',
+                                        }}
+                                        onChange={handleQuantity}
+                                    />
+                                    <IconButton onClick={decreaseQuantity}>
+                                        <Remove fontSize="large" />
+                                    </IconButton>
+                                </div>
+                                <p
                                     style={{
-                                        padding: '0',
-                                        textAlign: 'center',
-                                        outline: 'none',
+                                        fontSize: '1.2rem',
+                                        margin: '0',
+                                        marginLeft: '20px',
                                     }}
-                                />
-                                <IconButton>
-                                    <Remove fontSize="large" />
-                                </IconButton>
+                                >
+                                    Còn lại {product.quantity} sản phẩm
+                                </p>
                             </div>
                         </div>
                         <Button
                             variant="outlined"
                             startIcon={<AddShoppingCart fontSize="large" />}
                             className="add-cart-btn ms-5"
+                            onClick={e => handleAddToCart(e, product.productId)}
                         >
                             Thêm vào giỏ hàng
                         </Button>
@@ -199,4 +263,4 @@ const ProductDetail = ({ product }) => {
     )
 }
 
-export default ProductDetail
+export default memo(ProductDetail)
