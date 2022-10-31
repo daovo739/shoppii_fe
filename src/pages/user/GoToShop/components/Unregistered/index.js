@@ -7,10 +7,10 @@ function Unregistered() {
     return (
         <>
             <div
-                className="w-80 d-flex justify-content-center align-items-center"
-                style={{ border: '1px dashed gray', minHeight: '35rem', height: 'auto', backgroundColor: 'white'}}
+                className="w-80 d-flex justify-content-center align-items-center py-5"
+                style={{ border: '1px dashed gray', minHeight: '40rem', backgroundColor: 'white'}}
             >
-                {/* <Container fluid="md">
+                <Container fluid="md">
                     <Row className="d-flex justify-content-center align-items-center">
                         <CrisisAlert
                             sx={{
@@ -32,8 +32,8 @@ function Unregistered() {
                             Đăng ký
                         </Button>
                     </Row>
-                </Container> */}
-                <RegisterShopForm/>
+                </Container>
+                {/* <RegisterShopForm/> */}
             </div>
         </>
     )
