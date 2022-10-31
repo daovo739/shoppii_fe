@@ -112,6 +112,12 @@ const Navbar = () => {
                                             <Dropdown.Item as="div">
                                                 <Button
                                                     onClick={handleSwitchShop}
+                                                    style={{
+                                                        fontSize: '1.6rem',
+                                                        color: '#333',
+                                                        textTransform: 'none',
+                                                        padding: '0',
+                                                    }}
                                                 >
                                                     Kênh người bán
                                                 </Button>
