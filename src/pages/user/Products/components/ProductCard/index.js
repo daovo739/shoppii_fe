@@ -50,7 +50,15 @@ function ProductCard({ product }) {
                 alt="green iguana"
             />
             <CardContent sx={{ padding: '8px' }}>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                    }}
+                >
                     {product.name}
                 </Typography>
             </CardContent>
