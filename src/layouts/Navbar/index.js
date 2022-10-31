@@ -130,11 +130,14 @@ const Navbar = () => {
                                                         setIsLogin(false)
                                                         logout()
                                                     }}
+                                                    style={{
+                                                        padding: '0',
+                                                    }}
                                                 >
                                                     <LogoutIcon
                                                         className="bg-danger text-white"
                                                         sx={{
-                                                            fontSize: '20px',
+                                                            fontSize: '2rem',
                                                             padding: '2px',
                                                             borderRadius: '5px',
                                                         }}
@@ -142,6 +145,10 @@ const Navbar = () => {
                                                     <span
                                                         style={{
                                                             fontSize: '1.6rem',
+                                                            color: '#333',
+                                                            marginLeft: '5px',
+                                                            textTransform:
+                                                                'none',
                                                         }}
                                                     >
                                                         Đăng xuất
