@@ -4,8 +4,6 @@ import './index.css'
 import { DeleteOutline, BorderColorOutlined } from '@mui/icons-material'
 
 function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
-    // const addressArray = address.split(', ')
-    console.log('address item')
     return (
         <div className="address w-100">
             <Container fluid="md" sx={{ width: '100%', height: 'auto' }}>

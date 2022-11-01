@@ -57,7 +57,6 @@ function AddressModal({
     const { cities, districts, wards, city, district, ward } = state
 
     // console.log(state)
-    console.log('address modal')
     useEffect(() => {
         console.log('render')
         if (!isEdit) {
@@ -142,6 +141,8 @@ function AddressModal({
         console.log(res)
         if (res.status === 201) {
             toast.success('Thêm địa chỉ thành công')
+        } else {
+            toast.error('Thêm địa chỉ thất bại')
         }
         dispatch({ type: reset })
         getAddresses()

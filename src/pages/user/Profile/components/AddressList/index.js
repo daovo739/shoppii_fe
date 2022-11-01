@@ -24,9 +24,9 @@ const style = {
     pb: 3,
 }
 function AddressList() {
-    console.log('address list')
     const { user } = useAuth()
     const { addresses, getAddresses } = useStore()
+    console.log(addresses)
     const [open, setOpen] = useState(false)
     const [openModalEdit, setOpenModalEdit] = useState(false)
     const [openModalCreate, setOpenModalCreate] = useState(false)
@@ -100,7 +100,7 @@ function AddressList() {
 
     return (
         <div className="address-list w-100 h-auto">
-            {addresses.map(address => (
+            {addresses?.map(address => (
                 <AddressItem
                     key={address.addressId}
                     address={address}
