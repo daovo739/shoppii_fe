@@ -2,14 +2,10 @@ import { useState, memo } from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
 import './index.css'
 import { DeleteOutline, BorderColorOutlined } from '@mui/icons-material'
-import { Button, Box, Typography, Modal } from '@mui/material'
-import { style } from '../../../../../components/ModalStyle'
-import AddressModal from '../AddressModal'
-import UpdateAddressModal from './components/UpdateAddressModal'
 
 function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
     // const addressArray = address.split(', ')
-
+    console.log('address item')
     return (
         <div className="address w-100">
             <Container fluid="md" sx={{ width: '100%', height: 'auto' }}>
@@ -24,11 +20,16 @@ function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
                                 {address.receiverName}
                             </h3>
                         </div>
-                        <p className="fs-4">
+                        <p className="fs-4 mb-0">
                             <span className="fs-4" style={{ color: 'gray' }}>
                                 Địa chỉ:{' '}
                             </span>
                             {address.receiverAddress}
+                        </p>
+                        <p className="mb-0">
+                            Tỉnh/Thành Phố: <strong>{address.province}</strong>,
+                            Quận: <strong>{address.district}</strong>, Phường:{' '}
+                            <strong>{address.ward}</strong>
                         </p>
                         <p>
                             <span className="fs-4" style={{ color: 'gray' }}>
@@ -80,17 +81,6 @@ function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
                                 </span>
                             </p>
                         </div>
-
-                        {/* <UpdateAddressModal
-                            values={{
-                                name: name,
-                                phone: phone,
-                                city: addressArray[3],
-                                district: addressArray[2],
-                                ward: addressArray[1],
-                                address: addressArray[0],
-                            }}
-                        /> */}
                     </Col>
                 </Row>
             </Container>

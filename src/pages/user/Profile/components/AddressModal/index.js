@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, memo, useMemo } from 'react'
+import { useEffect, useState, memo, useMemo, useReducer } from 'react'
 import {
     Box,
     Modal,
@@ -11,10 +11,8 @@ import {
     Select,
     Button,
 } from '@mui/material'
-
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
-
 import {
     setCities,
     setDistricts,
@@ -23,7 +21,13 @@ import {
     setDistrict,
     setWard,
 } from './hook/actions'
+import { reset } from './hook/instant'
 import { handleChange } from '../../../../../utils/handleForm'
+import reducer, { initState } from './hook/reducer'
+import { toast } from 'react-toastify'
+import { handleFormData } from '../../../../../utils/handleForm'
+import { post, put } from '../../../../../utils/httprequest'
+import { useAuth } from '../../../../../hooks/useAuth'
 
 const style = {
     position: 'absolute',
@@ -44,16 +48,16 @@ function AddressModal({
     open,
     handleClose,
     isEdit,
-    handleFunction,
     addressAction,
-    setAddressAction,
-    state,
-    dispatch,
+    getAddresses,
 }) {
+    const { user } = useAuth()
+    const [state, dispatch] = useReducer(reducer, initState)
     const [anotherInfo, setAnotherInfo] = useState(addressAction)
     const { cities, districts, wards, city, district, ward } = state
 
-    console.log(state)
+    // console.log(state)
+    console.log('address modal')
     useEffect(() => {
         console.log('render')
         if (!isEdit) {
@@ -73,48 +77,78 @@ function AddressModal({
         dispatch(setCities(data.data))
     }
 
-    const getDistricts = async () => {
-        const res = await fetch(
-            `${API_URI}/district?province_id=${city.ProvinceID}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
-                },
+    const getDistricts = async id => {
+        const res = await fetch(`${API_URI}/district?province_id=${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
             },
-        )
+        })
         const data = await res.json()
         dispatch(setDistricts(data.data))
     }
 
-    const getWards = async () => {
-        const res = await fetch(
-            `${API_URI}/ward?district_id=${district.DistrictID}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
-                },
+    const getWards = async id => {
+        const res = await fetch(`${API_URI}/ward?district_id=${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
             },
-        )
+        })
         const data = await res.json()
         dispatch(setWards(data.data))
     }
 
-    useEffect(() => {
-        if (city) {
-            getDistricts()
-        }
-    }, [city])
+    const handleChangeProvince = e => {
+        const value = e.target.value
+        dispatch(setCity(value))
+        getDistricts(value.ProvinceID)
+    }
 
-    useEffect(() => {
-        if (district) {
-            getWards()
-        }
-    }, [district])
+    const handleChangeDistrict = e => {
+        const value = e.target.value
+        dispatch(setDistrict(value))
+        getWards(value.DistrictID)
+    }
 
+    const handleChangeWard = e => {
+        dispatch(setWard(e.target.value))
+    }
+
+    const handleEdit = async e => {
+        e.preventDefault()
+    }
+
+    const handleCreate = async e => {
+        e.preventDefault()
+        if (
+            !state.city.ProvinceName ||
+            !state.district.DistrictName ||
+            !state.ward.WardName
+        ) {
+            toast.error('Vui lòng chọn đầy đủ địa chỉ')
+            return
+        }
+        const data = {
+            ...anotherInfo,
+            province: state.city.ProvinceName,
+            district: state.district.DistrictName,
+            ward: state.ward.WardName,
+        }
+        const formData = handleFormData(data)
+        const res = await post('/address', formData)
+        console.log(res)
+        if (res.status === 201) {
+            toast.success('Thêm địa chỉ thành công')
+        }
+        dispatch({ type: reset })
+        getAddresses()
+        handleClose()
+    }
+
+    const handleFunction = isEdit ? handleEdit : handleCreate
     return (
         <div>
             <Modal
@@ -152,7 +186,7 @@ function AddressModal({
                                             label: 'Họ và tên ###',
                                         }}
                                         onChange={e =>
-                                            handleChange(e, setAddressAction)
+                                            handleChange(e, setAnotherInfo)
                                         }
                                     />
                                 </Col>
@@ -174,7 +208,7 @@ function AddressModal({
                                             label: 'Số điện thoại ####',
                                         }}
                                         onChange={e =>
-                                            handleChange(e, setAddressAction)
+                                            handleChange(e, setAnotherInfo)
                                         }
                                     />
                                 </Col>
@@ -194,11 +228,7 @@ function AddressModal({
                                             id="demo-simple-select"
                                             value={city}
                                             label="Tỉnh/Thành phố #"
-                                            onChange={event =>
-                                                dispatch(
-                                                    setCity(event.target.value),
-                                                )
-                                            }
+                                            onChange={handleChangeProvince}
                                         >
                                             {cities?.map(city => (
                                                 <MenuItem
@@ -227,13 +257,7 @@ function AddressModal({
                                             id="demo-simple-select"
                                             value={district}
                                             label="Quận/Huyện #"
-                                            onChange={event =>
-                                                dispatch(
-                                                    setDistrict(
-                                                        event.target.value,
-                                                    ),
-                                                )
-                                            }
+                                            onChange={handleChangeDistrict}
                                             disabled={!city}
                                         >
                                             {city &&
@@ -266,11 +290,7 @@ function AddressModal({
                                             id="demo-simple-select"
                                             value={ward}
                                             label="Phường/Xã #"
-                                            onChange={event =>
-                                                dispatch(
-                                                    setWard(event.target.value),
-                                                )
-                                            }
+                                            onChange={handleChangeWard}
                                             disabled={!district}
                                         >
                                             {district &&
@@ -304,7 +324,7 @@ function AddressModal({
                                             label: 'Địa chỉ cụ thể ####',
                                         }}
                                         onChange={e =>
-                                            handleChange(e, setAddressAction)
+                                            handleChange(e, setAnotherInfo)
                                         }
                                     />
                                 </Col>
