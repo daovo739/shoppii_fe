@@ -20,8 +20,8 @@ const headerList = [
     },
     {
         action: addressList,
-        title: 'Địa chỉ của tôi',
-        comment: 'Địa chỉ nhận hàng',
+        title: 'Danh sách địa chỉ nhận hàng của tôi ',
+        comment: '',
     },
     {
         action: changePass,

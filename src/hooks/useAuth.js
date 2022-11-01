@@ -35,10 +35,12 @@ export const AuthProvider = ({ children }) => {
     const handleSwitchShop = () => {
         // console.log('switch shop')
         changeRole(ROLE_SHOP)
-
         navigate('/shop', { replace: false })
     }
 
+    const updateUserInfo = data => {
+        setUser(data)
+    }
     const value = useMemo(
         () => ({
             user,
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }) => {
             role,
             changeRole,
             handleSwitchShop,
+            updateUserInfo,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [user, role],

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import './index.css'
 import {
     TextField,
@@ -19,9 +19,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { handleChange } from '../../../../../utils/handleForm'
 import { getImage } from '../../../../../utils/format'
-import { useAuth } from '../../../../../hooks/useAuth'
+import { useAuth, updateUserInfo } from '../../../../../hooks/useAuth'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import { put } from '../../../../../utils/httprequest'
+import { handleFormData } from '../../../../../utils/handleForm'
 
 function EditProfileForm() {
     const { user } = useAuth()
@@ -31,8 +33,33 @@ function EditProfileForm() {
     const [isUpdate, setIsUpdate] = useState(false)
     const [sexBoolean, SetSexBoolean] = useState(user.sex)
 
-    const handleUpdate = () => {
-        console.log(infoUpdate)
+    const handleChangeFile = e => {
+        const file = e.target.files[0]
+        const name = e.target.name
+        setInfoUpdate({ ...infoUpdate, [name]: file })
+    }
+
+    const handleUpdate = async () => {
+        const date = infoUpdate.dob || user.dob
+        const newDob = moment(date).format('YYYY-MM-DD')
+        const body = {
+            userId: user.userId,
+            name: infoUpdate.name,
+            sex: infoUpdate.sex === 'male' ? true : false || user.sex,
+            dob: newDob,
+            phone: infoUpdate.phone || user.phone || null,
+            email: infoUpdate.email || user.email || null,
+            file: infoUpdate.file || null,
+        }
+        console.log(body)
+        const formData = handleFormData(body)
+        const res = await put('profile', formData)
+        const data = await res.json()
+        console.log(data)
+        if (res.status === 200) {
+            toast.success('Cập nhật thành công')
+            // updateUserInfo()
+        }
     }
 
     useEffect(() => {
@@ -229,10 +256,11 @@ function EditProfileForm() {
                                     hidden
                                     accept=".jpeg,.jpg,.png,.gif,image/*"
                                     type="file"
-                                    name="filePart"
+                                    name="file"
+                                    encType="multipart/form-data"
                                     onChange={e => {
                                         setImgURI(getImage(e))
-                                        handleChange(e, setInfoUpdate)
+                                        handleChangeFile(e)
                                     }}
                                 />
                             </Button>
