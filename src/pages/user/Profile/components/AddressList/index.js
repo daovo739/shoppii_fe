@@ -3,16 +3,12 @@ import './index.css'
 import AddressItem from '../Address'
 import AddressModal from '../AddressModal'
 import useStore from '../../../../../store/hooks'
-import { get } from '../../../../../utils/httprequest'
-import queryString from 'query-string'
-import { useAuth } from '../../../../../hooks/useAuth'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import reducer, { initState } from '../AddressModal/hook/reducer'
-import { reset } from '../AddressModal/hook/instant'
 import { handleFormData } from '../../../../../utils/handleForm'
-import { post, put } from '../../../../../utils/httprequest'
+import { _delete } from '../../../../../utils/httprequest'
 import { toast } from 'react-toastify'
+import { useAuth } from '../../../../../hooks/useAuth'
 
 const style = {
     position: 'absolute',
@@ -28,8 +24,8 @@ const style = {
     pb: 3,
 }
 function AddressList() {
+    console.log('address list')
     const { user } = useAuth()
-    const [state, dispatch] = useReducer(reducer, initState)
     const { addresses, getAddresses } = useStore()
     const [open, setOpen] = useState(false)
     const [openModalEdit, setOpenModalEdit] = useState(false)
@@ -40,10 +36,12 @@ function AddressList() {
         receiverAddress: '',
         receiverName: '',
         receiverPhone: '',
+        province: '',
+        district: '',
+        ward: '',
     })
 
     const handleOpen = useCallback(id => {
-        console.log(id)
         setIdAction(id)
         setOpen(true)
     }, [])
@@ -70,10 +68,12 @@ function AddressList() {
     const handleOpenModalCreate = useCallback(() => {
         setAddressAction({
             userId: user.userId,
-            addressId: '',
             receiverAddress: '',
             receiverName: '',
             receiverPhone: '',
+            province: '',
+            district: '',
+            ward: '',
         })
         setOpenModalCreate(true)
     }, [])
@@ -83,40 +83,19 @@ function AddressList() {
     }, [])
 
     const handleDelete = async () => {
-        console.log(idAction)
-    }
-
-    const handleEdit = async e => {
-        e.preventDefault()
-        console.log(idAction)
-    }
-
-    const handleCreate = async e => {
-        e.preventDefault()
-        if (
-            !state.city.ProvinceName ||
-            !state.district.DistrictName ||
-            !state.ward.WardName
-        ) {
-            toast.error('Vui lòng chọn đầy đủ địa chỉ')
-            return
-        }
-        const data = {
-            ...addressAction,
-            province: state.city.ProvinceName,
-            district: state.district.DistrictName,
-            ward: state.ward.WardName,
-        }
-        const formData = handleFormData(data)
-        console.log(data)
-        setAddressAction({
+        const formData = handleFormData({
+            addressId: idAction,
             userId: user.userId,
-            receiverAddress: '',
-            receiverName: '',
-            receiverPhone: '',
         })
-        dispatch({ type: reset })
-        setOpenModalCreate(false)
+        const res = await _delete('address', formData)
+        console.log(await res.json())
+        if (res.status === 200) {
+            toast.success('Xóa thành công')
+            getAddresses()
+        } else {
+            toast.error('Xóa thất bại')
+        }
+        handleClose()
     }
 
     return (
@@ -125,7 +104,6 @@ function AddressList() {
                 <AddressItem
                     key={address.addressId}
                     address={address}
-                    open={open}
                     handleOpen={handleOpen}
                     handleOpenModalEdit={handleOpenModalEdit}
                 />
@@ -197,21 +175,15 @@ function AddressList() {
                 open={openModalEdit}
                 handleClose={handleCloseModalEdit}
                 isEdit={true} // isEdit = true => update address
-                handleFunction={handleEdit}
                 addressAction={addressAction}
-                setAddressAction={setAddressAction}
-                state={state} // state for modal create address
-                dispatch={dispatch} // dispatch for modal create address
+                getAddresses={getAddresses}
             />
             <AddressModal
                 open={openModalCreate}
                 handleClose={handleCloseModalCreate}
                 isEdit={false} // isEdit = true => update address
-                handleFunction={handleCreate}
                 addressAction={addressAction}
-                setAddressAction={setAddressAction}
-                state={state} // state for modal create address
-                dispatch={dispatch} // dispatch for modal create address
+                getAddresses={getAddresses}
             />
         </div>
     )
