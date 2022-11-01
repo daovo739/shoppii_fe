@@ -114,7 +114,7 @@ function AddressModal({
             getWards()
         }
     }, [district])
-
+    console.log(city)
     return (
         <div>
             <Modal
@@ -234,7 +234,7 @@ function AddressModal({
                                                     ),
                                                 )
                                             }
-                                            disabled={!city}
+                                            disabled={city === ''}
                                         >
                                             {city &&
                                                 districts?.map(district => (
