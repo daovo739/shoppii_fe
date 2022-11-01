@@ -77,7 +77,7 @@ a {
 
 // Scroll
 ::-webkit-scrollbar {
-    width: 20px;
+    width: 6px;
 }
 
 /* Track */
@@ -88,9 +88,8 @@ a {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background-color: #d6dee1;
-    border-radius: 20px;
+    border-radius: 30px;
     border: 6px solid transparent;
-    background-clip: content-box;
 }
 
 /* Handle on hover */
