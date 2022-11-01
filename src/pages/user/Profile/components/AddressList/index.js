@@ -1,7 +1,7 @@
 import { useEffect, useState, useReducer, useCallback } from 'react'
 import './index.css'
 import AddressItem from '../Address'
-import AddressModal from '../AddressModal'
+import { AddressModalCreate, AddressModalEdit } from '../AddressModal'
 import useStore from '../../../../../store/hooks'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
@@ -171,17 +171,15 @@ function AddressList() {
                     </Typography>
                 </Box>
             </Modal>
-            <AddressModal
+            <AddressModalCreate
                 open={openModalEdit}
                 handleClose={handleCloseModalEdit}
-                isEdit={true} // isEdit = true => update address
                 addressAction={addressAction}
                 getAddresses={getAddresses}
             />
-            <AddressModal
+            <AddressModalEdit
                 open={openModalCreate}
                 handleClose={handleCloseModalCreate}
-                isEdit={false} // isEdit = true => update address
                 addressAction={addressAction}
                 getAddresses={getAddresses}
             />
