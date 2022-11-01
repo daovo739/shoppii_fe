@@ -10,24 +10,55 @@ import {
     Form,
 } from 'react-bootstrap'
 import { getImage } from '../../../utils/format'
-import { handleChange } from '../../../utils/handleForm'
-import { post, put, get } from '../../../utils/httprequest'
+import { handleChange, handleFormData } from '../../../utils/handleForm'
+import { post, put, get, _delete } from '../../../utils/httprequest'
 import { useAuth } from '../../../hooks/useAuth'
 import queryString from 'query-string'
 import FormShop from './formShop'
+import { toast } from 'react-toastify'
 
 function ShopProfile() {
     const { user } = useAuth()
     const [showModalDeleteShop, setShowModalDeleteShop] = useState(false)
     const [imgURI, setImgURI] = useState()
     const [shopInfo, setShopInfo] = useState({})
-    const [infoUpdate, setInfoUpdate] = useState()
+    const [infoUpdate, setInfoUpdate] = useState({
+        name: '',
+        address: '',
+        description: '',
+    })
 
-    const handleDeleteShop = () => {}
-    // console.log(date)
+    const handleDeleteShop = async (e) => {
+        const formData = handleFormData({
+            shopId: shopInfo.shopId
+        })
+        const res = await _delete('shop/profiles', formData)
+        console.log(await res.json())
+        e.preventDefault()
+        
+    }
 
-    const handleUpdate = () => {
-        console.log(infoUpdate)
+    const handleUpdate = async () => {
+        const formData = handleFormData({
+            shopId: shopInfo.shopId,
+            name: infoUpdate.name !== '' ? infoUpdate.name : shopInfo.name,
+            address: infoUpdate.address !== '' ? infoUpdate.address : shopInfo.address,
+            description: infoUpdate.description !== '' ? infoUpdate.description : shopInfo.description,
+        })
+        const res = await put('shop/profile', formData)
+        console.log(await res.json())
+        if (res.status === 201){
+            toast.success('Cập nhật thành công')
+        } else {
+            toast.error('Cập nhật không thành công')
+        }
+    }
+
+    const handleChangeFile = e => {
+        const file = e.target.files[0]
+        const name = e.target.name
+        // console.log(file)
+        setInfoUpdate({ ...infoUpdate, [name]: file })
     }
 
     const getInformation = async () => {
@@ -78,10 +109,7 @@ function ShopProfile() {
                                     hidden
                                     accept=".jpeg,.jpg,.png,.gif,image/*"
                                     type="file"
-                                    onChange={e => {
-                                        setImgURI(getImage(e))
-                                        handleChange(e, setInfoUpdate)
-                                    }}
+                                    onChange={e => handleChangeFile(e)}
                                 />
                             </Button>
                         </Row>
@@ -91,6 +119,7 @@ function ShopProfile() {
                     shopInfo={shopInfo}
                     setInfoUpdate={setInfoUpdate}
                     handleUpdate={handleUpdate}
+                    infoUpdate={infoUpdate}
                 />
                 <Col md={12}>
                     <ButtonBootstrap
@@ -144,7 +173,7 @@ function ShopProfile() {
                         </ButtonBootstrap>
                         <ButtonBootstrap
                             variant="danger"
-                            onClick={handleDeleteShop}
+                            onClick={e => handleDeleteShop(e)}
                             type="submit"
                             className="btnModal"
                         >

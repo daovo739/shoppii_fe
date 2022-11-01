@@ -93,7 +93,7 @@ function AddressList() {
             toast.success('Xóa thành công')
             getAddresses()
         } else {
-            toast.error('Xóa thất bại')
+            toast.error('Xóa không thành công')
         }
         handleClose()
     }

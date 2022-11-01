@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap'
 import { handleChange } from '../../../../utils/handleForm'
 
-function FormShop({ shopInfo, setInfoUpdate, handleUpdate }) {
+function FormShop({ shopInfo, setInfoUpdate, handleUpdate, infoUpdate }) {
     return (
         <>
             <Col md={7} className="profile-content d-flex align-items-center">
@@ -59,6 +59,7 @@ function FormShop({ shopInfo, setInfoUpdate, handleUpdate }) {
                             variant="contained"
                             className="fs-4 w-25"
                             onClick={handleUpdate}
+                            disabled={infoUpdate.name === '' && infoUpdate.address === '' && infoUpdate.description === ''}
                         >
                             Lưu
                         </Button>
