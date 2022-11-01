@@ -14,6 +14,7 @@ import { handleChange } from '../../../utils/handleForm'
 import { post, put, get } from '../../../utils/httprequest'
 import { useAuth } from '../../../hooks/useAuth'
 import queryString from 'query-string'
+import FormShop from './formShop'
 
 function ShopProfile() {
     const { user } = useAuth()
@@ -43,7 +44,7 @@ function ShopProfile() {
         getInformation()
     }, [])
 
-    return (
+    return shopInfo.name ? (
         <Container
             fluid="md"
             style={{
@@ -86,90 +87,12 @@ function ShopProfile() {
                         </Row>
                     </Container>
                 </Col>
-                <Col
-                    md={7}
-                    className="profile-content d-flex align-items-center"
-                >
-                    <Container>
-                        <Row>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Tên cửa hàng"
-                                value={shopInfo.name}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                name="name"
-                                onChange={e => handleChange(e, setInfoUpdate)}
-                                inputProps={{ style: { fontSize: '1.3rem' } }}
-                                InputLabelProps={{
-                                    style: { fontSize: '1.3rem' },
-                                }}
-                                InputProps={{
-                                    label: 'Tên cửa hàng aaaa',
-                                }}
-                            />
-                        </Row>
-                        <Row>
-                            <TextField
-                                id="outlined-required"
-                                label="Địa chỉ"
-                                defaultValue={shopInfo?.address}
-                                size="small"
-                                margin="normal"
-                                fullWidth
-                                name="address"
-                                onChange={e => handleChange(e, setInfoUpdate)}
-                                inputProps={{ style: { fontSize: '1.3rem' } }}
-                                InputLabelProps={{
-                                    style: { fontSize: '1.3rem' },
-                                }}
-                                InputProps={{
-                                    label: 'Địa chỉ aa',
-                                }}
-                            />
-                        </Row>
-
-                        <Row className="d-flex justify-content-center pt-2">
-                            <Button
-                                variant="contained"
-                                className="fs-4 w-25"
-                                onClick={handleUpdate}
-                            >
-                                Lưu
-                            </Button>
-                        </Row>
-                    </Container>
-                </Col>
-                <Col
-                    md={12}
-                    style={{
-                        maxWidth: '50%',
-                        marginTop: '10px',
-                    }}
-                    className="d-flex justify-content-center flex-column"
-                >
-                    <TextField
-                        id="outlined-required"
-                        label="Mô tả cửa hàng"
-                        defaultValue={shopInfo?.description}
-                        size="small"
-                        margin="normal"
-                        name="description"
-                        onChange={e => handleChange(e, setInfoUpdate)}
-                        fullWidth
-                        multiline
-                        minRows={8}
-                        maxRows={12}
-                        inputProps={{ style: { fontSize: '1.3rem' } }}
-                        InputLabelProps={{
-                            style: { fontSize: '1.3rem' },
-                        }}
-                        InputProps={{
-                            label: 'Mô tả aaaaaaaaaaaaa',
-                        }}
-                    />
+                <FormShop
+                    shopInfo={shopInfo}
+                    setInfoUpdate={setInfoUpdate}
+                    handleUpdate={handleUpdate}
+                />
+                <Col md={12}>
                     <ButtonBootstrap
                         variant="danger"
                         className="mt-5"
@@ -231,7 +154,7 @@ function ShopProfile() {
                 </Form>
             </Modal>
         </Container>
-    )
+    ) : null
 }
 
 export default ShopProfile
