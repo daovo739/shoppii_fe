@@ -33,7 +33,7 @@ function ListCategories({ categories }) {
                 const { category_id, category_name } = ele
                 return (
                     <div key={category_id}>
-                        <Col md={6}>
+                        <Col md={12}>
                             <Dropdown.Item
                                 onClick={() => getProducts(category_id)}
                             >

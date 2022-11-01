@@ -107,14 +107,6 @@ function AddressModal({
         getDistricts(value.ProvinceID)
     }
 
-<<<<<<< HEAD
-    useEffect(() => {
-        if (district) {
-            getWards()
-        }
-    }, [district])
-    console.log(city)
-=======
     const handleChangeDistrict = e => {
         const value = e.target.value
         dispatch(setDistrict(value))
@@ -157,7 +149,6 @@ function AddressModal({
     }
 
     const handleFunction = isEdit ? handleEdit : handleCreate
->>>>>>> 974bf028e6dae8c568277d13baf11c98cf56e1cb
     return (
         <div>
             <Modal
@@ -266,19 +257,8 @@ function AddressModal({
                                             id="demo-simple-select"
                                             value={district}
                                             label="Quận/Huyện #"
-<<<<<<< HEAD
-                                            onChange={event =>
-                                                dispatch(
-                                                    setDistrict(
-                                                        event.target.value,
-                                                    ),
-                                                )
-                                            }
-                                            disabled={city === ''}
-=======
                                             onChange={handleChangeDistrict}
                                             disabled={!city}
->>>>>>> 974bf028e6dae8c568277d13baf11c98cf56e1cb
                                         >
                                             {city &&
                                                 districts?.map(district => (
