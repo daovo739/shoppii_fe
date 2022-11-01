@@ -9,6 +9,8 @@ import { handleFormData } from '../../../../../utils/handleForm'
 import { _delete } from '../../../../../utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../../../../hooks/useAuth'
+import reducer, { initState } from '../AddressModal/hook/reducer'
+import { reset } from '../AddressModal/hook/instant'
 
 const style = {
     position: 'absolute',
@@ -26,47 +28,37 @@ const style = {
 function AddressList() {
     const { user } = useAuth()
     const { addresses, getAddresses } = useStore()
-    console.log(addresses)
     const [open, setOpen] = useState(false)
     const [openModalEdit, setOpenModalEdit] = useState(false)
     const [openModalCreate, setOpenModalCreate] = useState(false)
     const [idAction, setIdAction] = useState('')
-    const [addressAction, setAddressAction] = useState({
-        userId: user.userId,
-        receiverAddress: '',
-        receiverName: '',
-        receiverPhone: '',
-        province: '',
-        district: '',
-        ward: '',
-    })
+    const [addressCreate, setAddressCreate] = useState({})
+    const [addressEdit, setAddressEdit] = useState({})
 
     const handleOpen = useCallback(id => {
         setIdAction(id)
         setOpen(true)
     }, [])
 
-    const handleOpenModalEdit = useCallback(
-        id => {
-            const address = addresses.find(address => address.addressId === id)
-            console.log(address)
-            setAddressAction(address)
-            setIdAction(id)
-            setOpenModalEdit(true)
-        },
-        [addresses],
-    )
+    const handleOpenModalEdit = useCallback(id => {
+        const address = addresses.find(address => address.addressId === id)
+        // console.log(address)
+        setAddressEdit(address)
+        setIdAction(id)
+        setOpenModalEdit(true)
+    }, [])
 
     const handleClose = useCallback(() => {
         setOpen(false)
     }, [])
 
     const handleCloseModalEdit = useCallback(() => {
+        setAddressEdit({})
         setOpenModalEdit(false)
     }, [])
 
     const handleOpenModalCreate = useCallback(() => {
-        setAddressAction({
+        setAddressCreate({
             userId: user.userId,
             receiverAddress: '',
             receiverName: '',
@@ -79,6 +71,7 @@ function AddressList() {
     }, [])
 
     const handleCloseModalCreate = useCallback(() => {
+        setAddressCreate({})
         setOpenModalCreate(false)
     }, [])
 
@@ -171,16 +164,16 @@ function AddressList() {
                     </Typography>
                 </Box>
             </Modal>
-            <AddressModalCreate
+            <AddressModalEdit
                 open={openModalEdit}
                 handleClose={handleCloseModalEdit}
-                addressAction={addressAction}
+                addressAction={addressEdit}
                 getAddresses={getAddresses}
             />
-            <AddressModalEdit
+            <AddressModalCreate
                 open={openModalCreate}
                 handleClose={handleCloseModalCreate}
-                addressAction={addressAction}
+                addressAction={addressCreate}
                 getAddresses={getAddresses}
             />
         </div>

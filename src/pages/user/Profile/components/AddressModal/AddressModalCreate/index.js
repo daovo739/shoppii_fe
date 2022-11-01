@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../index.css'
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, memo, useMemo, useReducer } from 'react'
+import { useEffect, useState, memo, useReducer } from 'react'
 import {
     Box,
     Modal,
@@ -22,18 +22,18 @@ import {
     setDistrict,
     setWard,
 } from '../hook/actions.js'
-import { reset, style, API_URI } from '../hook/instant'
+import { reset, style } from '../hook/instant'
 import { handleChange } from '../../../../../../utils/handleForm'
 import reducer, { initState } from '../hook/reducer'
 import { toast } from 'react-toastify'
 import { handleFormData } from '../../../../../../utils/handleForm'
-import { post, put } from '../../../../../../utils/httprequest'
+import { post } from '../../../../../../utils/httprequest'
 import { useAuth } from '../../../../../../hooks/useAuth'
+import { getCities, getDistricts, getWards } from '../hook/function'
 
 function AddressModalCreate({
     open,
     handleClose,
-    isEdit,
     addressAction,
     getAddresses,
 }) {
@@ -41,59 +41,30 @@ function AddressModalCreate({
     const [state, dispatch] = useReducer(reducer, initState)
     const { cities, districts, wards, city, district, ward } = state
     const [anotherInfo, setAnotherInfo] = useState(addressAction)
-    const [isUpdate, setIsUpdate] = useState(false)
 
     useEffect(() => {
-        console.log('render')
-        getCities()
+        ;(async () => {
+            const cities = await getCities()
+            dispatch(setCities(cities))
+        })()
     }, [])
-
-    const getCities = async () => {
-        const res = await fetch(`${API_URI}/province`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
-            },
-        })
-        const data = await res.json()
-        dispatch(setCities(data.data))
-    }
-
-    const getDistricts = async id => {
-        const res = await fetch(`${API_URI}/district?province_id=${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
-            },
-        })
-        const data = await res.json()
-        dispatch(setDistricts(data.data))
-    }
-
-    const getWards = async id => {
-        const res = await fetch(`${API_URI}/ward?district_id=${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
-            },
-        })
-        const data = await res.json()
-        dispatch(setWards(data.data))
-    }
 
     const handleChangeProvince = e => {
         const value = e.target.value
         dispatch(setCity(value))
-        getDistricts(value.ProvinceID)
+        const data = getDistricts(value.ProvinceID)
+        data.then(districts => {
+            dispatch(setDistricts(districts))
+        })
     }
 
     const handleChangeDistrict = e => {
         const value = e.target.value
         dispatch(setDistrict(value))
-        getWards(value.DistrictID)
+        const data = getWards(value.DistrictID)
+        data.then(wards => {
+            dispatch(setWards(wards))
+        })
     }
 
     const handleChangeWard = e => {
@@ -112,13 +83,16 @@ function AddressModalCreate({
         }
         const data = {
             ...anotherInfo,
+            userId: user.userId,
             province: state.city.ProvinceName,
             district: state.district.DistrictName,
             ward: state.ward.WardName,
         }
+        console.log(data)
         const formData = handleFormData(data)
-        const res = await post('/address', formData)
+        const res = await post('address', formData)
         console.log(res)
+        console.log(await res.json())
         if (res.status === 201) {
             toast.success('Thêm địa chỉ thành công')
         } else {
