@@ -15,7 +15,7 @@ import { useAuth } from '../../../../../hooks/useAuth'
 
 function CartProduct({ product, getData, handleOpenModalDelete }) {
     const { user } = useAuth()
-    const [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(product.cartQuantity)
 
     const totalPrice = useMemo(() => {
         return formatPrice(product?.cartQuantity * product?.price)
@@ -30,6 +30,7 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
         })
         const res = await put('cart', formData)
         const data = await res.json()
+        setQuantity(newQuantity)
         getData()
     }
 
@@ -42,17 +43,30 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
         })
         const res = await put('cart', formData)
         const data = await res.json()
+        setQuantity(newQuantity)
         getData()
     }
 
     const handleQuantity = (e, id) => {
-        console.log(id)
-        if (quantity > product.quantity) {
-            setQuantity(product.quantity)
-        } else if (quantity < 1) {
-            setQuantity(1)
+        const newQuantity = e.target.value
+        setQuantity(newQuantity)
+    }
+
+    const handleInputBlur = async (e, id) => {
+        const value = e.target.value
+        if (!value) {
+            setQuantity(product.cartQuantity)
+            return
         } else {
-            setQuantity(e.target.value)
+            const formData = handleFormData({
+                userId: user.userId,
+                quantity: value,
+                productId: id,
+            })
+            const res = await put('cart', formData)
+            const data = await res.json()
+            setQuantity(value)
+            getData()
         }
     }
 
@@ -80,7 +94,10 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
                             </div>
                         </div>
                     </Col>
-                    <Col md={3} className="d-flex align-items-center">
+                    <Col
+                        md={3}
+                        className="d-flex flex-column align-items-center"
+                    >
                         <div>
                             <IconButton
                                 onClick={() =>
@@ -98,9 +115,14 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
                             <input
                                 className="quantity-input"
                                 type="number"
-                                value={product?.cartQuantity}
+                                min={0}
+                                max={product?.quantity}
+                                value={quantity}
                                 onChange={e =>
                                     handleQuantity(e, product.productId)
+                                }
+                                onBlur={e =>
+                                    handleInputBlur(e, product.productId)
                                 }
                                 disabled={product?.quantity < 1}
                             />
@@ -121,6 +143,14 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
                                 />
                             </IconButton>
                         </div>
+                        <p
+                            style={{
+                                fontSize: '1.1rem',
+                                marginTop: '3px',
+                            }}
+                        >
+                            Còn lại <strong>{product.quantity}</strong> sản phẩm
+                        </p>
                     </Col>
                     <Col md={2} className="d-flex align-items-center">
                         <div

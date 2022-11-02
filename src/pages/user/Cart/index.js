@@ -15,7 +15,6 @@ function Cart() {
     const [cart, setCart] = useState([])
     const [showModalDelete, setShowModalDelete] = useState(false)
     const [idDelete, setIdDelete] = useState(null)
-    console.log(cart)
 
     const handleCloseModalDelete = useCallback(() => {
         setShowModalDelete(false)
@@ -36,6 +35,10 @@ function Cart() {
         })
         const res = await get('/cart', q)
         const data = await res.json()
+        data.forEach(item =>
+            item.products.sort((a, b) => a.productId - b.productId),
+        )
+
         setCart(data.sort((a, b) => a.shopId - b.shopId))
     }
 
