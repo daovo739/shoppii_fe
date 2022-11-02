@@ -7,13 +7,13 @@ import {
     RemoveCircleOutline,
     DeleteForeverOutlined,
 } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
+import { Icon, IconButton } from '@mui/material'
 import { formatPrice } from '../../../../../utils/format'
-import { put } from '../../../../../utils/httprequest'
+import { put, _delete } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 import { useAuth } from '../../../../../hooks/useAuth'
 
-function CartProduct({ product, getData }) {
+function CartProduct({ product, getData, handleOpenModalDelete }) {
     const { user } = useAuth()
     const [quantity, setQuantity] = useState(1)
 
@@ -28,7 +28,14 @@ function CartProduct({ product, getData }) {
             quantity: newQuantity,
             productId: id,
         })
-        console.log({
+        const res = await put('cart', formData)
+        const data = await res.json()
+        getData()
+    }
+
+    const increaseQuantity = async id => {
+        const newQuantity = product.cartQuantity + 1
+        const formData = handleFormData({
             userId: user.userId,
             quantity: newQuantity,
             productId: id,
@@ -36,15 +43,6 @@ function CartProduct({ product, getData }) {
         const res = await put('cart', formData)
         const data = await res.json()
         getData()
-    }
-
-    const increaseQuantity = id => {
-        setQuantity(quantity => {
-            if (quantity < product.quantity) {
-                return quantity + 1
-            }
-            return quantity
-        })
     }
 
     const handleQuantity = (e, id) => {
@@ -74,9 +72,11 @@ function CartProduct({ product, getData }) {
                                 >
                                     {formatPrice(product?.price)}
                                 </h4>
-                                {/* <h4 style={{ color: 'var(--main-red)' }}>
-                                    Sản phẩm này đã hết hàng
-                                </h4> */}
+                                {product?.products?.quantity < 1 && (
+                                    <h4 style={{ color: 'var(--main-red)' }}>
+                                        Sản phẩm này đã hết hàng
+                                    </h4>
+                                )}
                             </div>
                         </div>
                     </Col>
@@ -84,10 +84,11 @@ function CartProduct({ product, getData }) {
                         <div>
                             <IconButton
                                 onClick={() =>
-                                    increaseQuantity(product.productId)
+                                    decreaseQuantity(product.productId)
                                 }
+                                disabled={product?.products?.quantity < 1}
                             >
-                                <AddCircleOutline
+                                <RemoveCircleOutline
                                     sx={{
                                         fontSize: '24px',
                                         color: 'var(--main-blue)',
@@ -101,14 +102,18 @@ function CartProduct({ product, getData }) {
                                 onChange={e =>
                                     handleQuantity(e, product.productId)
                                 }
-                                // disabled
+                                disabled={product?.quantity < 1}
                             />
                             <IconButton
                                 onClick={() =>
-                                    decreaseQuantity(product.productId)
+                                    increaseQuantity(product.productId)
+                                }
+                                disabled={
+                                    product?.quantity < 1 ||
+                                    product?.cartQuantity >= product?.quantity
                                 }
                             >
-                                <RemoveCircleOutline
+                                <AddCircleOutline
                                     sx={{
                                         fontSize: '24px',
                                         color: 'var(--main-blue)',
@@ -127,13 +132,22 @@ function CartProduct({ product, getData }) {
                     </Col>
                     <Col md={1} className="d-flex align-items-center">
                         <div className="d-block">
-                            <DeleteForeverOutlined
-                                sx={{
-                                    fontSize: '25px',
-                                    color: 'var(--main-red)',
-                                }}
-                            />
-                            <div style={{ color: 'var(--main-red)' }}>Xóa</div>
+                            <IconButton
+                                className="d-flex flex-column"
+                                onClick={() =>
+                                    handleOpenModalDelete(product?.productId)
+                                }
+                            >
+                                <DeleteForeverOutlined
+                                    sx={{
+                                        fontSize: '25px',
+                                        color: 'var(--main-red)',
+                                    }}
+                                />
+                                <div style={{ color: 'var(--main-red)' }}>
+                                    Xóa
+                                </div>
+                            </IconButton>
                         </div>
                     </Col>
                 </Row>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Chip, TableContainer, Tooltip } from '@mui/material'
+import { Chip, TableContainer } from '@mui/material'
 import './index.css'
 
 const rows = [

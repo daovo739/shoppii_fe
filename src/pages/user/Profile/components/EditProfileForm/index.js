@@ -17,18 +17,18 @@ import { Row, Container, Col } from 'react-bootstrap'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { toast } from 'react-toastify'
+import moment from 'moment'
 import { handleChange } from '../../../../../utils/handleForm'
 import { getImage } from '../../../../../utils/format'
 import { useAuth } from '../../../../../hooks/useAuth'
-import { toast } from 'react-toastify'
-import moment from 'moment'
 import { put } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 
 function EditProfileForm() {
     const { user, updateUserInfo } = useAuth()
     const [date, setDate] = useState(user.dob)
-    const [imgURI, setImgURI] = useState()
+    const [imgURI, setImgURI] = useState(user.avatar)
     const [infoUpdate, setInfoUpdate] = useState({})
     const [isUpdate, setIsUpdate] = useState(false)
     const [sexBoolean, SetSexBoolean] = useState(user.sex)
@@ -40,21 +40,24 @@ function EditProfileForm() {
     }
 
     const handleUpdate = async () => {
-        const date = infoUpdate.dob || user.dob
-        const newDob = moment(date).format('YYYY-MM-DD')
         const body = {
             userId: user.userId,
-            name: infoUpdate.name,
+            name: infoUpdate.name || user.name,
             sex: infoUpdate.sex === 'male' ? true : false || user.sex,
-            dob: newDob,
+            dob:
+                moment(infoUpdate.dob, 'DD-MM-YYYY').format('YYYY-MM-DD') ||
+                moment(user.dob.replace(',', ''), 'MMM DD YYYY').format(
+                    'YYYY-MM-DD',
+                ),
             phone: infoUpdate.phone || user.phone || '',
             email: infoUpdate.email || user.email || '',
             file: infoUpdate.file || '',
         }
-        console.log(body)
         const formData = handleFormData(body)
         const res = await put('profile', formData)
         const data = await res.json()
+        console.log(body)
+        console.log(res)
         console.log(data)
         if (res.status === 200) {
             toast.success('Cập nhật thành công')
@@ -206,9 +209,9 @@ function EditProfileForm() {
                                         value={date}
                                         inputFormat="DD-MM-YYYY"
                                         onChange={newValue => {
-                                            const dob = `${newValue.$D}/${
+                                            const dob = `${newValue.$D}-${
                                                 newValue.$M + 1
-                                            }/${newValue.$y}`
+                                            }-${newValue.$y}`
                                             setDate(newValue)
                                             setInfoUpdate({
                                                 ...infoUpdate,

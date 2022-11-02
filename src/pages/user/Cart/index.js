@@ -1,17 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { useState, useEffect, useCallback } from 'react'
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap'
+import queryString from 'query-string'
 import CartShop from './components/CartShop'
 import CartTotal from './components/CartTotal'
 import { get } from '../../../utils/httprequest'
-// import { handleFormData } from '../../../utils/handleFormData'
-import queryString from 'query-string'
 import { useAuth } from '../../../hooks/useAuth'
+import { style } from '../../../components/ModalStyle/index'
+import { _delete } from '../../../utils/httprequest'
+import { handleFormData } from '../../../utils/handleForm'
 
 function Cart() {
     const { user } = useAuth()
     const [cart, setCart] = useState([])
+    const [showModalDelete, setShowModalDelete] = useState(false)
+    const [idDelete, setIdDelete] = useState(null)
     console.log(cart)
+
+    const handleCloseModalDelete = useCallback(() => {
+        setShowModalDelete(false)
+    }, [])
+
+    const handleOpenModalDelete = id => {
+        setIdDelete(id)
+        setShowModalDelete(true)
+    }
 
     useEffect(() => {
         getData()
@@ -23,9 +36,20 @@ function Cart() {
         })
         const res = await get('/cart', q)
         const data = await res.json()
-        setCart(data)
+        setCart(data.sort((a, b) => a.shopId - b.shopId))
     }
 
+    const handleRemoveProduct = async () => {
+        const formData = handleFormData({
+            userId: user.userId,
+            productId: idDelete,
+        })
+        const res = await _delete('cart', formData)
+        const data = await res.json()
+        getData()
+        setIdDelete(null)
+        handleCloseModalDelete()
+    }
     return (
         <div>
             <Container fluid="md">
@@ -60,12 +84,47 @@ function Cart() {
                 {cart.map(item => (
                     <Row key={item.shopId}>
                         <Col md={12}>
-                            <CartShop item={item} getData={getData} />
+                            <CartShop
+                                item={item}
+                                getData={getData}
+                                handleOpenModalDelete={handleOpenModalDelete}
+                            />
                         </Col>
                     </Row>
                 ))}
             </Container>
             <CartTotal />
+            <Modal
+                show={showModalDelete}
+                onHide={handleCloseModalDelete}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title
+                        style={{
+                            fontSize: '2rem',
+                        }}
+                    >
+                        Bạn muốn xóa sản phẩm này ra khỏi giỏ hàng?
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button
+                        variant="secondary"
+                        onClick={handleCloseModalDelete}
+                        className="btnModal"
+                    >
+                        Hủy
+                    </Button>
+                    <Button
+                        variant="danger"
+                        onClick={handleRemoveProduct}
+                        className="btnModal"
+                    >
+                        Xóa
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

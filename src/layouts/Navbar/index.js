@@ -11,15 +11,13 @@ import { useState, useEffect, memo } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { ROLE_SHOP } from '../.././hooks/constants'
 import SearchProducts from './components/SearchProducts'
 import ListCategories from './components/ListCategories'
 import { useHome } from '../.././hooks/./useHome'
 
 const Navbar = () => {
     const { categories } = useHome()
-
-    const { user, logout, changeRole, handleSwitchShop } = useAuth()
+    const { user, logout, handleSwitchShop } = useAuth()
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIsLogin] = useState(() => (user ? true : false))

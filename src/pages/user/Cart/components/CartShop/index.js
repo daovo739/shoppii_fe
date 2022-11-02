@@ -1,5 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap'
-import React from 'react'
+import { memo } from 'react'
 import './index.css'
 import { Checkbox, Chip } from '@mui/material'
 import { Store } from '@mui/icons-material'
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-function CartShop({ item, getData }) {
+function CartShop({ item, getData, handleOpenModalDelete }) {
     return (
         <div className="cart-shop mb-5">
             <Container fluid="md">
@@ -67,7 +67,11 @@ function CartShop({ item, getData }) {
                                 }}
                             />
                             {/* <Chip size="small" label="Hết hàng" disabled/> */}
-                            <CartProduct product={product} getData={getData} />
+                            <CartProduct
+                                product={product}
+                                getData={getData}
+                                handleOpenModalDelete={handleOpenModalDelete}
+                            />
                         </Col>
                     </Row>
                 ))}
@@ -76,4 +80,4 @@ function CartShop({ item, getData }) {
     )
 }
 
-export default CartShop
+export default memo(CartShop)

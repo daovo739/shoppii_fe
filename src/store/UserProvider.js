@@ -6,7 +6,7 @@ import { get } from '../utils/httprequest'
 
 function UserProvider({ children }) {
     const { user } = useAuth()
-    const [products, setProducts] = useState([])
+    const [productsData, setProductsData] = useState({})
     const [addresses, setAddresses] = useState([])
 
     const getAddresses = async () => {
@@ -23,8 +23,8 @@ function UserProvider({ children }) {
     }, [])
 
     const value = {
-        products,
-        setProducts,
+        productsData,
+        setProductsData,
         addresses,
         getAddresses,
     }

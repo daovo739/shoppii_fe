@@ -33,9 +33,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     const handleSwitchShop = () => {
-        // console.log('switch shop')
+        // if (user.hasShop){
         changeRole(ROLE_SHOP)
-        navigate('/shop', { replace: false })
+        navigate('/shop', { replace: true })
+        // }else{
+
+        // }
     }
 
     const updateUserInfo = data => {
