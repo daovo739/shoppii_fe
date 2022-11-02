@@ -7,7 +7,7 @@ import { get } from '../../../utils/httprequest'
 import queryString from 'query-string'
 import { useAuth } from '.././.././../hooks/useAuth'
 import { toast } from 'react-toastify'
-import { handleChange } from '../../../utils/handleForm'
+import { handleChange, handleFormData } from '../../../utils/handleForm'
 import { _delete } from '../../../utils/httprequest'
 
 import CreateAndSearch from './components/createSearch'
@@ -36,16 +36,18 @@ function ShopProducts() {
     }
 
     const handleDeleteProduct = async () => {
-        const formData = {
-            productId: deleteId
-        }
+        const formData = handleFormData({
+            productId: deleteId,
+        })
         const res = await _delete('shop/products', formData)
         console.log(await res.json())
-        if (res.status === 201){
-            toast.success('Xóa không thành công')
+        if (res.status === 201) {
+            toast.success('Xóa thành công')
         } else {
-            toast.error()
+            toast.error('Xóa không thành công')
         }
+        setShowModalDelete(false)
+        getProducts()
     }
 
     const handleEditProduct = () => {}
@@ -58,7 +60,7 @@ function ShopProducts() {
         console.log(data)
     }
     return (
-        <Box sx={{ paddingTop: '120px' }}>
+        <Box sx={{ paddingTop: '5px' }}>
             <Box
                 sx={{
                     display: 'flex',
@@ -66,7 +68,7 @@ function ShopProducts() {
                     alignItems: 'center',
                 }}
             >
-                <CreateAndSearch setProducts={setProducts} />
+                <CreateAndSearch fetchProducts={getProducts} setProducts={setProducts} />
             </Box>
 
             <ProductsList

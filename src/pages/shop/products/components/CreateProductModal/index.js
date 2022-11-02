@@ -14,13 +14,13 @@ import {
 import { style } from '../../../../../components/ModalStyle'
 import { Row, Col, Overlay } from 'react-bootstrap'
 import ImageGallery from '../../../../../components/ImageGallery'
-import { handleChange } from '../../../../../utils/handleForm'
+import { handleChange, handleFormData } from '../../../../../utils/handleForm'
 import { useAuth } from '../../../../../hooks/useAuth'
 import { post, get } from '../../../../../utils/httprequest'
 import queryString from 'query-string'
 import { toast } from 'react-toastify'
 
-function CreateProductModal({ open, handleOpen, handleClose }) {
+function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
     const [productInfo, setProductInfo] = useState({
         name: '',
         price: '',
@@ -37,22 +37,22 @@ function CreateProductModal({ open, handleOpen, handleClose }) {
         const data = await res.json()
         setCategories(data)
     }
-    
+
     useEffect(() => {
         getCategories()
     }, [])
-   
-    const handleSubmit = async (e) => {
+
+    const handleSubmit = async e => {
         e.preventDefault()
-        const formData = {
+        const formData = handleFormData({
             shopId: user.userId,
             name: productInfo.name,
             price: productInfo.price,
             quantity: productInfo.quantity,
             categoryId: productInfo.categoryId,
             description: productInfo.description,
-        }
-        
+        })
+
         const res = await post('shop/products', formData)
         // console.log(await res.json())
         if (res.status === 201) {
@@ -60,6 +60,8 @@ function CreateProductModal({ open, handleOpen, handleClose }) {
         } else {
             toast.error('Thêm sản phẩm không thành công')
         }
+        handleClose()
+        fetchProducts()
     }
 
     return (
@@ -70,7 +72,7 @@ function CreateProductModal({ open, handleOpen, handleClose }) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={{ ...style, width: '80%', padding:'2rem' }}>
+                <Box sx={{ ...style, width: '80%', padding: '2rem' }}>
                     <Typography
                         id="modal-modal-title"
                         variant="h4"

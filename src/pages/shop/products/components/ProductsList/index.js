@@ -16,7 +16,8 @@ function ProductsList(props) {
                 <Row>
                     <Col md={1}>NO</Col>
                     <Col md={2}>Hình ảnh</Col>
-                    <Col md={5}>Thông tin sản phẩm</Col>
+                    <Col md={3}>Thông tin sản phẩm</Col>
+                    <Col md={2}>Thể loại</Col>
                     <Col md={2}>Số lượng còn lại</Col>
                     <Col md={2}></Col>
                 </Row>

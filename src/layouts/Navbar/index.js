@@ -4,13 +4,17 @@ import {
     ShoppingCartOutlined,
     PersonOutline,
     ListAltOutlined,
+    LogoutRounded,
+    HistoryRounded,
+    PermContactCalendarRounded,
+    ShoppingCartCheckoutRounded,
 } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { Row, Container, Col, Dropdown } from 'react-bootstrap'
 import { useState, useEffect, memo } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { Button } from '@mui/material'
-import LogoutIcon from '@mui/icons-material/Logout'
+import { ROLE_SHOP } from '../.././hooks/constants'
 import SearchProducts from './components/SearchProducts'
 import ListCategories from './components/ListCategories'
 import { useHome } from '../.././hooks/./useHome'
@@ -89,14 +93,57 @@ const Navbar = () => {
                                                 }}
                                             />
                                         </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item as="div">
+                                        <Dropdown.Menu
+                                            style={{
+                                                border: 'none',
+                                                boxShadow:
+                                                    'var(--box-shadow-main)',
+                                            }}
+                                        >
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center mb-3"
+                                            >
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            'var(--light-blue)',
+                                                        borderRadius: '50%',
+                                                        padding: '0.5rem',
+                                                        marginRight: '1rem',
+                                                    }}
+                                                >
+                                                    <PermContactCalendarRounded
+                                                        sx={{
+                                                            fontSize: '20px',
+                                                            color: 'var(--main-blue)',
+                                                        }}
+                                                    />
+                                                </div>
                                                 <Link to="/profile">
                                                     Thông tin người dùng
                                                 </Link>
                                             </Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item as="div">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center mb-3"
+                                            >
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            'var(--light-blue)',
+                                                        borderRadius: '50%',
+                                                        padding: '0.5rem',
+                                                        marginRight: '1rem',
+                                                    }}
+                                                >
+                                                    <HistoryRounded
+                                                        sx={{
+                                                            fontSize: '20px',
+                                                            color: 'var(--main-blue)',
+                                                        }}
+                                                    />
+                                                </div>
                                                 <Link
                                                     to="/profile"
                                                     state={{
@@ -106,8 +153,26 @@ const Navbar = () => {
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item as="div">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center mb-3"
+                                            >
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            'var(--light-blue)',
+                                                        borderRadius: '50%',
+                                                        padding: '0.5rem',
+                                                        marginRight: '1rem',
+                                                    }}
+                                                >
+                                                    <ShoppingCartCheckoutRounded
+                                                        sx={{
+                                                            fontSize: '20px',
+                                                            color: 'var(--main-blue)',
+                                                        }}
+                                                    />
+                                                </div>
                                                 <Button
                                                     onClick={handleSwitchShop}
                                                     style={{
@@ -120,8 +185,10 @@ const Navbar = () => {
                                                     Kênh người bán
                                                 </Button>
                                             </Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item as="div">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center"
+                                            >
                                                 <Button
                                                     className="d-flex justify-content-between align-items-center"
                                                     onClick={() => {
@@ -132,14 +199,23 @@ const Navbar = () => {
                                                         padding: '0',
                                                     }}
                                                 >
-                                                    <LogoutIcon
-                                                        className="bg-danger text-white"
-                                                        sx={{
-                                                            fontSize: '2rem',
-                                                            padding: '2px',
-                                                            borderRadius: '5px',
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'var(--light-blue)',
+                                                            borderRadius: '50%',
+                                                            padding: '0.5rem',
+                                                            marginRight: '1rem',
                                                         }}
-                                                    />
+                                                    >
+                                                        <LogoutRounded
+                                                            sx={{
+                                                                fontSize:
+                                                                    '20px',
+                                                                color: 'var(--main-blue)',
+                                                            }}
+                                                        />
+                                                    </div>
                                                     <span
                                                         style={{
                                                             fontSize: '1.6rem',

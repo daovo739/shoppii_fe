@@ -5,7 +5,7 @@ import { formatPrice } from '.././../.././.././.././utils/format'
 function CardProductShop(props) {
     const { product, showModalDelete, showProductEdit } = props
     const { productId, index, quantity, name, price, image, category } = product
-
+    console.log(product);
 
     return (
         <Row className="mt-3">
@@ -27,7 +27,7 @@ function CardProductShop(props) {
                     }}
                 />
             </Col>
-            <Col md={5}>
+            <Col md={3}>
                 <p
                     style={{
                         marginBottom: '0',
@@ -43,6 +43,9 @@ function CardProductShop(props) {
                 >
                     {formatPrice(price)}
                 </p>
+            </Col>
+            <Col md={2}>
+                {category.category_name}
             </Col>
             <Col md={2}>{quantity}</Col>
             <Col md={2}>
