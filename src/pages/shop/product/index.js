@@ -7,21 +7,66 @@ import {
     Divider,
     InputAdornment,
     Button as ButtonMUI,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
 } from '@mui/material'
-import { handleChange } from '../../../utils/handleForm'
+import { handleChange, handleFormData } from '../../../utils/handleForm'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../hooks/useAuth'
 import ImageGallery from '../../../components/ImageGallery'
+import { put, get } from '../../../utils/httprequest'
+import queryString from 'query-string'
+import { toast } from 'react-toastify'
 
 function SingleShopProduct() {
     const popover = useRef(null)
     const { state } = useLocation()
     const navigate = useNavigate()
-    console.log(state)
-    const [product, setProductUpdate] = useState({})
+    const {user} = useAuth()
+    const [product, setProductUpdate] = useState({
+        name: '',
+        price: '',
+        quantity: '',
+        categoryId: '',
+        description: ''
+    })
+    console.log(product);
 
+    const [categories, setCategories] = useState([])
+
+    const getCategories = async () => {
+        const q = queryString.stringify({})
+        const res = await get('category', q)
+        const data = await res.json()
+        setCategories(data)
+    }
+
+    useEffect(() => {
+        getCategories()
+    }, [])
+
+    const handleEdit = async () => {
+        const formData = handleFormData({
+            productId: state.productId,
+            shopId: user.userId,
+            name: product.name !== '' ? product.name : state.name,
+            price: product.price !== '' ? product.price : state.price,
+            quantity: product.quantity !== '' ? product.quantity : state.quantity,
+            categoryId: product.categoryId !== '' ? product.categoryId : state.category.category_id,
+            description: product.description !== '' ? product.description : state.description
+        })
+        const res = await put('shop/products', formData)
+        if (res.status === 201){
+            toast.success('Cập nhật sản phẩm thành công')
+        } else {
+            toast.error('Cập nhật sản phẩm không thành công')
+        }
+    }
     return (
-        <Box sx={{ paddingTop: '120px' }}>
+        <Box sx={{ paddingTop: '5px' }}>
             <Box>
                 <h1>Chỉnh sửa sản phẩm</h1>
             </Box>
@@ -134,6 +179,34 @@ function SingleShopProduct() {
                                     handleChange(e, setProductUpdate),
                             }}
                         />
+                        <FormControl
+                                        fullWidth
+                                        className="mt-4 mb-2"
+                                    >
+                                        <InputLabel id="demo-simple-select-label">
+                                            Thể loại
+                                        </InputLabel>
+                                        <Select
+                                            name="categoryId"
+                                            defaultValue={state.category.category_id}
+                                            label="Thể loại"
+                                            inputProps={{
+                                                label: 'Thể loại aaaa',
+                                            }}
+                                            onChange={e =>
+                                                handleChange(e, setProductUpdate)
+                                            }
+                                        >
+                                            {categories.map(cate => (
+                                                <MenuItem
+                                                    key={cate.category_id}
+                                                    value={cate.category_id}
+                                                >
+                                                    {cate.category_name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                         <TextField
                             margin="normal"
                             required
@@ -171,6 +244,10 @@ function SingleShopProduct() {
                                     fontSize: '1.3rem',
                                 }}
                                 type="submit"
+                                onClick={() => {
+                                    navigate('/shop/products')
+                                    handleEdit()
+                                }}
                             >
                                 Chỉnh sửa
                             </Button>

@@ -7,7 +7,7 @@ import {
     LogoutRounded,
     HistoryRounded,
     PermContactCalendarRounded,
-    ShoppingCartCheckoutRounded
+    ShoppingCartCheckoutRounded,
 } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { Row, Container, Col, Dropdown } from 'react-bootstrap'
@@ -94,7 +94,13 @@ const Navbar = () => {
                                                 }}
                                             />
                                         </Dropdown.Toggle>
-                                        <Dropdown.Menu style={{ border: 'none', boxShadow: 'var(--box-shadow-main)' }}>
+                                        <Dropdown.Menu
+                                            style={{
+                                                border: 'none',
+                                                boxShadow:
+                                                    'var(--box-shadow-main)',
+                                            }}
+                                        >
                                             <Dropdown.Item
                                                 as="div"
                                                 className="d-flex align-items-center mb-3"
@@ -119,7 +125,10 @@ const Navbar = () => {
                                                     Thông tin người dùng
                                                 </Link>
                                             </Dropdown.Item>
-                                            <Dropdown.Item as="div" className="d-flex align-items-center mb-3">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center mb-3"
+                                            >
                                                 <div
                                                     style={{
                                                         backgroundColor:
@@ -145,7 +154,10 @@ const Navbar = () => {
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
-                                            <Dropdown.Item as="div" className="d-flex align-items-center mb-3">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center mb-3"
+                                            >
                                                 <div
                                                     style={{
                                                         backgroundColor:
@@ -174,7 +186,10 @@ const Navbar = () => {
                                                     Kênh người bán
                                                 </Button>
                                             </Dropdown.Item>
-                                            <Dropdown.Item as="div" className="d-flex align-items-center">
+                                            <Dropdown.Item
+                                                as="div"
+                                                className="d-flex align-items-center"
+                                            >
                                                 <Button
                                                     className="d-flex justify-content-between align-items-center"
                                                     onClick={() => {
