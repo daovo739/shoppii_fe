@@ -52,7 +52,7 @@ function FormShop({ shopInfo, setInfoUpdate, handleUpdate, infoUpdate }) {
                                 label: 'Địa chỉ aa',
                             }}
                         />
-                    </Row>
+                    </Row>  
 
                     <Row className="d-flex justify-content-center pt-2">
                         <Button

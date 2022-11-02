@@ -5,6 +5,8 @@ import { formatPrice } from '.././../.././.././.././utils/format'
 function CardProductShop(props) {
     const { product, showModalDelete, showProductEdit } = props
     const { productId, index, quantity, name, price, image, category } = product
+
+
     return (
         <Row className="mt-3">
             <Col

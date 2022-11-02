@@ -6,9 +6,13 @@ import { handleChange } from '../../../../../utils/handleForm'
 import { get } from '../../../../../utils/httprequest'
 import queryString from 'query-string'
 import { useAuth } from '../../../../../hooks/useAuth'
+import CreateProductModal from '../CreateProductModal'
 function CreateAndSearch({ setProducts }) {
     const { user } = useAuth()
     const [search, setSearch] = useState({ keyword: '', shopId: user.userId })
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     useEffect(() => {
         getProducts()
@@ -30,9 +34,11 @@ function CreateAndSearch({ setProducts }) {
                     maxWidth: '80%',
                     padding: '1.5rem 1.7rem',
                 }}
+                onClick={handleOpen}
             >
                 Tạo sản phẩm mới
             </Button>
+            <CreateProductModal open={open} handleOpen={handleOpen} handleClose={handleClose} />
             <Box
                 sx={{
                     display: 'flex',

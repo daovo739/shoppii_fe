@@ -8,6 +8,7 @@ import queryString from 'query-string'
 import { useAuth } from '.././.././../hooks/useAuth'
 import { toast } from 'react-toastify'
 import { handleChange } from '../../../utils/handleForm'
+import { _delete } from '../../../utils/httprequest'
 
 import CreateAndSearch from './components/createSearch'
 import ProductsList from './components/ProductsList'
@@ -16,13 +17,13 @@ function ShopProducts() {
     const { user } = useAuth()
     const [products, setProducts] = useState([])
     const [showModalDel, setShowModalDelete] = useState(false)
+    const [deleteId, setDeleteId] = useState(0)
 
     useEffect(() => {
         getProducts()
     }, [])
 
     const getProductAction = id => {
-        console.log(id)
         const product = products.find(product => product.productId === id)
         return product
         // setProductAction(product)
@@ -31,9 +32,21 @@ function ShopProducts() {
     const showModalDelete = id => {
         setShowModalDelete(true)
         getProductAction(id)
+        setDeleteId(id)
     }
 
-    const handleDeleteProduct = () => {}
+    const handleDeleteProduct = async () => {
+        const formData = {
+            productId: deleteId
+        }
+        const res = await _delete('shop/products', formData)
+        console.log(await res.json())
+        if (res.status === 201){
+            toast.success('Xóa không thành công')
+        } else {
+            toast.error()
+        }
+    }
 
     const handleEditProduct = () => {}
 
@@ -60,6 +73,7 @@ function ShopProducts() {
                 products={products}
                 showModalDelete={showModalDelete}
                 getProductAction={getProductAction}
+                handleDeleteProduct={handleDeleteProduct}
             />
 
             <Modal
