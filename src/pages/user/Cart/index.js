@@ -15,6 +15,7 @@ function Cart() {
     const [cart, setCart] = useState([])
     const [showModalDelete, setShowModalDelete] = useState(false)
     const [idDelete, setIdDelete] = useState(null)
+    const [selectedCheckout, setSelectedCheckout] = useState({})
 
     const handleCloseModalDelete = useCallback(() => {
         setShowModalDelete(false)
@@ -38,7 +39,6 @@ function Cart() {
         data.forEach(item =>
             item.products.sort((a, b) => a.productId - b.productId),
         )
-
         setCart(data.sort((a, b) => a.shopId - b.shopId))
     }
 
@@ -91,6 +91,8 @@ function Cart() {
                                 item={item}
                                 getData={getData}
                                 handleOpenModalDelete={handleOpenModalDelete}
+                                selectedCheckout={selectedCheckout}
+                                setSelectedCheckout={setSelectedCheckout}
                             />
                         </Col>
                     </Row>
