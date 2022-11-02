@@ -19,14 +19,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { handleChange } from '../../../../../utils/handleForm'
 import { getImage } from '../../../../../utils/format'
-import { useAuth, updateUserInfo } from '../../../../../hooks/useAuth'
+import { useAuth } from '../../../../../hooks/useAuth'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { put } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 
 function EditProfileForm() {
-    const { user } = useAuth()
+    const { user, updateUserInfo } = useAuth()
     const [date, setDate] = useState(user.dob)
     const [imgURI, setImgURI] = useState()
     const [infoUpdate, setInfoUpdate] = useState({})
@@ -47,9 +47,9 @@ function EditProfileForm() {
             name: infoUpdate.name,
             sex: infoUpdate.sex === 'male' ? true : false || user.sex,
             dob: newDob,
-            phone: infoUpdate.phone || user.phone || null,
-            email: infoUpdate.email || user.email || null,
-            file: infoUpdate.file || null,
+            phone: infoUpdate.phone || user.phone || '',
+            email: infoUpdate.email || user.email || '',
+            file: infoUpdate.file || '',
         }
         console.log(body)
         const formData = handleFormData(body)
@@ -58,7 +58,16 @@ function EditProfileForm() {
         console.log(data)
         if (res.status === 200) {
             toast.success('Cập nhật thành công')
-            // updateUserInfo()
+            updateUserInfo({
+                ...data,
+                hasShop: user.hasShop,
+            })
+            setIsUpdate(false)
+            setInfoUpdate({})
+            setDate(data.dob)
+            SetSexBoolean(data.sex)
+        } else {
+            toast.error('Cập nhật thất bại')
         }
     }
 
