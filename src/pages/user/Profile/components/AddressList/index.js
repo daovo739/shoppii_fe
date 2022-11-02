@@ -35,18 +35,22 @@ function AddressList() {
     const [addressCreate, setAddressCreate] = useState({})
     const [addressEdit, setAddressEdit] = useState({})
 
+    console.log('addresses', addresses)
     const handleOpen = useCallback(id => {
         setIdAction(id)
         setOpen(true)
     }, [])
 
-    const handleOpenModalEdit = useCallback(id => {
-        const address = addresses.find(address => address.addressId === id)
-        // console.log(address)
-        setAddressEdit(address)
-        setIdAction(id)
-        setOpenModalEdit(true)
-    }, [])
+    const handleOpenModalEdit = useCallback(
+        id => {
+            const address = addresses.find(address => address.addressId === id)
+            // console.log(address)
+            setAddressEdit(address)
+            setIdAction(id)
+            setOpenModalEdit(true)
+        },
+        [addresses],
+    )
 
     const handleClose = useCallback(() => {
         setOpen(false)

@@ -42,17 +42,19 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
     // console.log('state in', state)
     useEffect(() => {
         let isEdit = false
-        Object.keys(anotherInfo).forEach(key => {
-            if (anotherInfo[key] !== addressAction[key]) {
-                isEdit = true
-            }
-        })
-        isEdit ? setIsUpdate(true) : setIsUpdate(false)
+        if (anotherInfo.province) {
+            Object.keys(anotherInfo).forEach(key => {
+                if (anotherInfo[key] !== addressAction[key]) {
+                    isEdit = true
+                }
+            })
+            isEdit ? setIsUpdate(true) : setIsUpdate(false)
+        }
     }, [anotherInfo])
 
     useEffect(() => {
         setAnotherInfo(addressAction)
-        if (addressAction.province) {
+        if (addressAction?.province) {
             ;(async () => {
                 const cities = await getCities()
                 const city = cities.find(
