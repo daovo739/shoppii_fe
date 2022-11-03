@@ -1,6 +1,8 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import RequestTable from './components/RequestTable'
 import { Container, Row, Col } from 'react-bootstrap'
+import { ROLE_USER } from '../../../hooks/constants'
+import { useNavigate } from 'react-router-dom'
 import {
     FormControl,
     InputLabel,
@@ -8,21 +10,40 @@ import {
     Select,
     Button,
 } from '@mui/material'
-import { get } from '../../../utils/httprequest'
+import { get, post } from '../../../utils/httprequest'
 import queryString from 'query-string'
-
-function createData(userId, name, status, time) {
-    return { userId, name, status, time }
-}
-
+import { handleFormData } from '../../../utils/handleForm'
+import { toast } from 'react-toastify'
+import { useAuth } from '../../../hooks/useAuth'
 
 function Requests() {
+    const navigate = useNavigate()
+    const { changeRole } = useAuth()
     const [filter, setFilter] = useState('All')
     const [rows, setRows] = useState([])
-    console.log(filter);
+    const [resultStatus, setResultStatus] = useState(null)
+
+    const setStatus = async () => {
+        const formData = handleFormData({
+            status: resultStatus.status,
+            userId: resultStatus.userId
+        })
+        const res = await post('admin/request', formData)
+        if (res.status === 200){
+            toast.success('Cập nhật yêu cầu thành công')
+        } else {
+            toast.error('Cập nhật yêu cầu không thành công')
+        }
+        getRequests()
+    }
+
+    const getStatus = (status) => {
+        setResultStatus(status)
+    } 
+
     const getRequests = async () => {
         const q = queryString.stringify({
-            status: filter
+            status: filter,
         })
         const res = await get('admin/request', q)
         const data = await res.json()
@@ -30,13 +51,25 @@ function Requests() {
     }
 
     useEffect(() => {
+        if (resultStatus !== null){
+            setStatus()
+            console.log(true)
+        }
+    }, [resultStatus])
+
+    useEffect(() => {
         getRequests()
-    }, [])
+    }, [filter])
 
     const handleChange = event => {
         setFilter(event.target.value)
     }
 
+    const handleLogoutAdmin = () => {
+        console.log(1)
+        changeRole(ROLE_USER)
+        navigate('/', { replace: true })
+    }
     return (
         <>
             <div style={{}}>
@@ -48,8 +81,9 @@ function Requests() {
                         width: '18rem',
                         mb: 5,
                         py: 1,
-                        ml: 5
+                        ml: 5,
                     }}
+                    onClick={handleLogoutAdmin}
                 >
                     Đăng xuất
                 </Button>
@@ -108,6 +142,7 @@ function Requests() {
                                 ? rows
                                 : rows.filter(row => row.status === filter)
                         }
+                        getStatus={getStatus}
                     />
                 </Row>
             </Container>
