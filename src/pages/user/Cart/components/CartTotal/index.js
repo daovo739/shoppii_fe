@@ -1,8 +1,9 @@
 import { memo, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Checkbox, Button } from '@mui/material'
-import { DeleteSweepOutlined } from '@mui/icons-material'
 import { formatPrice } from '../../../../../utils/format'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function CartTotal({
     selectedCheckout,
@@ -12,6 +13,7 @@ function CartTotal({
     isSelectAllCheckBox,
     setIsSelectAllCheckBox,
 }) {
+    const navigate = useNavigate()
     const totalPrice = useMemo(() => {
         return selectedCheckout.reduce((total, shop) => {
             return (
@@ -24,6 +26,14 @@ function CartTotal({
             )
         }, 0)
     }, [selectedCheckout])
+
+    const handleCheckout = () => {
+        if (selectedCheckout.length === 0) {
+            toast.error('Chọn sản phẩm để thanh toán')
+            return
+        }
+        navigate('/checkout', { state: selectedCheckout })
+    }
 
     return (
         <div
@@ -78,6 +88,7 @@ function CartTotal({
                                     width: '25rem',
                                     height: '4rem',
                                 }}
+                                onClick={handleCheckout}
                             >
                                 Thanh toán
                             </Button>

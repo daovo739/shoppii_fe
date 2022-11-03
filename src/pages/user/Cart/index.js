@@ -24,7 +24,6 @@ function Cart() {
     }, [])
 
     useEffect(() => {
-        console.log('cart', cart)
         console.log('selectedCheckout', selectedCheckout)
         if (cart.length === selectedCheckout.length) {
             setIsSelectAllCheckBox(true)

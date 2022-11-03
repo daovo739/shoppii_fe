@@ -96,3 +96,8 @@ a {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8bbbf;
 }
+
+// Override toast
+.Toastify__toast-container--top-right {
+    margin-top: 50px;
+}
