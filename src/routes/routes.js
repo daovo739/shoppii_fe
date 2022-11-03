@@ -17,6 +17,7 @@ const {
     Cart,
     Checkout,
     ForgetPassword,
+    GoToShop,
     ViewShop,
     Product,
     CardAuth,
@@ -80,21 +81,23 @@ const publicRoutes = [
         path: '/registerGG',
         component: CardAuth,
     },
+    { path: '/register-shop', component: GoToShop },
     {
         path: '*',
         component: NotFound,
     },
 ]
-
 const shopRoutes = [
     {
         path: '/shop',
         component: ShopHomePage,
+        // component: user.hasShop ? ShopHomePage : GoToShop,
     },
     { path: '/shop/profiles', component: ShopProfile },
     { path: '/shop/products', component: ShopProducts },
     { path: '/shop/orders', component: ShopOrders },
     { path: '/shop/product/:id', component: SingleShopProduct },
+   
     { path: '*', component: ShopHomePage },
 ]
 

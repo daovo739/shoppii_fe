@@ -2,21 +2,42 @@ import * as React from 'react'
 import { Button, TextField, TextareaAutosize } from '@mui/material'
 import { Container, Row, Col } from 'react-bootstrap'
 import { AddBusiness } from '@mui/icons-material'
+import { post } from '../../../../../utils/httprequest'
+import { handleChange, handleFormData } from '../../../../../utils/handleForm'
+import { useAuth } from '../../../../../hooks/useAuth'
+import { toast } from 'react-toastify'
 
 function RegisterShopForm() {
+    const { user } = useAuth()
+    const [shopInfo, setShopInfo] = React.useState({
+        name: '',
+        address: '',
+        description: '',
+    })
+
+    const handleSubmit = async () => {
+        const formData = handleFormData({
+            userId: user.userId,
+            shopName: shopInfo.name,
+            address: shopInfo.address,
+            description: shopInfo.description,
+        })
+        const res = await post('shop/register', formData)
+        if (res.status === 201) {
+            toast.success('Gửi yêu cầu thành công')
+        } else {
+            toast.error('Gửi yêu cầu không thành công')
+        }
+        setShopInfo({
+            name: '',
+            address: '',
+            description: '',
+        })
+    }
+
     return (
         <>
             <Container fluid="md">
-                <Row>
-                    <Col md={{ span: 11, offset: 1 }}>
-                        <Button
-                            variant="contained"
-                            sx={{ width: '25rem', fontSize: '1.3rem' }}
-                        >
-                            Quay trở lại Shoppii
-                        </Button>
-                    </Col>
-                </Row>
                 <Row className="mt-5">
                     <Col
                         md={{ span: 11, offset: 1 }}
@@ -43,13 +64,18 @@ function RegisterShopForm() {
                             id="outlined-basic"
                             label="Tên cửa hàng"
                             variant="outlined"
+                            name="name"
                             InputProps={{ label: 'Tên cửa hàng ####' }}
+                            onChange={e => handleChange(e, setShopInfo)}
                         />
                     </Col>
                 </Row>
                 <Row className="mt-5">
                     <Col md={{ span: 2, offset: 1 }}>
-                        <div style={{ fontSize: '2rem' }}>Địa chỉ cửa hàng</div>
+                        <div style={{ fontSize: '2rem' }}>
+                            Địa chỉ cửa hàng{' '}
+                            <span className="text-danger">*</span>
+                        </div>
                     </Col>
                     <Col md={7}>
                         <TextField
@@ -57,8 +83,10 @@ function RegisterShopForm() {
                             size="small"
                             id="outlined-basic"
                             label="Địa chỉ cửa hàng"
+                            name="address"
                             variant="outlined"
                             InputProps={{ label: 'Địa chỉ cửa hàng #####' }}
+                            onChange={e => handleChange(e, setShopInfo)}
                         />
                     </Col>
                 </Row>
@@ -71,7 +99,13 @@ function RegisterShopForm() {
                             aria-label="Mô tả"
                             minRows={7}
                             placeholder="Mô tả"
-                            style={{ width: '100%', padding: '1rem' }}
+                            name="description"
+                            style={{
+                                width: '100%',
+                                padding: '1rem',
+                                fontSize: '1.5rem',
+                            }}
+                            onChange={e => handleChange(e, setShopInfo)}
                         />
                     </Col>
                 </Row>
@@ -79,6 +113,7 @@ function RegisterShopForm() {
                     <Button
                         variant="contained"
                         sx={{ fontSize: '1.5rem', width: '10rem' }}
+                        onClick={handleSubmit}
                     >
                         Đăng ký
                     </Button>

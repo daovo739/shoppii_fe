@@ -7,6 +7,7 @@ import Checkout from './Checkout'
 import ForgetPassword from './ForgetPassword'
 import ViewShop from './ViewShop'
 import Product from './Product'
+import GoToShop from './GoToShop'
 
 import CardAuth from './CardAuth'
 export {
@@ -19,5 +20,6 @@ export {
     ForgetPassword,
     ViewShop,
     Product,
+    GoToShop,
     CardAuth,
 }

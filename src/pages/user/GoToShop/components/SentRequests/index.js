@@ -1,26 +1,30 @@
 import * as React from 'react'
 import { Chip, TableContainer } from '@mui/material'
 import './index.css'
-
-const rows = [
-    {
-        id: '1',
-        time: '20/02/2022 08:00',
-        status: 'pending',
-    },
-    {
-        id: '2',
-        time: '20/02/2022 08:00',
-        status: 'rejected',
-    },
-    {
-        id: '3',
-        time: '20/02/2022 08:00',
-        status: 'pending',
-    },
-]
+import { get } from '../../../../../utils/httprequest'
+import { useAuth } from '../../../../../hooks/useAuth'
+import queryString from 'query-string'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 function SentRequests() {
+    const { user } = useAuth()
+    const [rows, setRows] = useState([])
+
+    const getRequest = async () => {
+        const q = queryString.stringify({
+            userId: user.userId
+        })
+        const res = await get('shop/register', q)
+        const data = await res.json()
+        console.log(data);
+        setRows(data)
+    }
+
+    useEffect(() => {
+        getRequest()
+    },[])
+
     return (
         <React.Fragment>
             <TableContainer sx={{ width: '100%' }}>
@@ -34,9 +38,9 @@ function SentRequests() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map(row => (
-                            <tr key={row.id}>
-                                <td>{row.id}</td>
+                        {rows.map((row, index) => (
+                            <tr key={index}>
+                                <td>{index+1}</td>
                                 <td>{row.time}</td>
                                 <td>
                                     <Chip
@@ -46,10 +50,10 @@ function SentRequests() {
                                                 style={{
                                                     fontSize: '1.3rem',
                                                     color:
-                                                        row.status === 'pending'
+                                                        row.status === 'Pending'
                                                             ? 'var(--main-blue)'
                                                             : row.status ===
-                                                              'accepted'
+                                                              'Accepted'
                                                             ? 'var(--main-green)'
                                                             : 'var(--main-red)',
                                                 }}
@@ -59,56 +63,17 @@ function SentRequests() {
                                         }
                                         style={{
                                             backgroundColor:
-                                                row.status === 'pending'
+                                                row.status === 'Pending'
                                                     ? '#2877ee46'
-                                                    : row.status === 'accepted'
+                                                    : row.status === 'Accepted'
                                                     ? '#87bdd64b'
                                                     : 'rgba(234, 22, 22, 0.249)',
                                         }}
                                     />
                                 </td>
                                 <td className="description-td">
-                                    <textarea rows="4" readOnly>
-                                        bla bla bla bla bla bla bla bla bla bla
-                                        bla bla bla bla bla bla bla bla bla bla
-                                        bla bla bla bla bla bla bla bla bla bla
-                                        bla bla bla bla bla Lorem ipsum dolor
-                                        sit, amet consectetur adipisicing elit.
-                                        Numquam labore necessitatibus natus.
-                                        Perspiciatis nostrum vero eius quisquam.
-                                        Repellendus veritatis cumque eveniet
-                                        expedita rem nostrum, modi rerum fugiat
-                                        aliquam nisi. Ipsam! Magni, nostrum
-                                        soluta, nesciunt eaque enim at expedita
-                                        iure odit modi natus nulla quibusdam
-                                        maiores commodi sapiente fugiat. Saepe
-                                        sit perspiciatis exercitationem ad odit
-                                        reprehenderit impedit repellat. Esse,
-                                        eum reprehenderit. Suscipit saepe
-                                        adipisci aperiam deleniti. Placeat
-                                        veniam vitae, in eligendi rem id magnam!
-                                        Eveniet tempora doloremque tempore fugit
-                                        dolorem quis? Consectetur maiores
-                                        aliquid hic. Accusantium, vitae
-                                        deleniti. Expedita, architecto ducimus!
-                                        Repellendus ea sit commodi similique
-                                        quas porro praesentium, eius pariatur.
-                                        Ipsa consequuntur velit, est, sint
-                                        incidunt amet accusamus adipisci quidem
-                                        libero magni illo quas culpa illum
-                                        laboriosam, sed harum magnam! Ipsa
-                                        cumque nostrum aut facilis atque! Aut,
-                                        voluptate mollitia laboriosam dolorum
-                                        incidunt non dignissimos quas eos facere
-                                        ratione labore consectetur suscipit
-                                        autem eaque aspernatur voluptatem eius
-                                        quaerat recusandae excepturi? Facere.
-                                        Est, neque adipisci, quam qui harum
-                                        tempora nulla consequatur doloremque
-                                        odio consequuntur nam vero perferendis.
-                                        Voluptas, rerum sint delectus alias
-                                        mollitia qui minus placeat dolorem vero
-                                        aut, quidem, aliquam deleniti?s
+                                    <textarea rows="4" readOnly style={{ color: 'gray' }}>
+                                        {row.description}
                                     </textarea>
                                 </td>
                             </tr>
