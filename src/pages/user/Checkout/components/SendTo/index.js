@@ -20,12 +20,14 @@ export const addressList = [
     },
 ]
 
-function SendTo() {
-    const [selectedAddress, setSelectedAddress] = useState(addressList[0])
+function SendTo({ addresses }) {
+    const [selectedAddress, setSelectedAddress] = useState(
+        addresses.find(address => address.isDefault),
+    )
     const [total, setTotal] = useState(0)
-    
-    const getSelectedAddress = (id) => {
-        setSelectedAddress(addressList.filter(item => item.id === id)[0])
+
+    const getSelectedAddress = id => {
+        setSelectedAddress(addresses.find(item => item.addressId === +id))
     }
 
     return (
@@ -41,28 +43,56 @@ function SendTo() {
                 <Row>
                     <Col md={12} className="d-flex justify-content-between">
                         <h3 style={{ color: 'gray', paddingTop: '0.5rem' }}>
-                            <LocationOn sx={{fontSize: '24px', color: 'var(--main-red)', marginRight:'5px'}}/>
+                            <LocationOn
+                                sx={{
+                                    fontSize: '24px',
+                                    color: 'var(--main-red)',
+                                    marginRight: '5px',
+                                }}
+                            />
                             Giao tới
                         </h3>
-                        <ChangeAddressModal onClick={getSelectedAddress}/>
+                        <ChangeAddressModal
+                            onClick={getSelectedAddress}
+                            addresses={addresses}
+                        />
                     </Col>
                 </Row>
                 <Row>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-                        <span className="me-2">{selectedAddress.name}</span>
+                        <span className="me-2 text-capitalize">
+                            {selectedAddress?.receiverName}
+                        </span>
                         <span
                             className="fs-2 fw-light"
                             style={{ color: 'gray' }}
                         >
                             |
                         </span>
-                        <span className="ms-2">{selectedAddress.phone}</span>
+                        <span className="ms-2">
+                            {selectedAddress?.receiverPhone}
+                        </span>
                     </div>
-                </Row>
-                <Row>
-                    <span style={{ color: 'gray', fontSize: '1.4rem' }}>
-                        {selectedAddress.address}
-                    </span>
+                    <div
+                        style={{
+                            fontSize: '1.2rem',
+                        }}
+                    >
+                        <p style={{ marginBottom: 0 }}>
+                            Tỉnh / Thành Phố:
+                            <strong>{selectedAddress?.province}</strong>
+                            <br />
+                            Quận: <strong>{selectedAddress?.district}</strong>
+                            <br />
+                            Phường: <strong>{selectedAddress?.ward}</strong>
+                        </p>
+                    </div>
+                    <div
+                        style={{ color: 'gray', fontSize: '1.4rem' }}
+                        className="text-capitalize"
+                    >
+                        {selectedAddress?.receiverAddress}
+                    </div>
                 </Row>
             </Container>
         </div>

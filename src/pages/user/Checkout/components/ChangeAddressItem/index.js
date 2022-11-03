@@ -3,7 +3,16 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { Button, Chip, Radio, FormControlLabel } from '@mui/material'
 import { EditLocationAlt } from '@mui/icons-material'
 
-function ChangeAddressItem({ isDefault, name, phone, id, address }) {
+function ChangeAddressItem({
+    isDefault,
+    name,
+    phone,
+    id,
+    address,
+    province,
+    district,
+    ward,
+}) {
     return (
         <div className="change-address-item">
             <Container fluid="md">
@@ -51,14 +60,26 @@ function ChangeAddressItem({ isDefault, name, phone, id, address }) {
                             </Row>
                             <Row>
                                 <Col md={12}>
+                                    <p style={{ marginBottom: 0 }}>
+                                        Tỉnh / Thành Phố:
+                                        <strong>{province}</strong>
+                                        <br />
+                                        Quận: <strong>{district}</strong>
+                                        <br />
+                                        Phường: <strong>{ward}</strong>
+                                    </p>
                                     <h4 style={{ color: 'gray' }}>{address}</h4>
                                 </Col>
                             </Row>
-                            {true ? (
+                            {isDefault ? (
                                 <Row>
                                     <Chip
                                         label={
-                                            <span style={{ color: 'var(--main-red)'}}>
+                                            <span
+                                                style={{
+                                                    color: 'var(--main-red)',
+                                                }}
+                                            >
                                                 Mặc định
                                             </span>
                                         }

@@ -6,7 +6,10 @@ import CheckoutShop from './components/CheckoutShop'
 import PaymentMethods from './components/PaymentMethods'
 import SendTo from './components/SendTo'
 import Bill from './components/Bill'
+import useStore from '../../../store/hooks'
+
 function Checkout() {
+    const { addresses } = useStore()
     const { state } = useLocation()
     const navigate = useNavigate()
     useEffect(() => {
@@ -14,7 +17,7 @@ function Checkout() {
             navigate('/cart', { replace: true })
         }
     }, [])
-    console.log(state)
+
     return (
         <Container fluid="md">
             <Row>
@@ -35,7 +38,7 @@ function Checkout() {
                 <Col md={3}>
                     <Container fluid="md">
                         <Row>
-                            <SendTo />
+                            <SendTo addresses={addresses} />
                         </Row>
                         <Row>
                             <Bill />

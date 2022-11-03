@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import {
     Button,
     Typography,
@@ -16,11 +16,19 @@ import ChangeAddressItem from '../ChangeAddressItem'
 import { addressList } from '../SendTo'
 import './index.css'
 
-function ChangeAddressModal({ onClick }) {
-    const [open, setOpen] = React.useState(false)
+function ChangeAddressModal({ onClick, addresses }) {
+    const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-    const [selected, setSelected] = React.useState('1')
+
+    const [selected, setSelected] = useState(
+        addresses.find(address => address?.isDefault).addressId,
+    )
+
+    const handleSelectAddress = event => {
+        setSelected(event.target.value)
+    }
+
     return (
         <>
             <Button sx={{ fontSize: '1.2rem' }} onClick={handleOpen}>
@@ -43,31 +51,40 @@ function ChangeAddressModal({ onClick }) {
                         />
                         Thay đổi địa chỉ
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }} component="div">
+                    <Typography
+                        id="modal-modal-description"
+                        sx={{ mt: 2 }}
+                        component="div"
+                    >
                         <FormControl sx={{ width: '100%' }}>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 name="radio-buttons-group"
                                 value={selected}
-                                onChange={e => setSelected(e.target.value)}
+                                onChange={e => handleSelectAddress(e)}
                             >
-                                {addressList.map(item => (
-                                    <ChangeAddressItem
-                                        key={item.id}
-                                        isDefault={item.isDefault}
-                                        name={item.name}
-                                        phone={item.phone}
-                                        id={item.id}
-                                        address={item.address}
-                                    />
-                                ))}
+                                {addresses?.map(item => {
+                                    return (
+                                        <ChangeAddressItem
+                                            key={item?.addressId}
+                                            isDefault={item?.isDefault}
+                                            name={item?.receiverName}
+                                            phone={item?.receiverPhone}
+                                            id={item?.addressId}
+                                            address={item?.receiverAddress}
+                                            ward={item?.ward}
+                                            district={item?.district}
+                                            province={item?.province}
+                                        />
+                                    )
+                                })}
                             </RadioGroup>
                         </FormControl>
                     </Typography>
                     <Button
                         onClick={() => {
                             handleClose()
-                            return onClick(selected)
+                            onClick(selected)
                         }}
                         className="change-address-btn"
                         sx={{
@@ -77,7 +94,7 @@ function ChangeAddressModal({ onClick }) {
                             fontSize: '1.3rem',
                             margin: '1.5rem',
                             float: 'right',
-                            border: '2px solid #2877ee'
+                            border: '2px solid #2877ee',
                         }}
                     >
                         Xác nhận

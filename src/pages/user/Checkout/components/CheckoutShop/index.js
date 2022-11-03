@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { Store } from '@mui/icons-material'
 import CheckoutProduct from '../CheckoutProduct'
 import ShippingUnitModal from '../ShippingUnitModal'
 import { shippingUnit } from '../CheckoutShop/ShippingUnitData'
+import { formatPrice } from '../../../../../utils/format'
 
 function CheckoutShop({ shop }) {
     const [selectedUnit, setSelectedUnit] = useState(shippingUnit[0])
@@ -12,6 +13,16 @@ function CheckoutShop({ shop }) {
     const getSelectedUnit = index => {
         setSelectedUnit(shippingUnit[index])
     }
+
+    const totalPrice = useMemo(() => {
+        return (
+            shop.products.reduce((total, product) => {
+                return total + product.cartQuantity * product.price
+            }, 0) +
+            Number(selectedUnit.price) +
+            parseInt(selectedUnit.price.replace('.', ''))
+        )
+    }, [shop])
 
     return (
         <div className="checkout-shop py-4 px-3">
@@ -121,7 +132,7 @@ function CheckoutShop({ shop }) {
                                     className="fs-1 me-3"
                                     style={{ color: 'var(--main-red)' }}
                                 >
-                                    204.000₫
+                                    {formatPrice(totalPrice)}
                                 </span>
                             </Col>
                         </Row>
