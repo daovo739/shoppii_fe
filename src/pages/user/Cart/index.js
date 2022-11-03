@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Container, Row, Col, Modal, Button } from 'react-bootstrap'
 import queryString from 'query-string'
 import CartShop from './components/CartShop'
@@ -15,7 +15,14 @@ function Cart() {
     const [cart, setCart] = useState([])
     const [showModalDelete, setShowModalDelete] = useState(false)
     const [idDelete, setIdDelete] = useState(null)
-    const [selectedCheckout, setSelectedCheckout] = useState({})
+    const [selectedCheckout, setSelectedCheckout] = useState([])
+    const [isSelectAll, setIsSelectAll] = useState(false)
+    console.log(selectedCheckout)
+    const totalProducts = useMemo(() => {
+        return cart.reduce((acc, item) => {
+            return acc + item.products.length
+        }, 0)
+    })
 
     const handleCloseModalDelete = useCallback(() => {
         setShowModalDelete(false)
@@ -93,12 +100,18 @@ function Cart() {
                                 handleOpenModalDelete={handleOpenModalDelete}
                                 selectedCheckout={selectedCheckout}
                                 setSelectedCheckout={setSelectedCheckout}
+                                isSelectAll={isSelectAll}
                             />
                         </Col>
                     </Row>
                 ))}
             </Container>
-            <CartTotal />
+            <CartTotal
+                selectedCheckout={selectedCheckout}
+                totalProducts={totalProducts}
+                setIsSelectAll={setIsSelectAll}
+                isSelectAll={isSelectAll}
+            />
             <Modal
                 show={showModalDelete}
                 onHide={handleCloseModalDelete}

@@ -1,10 +1,10 @@
+import { useState, memo, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useState, memo } from 'react'
+import { Link } from 'react-router-dom'
+import { Store } from '@mui/icons-material'
 import './index.css'
 import { Checkbox, Chip } from '@mui/material'
-import { Store } from '@mui/icons-material'
 import CartProduct from '../CartProduct'
-import { Link } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -12,13 +12,34 @@ function CartShop({
     item,
     getData,
     handleOpenModalDelete,
-    selectedCheckout,
     setSelectedCheckout,
+    isSelectAll,
 }) {
     const { shopId, products } = item
     const [productsChecked, setProductsChecked] = useState([])
+    // console.log(isSelectAll)
 
-    console.log(productsChecked)
+    useEffect(() => {
+        if (productsChecked.length < 1) {
+            setSelectedCheckout(prev =>
+                prev.filter(item => item.shopId !== shopId),
+            )
+        } else {
+            setSelectedCheckout(prev => [
+                ...prev.filter(shop => shop.shopId !== shopId),
+                { ...item, products: productsChecked },
+            ])
+        }
+    }, [productsChecked])
+
+    useEffect(() => {
+        if (isSelectAll) {
+            setProductsChecked(products)
+        } else {
+            setProductsChecked([])
+        }
+    }, [isSelectAll])
+
     const handleSelectProduct = product => {
         if (
             productsChecked.some(
@@ -119,6 +140,8 @@ function CartShop({
                                 product={product}
                                 getData={getData}
                                 handleOpenModalDelete={handleOpenModalDelete}
+                                productsChecked={productsChecked}
+                                setProductsChecked={setProductsChecked}
                             />
                         </Col>
                     </Row>

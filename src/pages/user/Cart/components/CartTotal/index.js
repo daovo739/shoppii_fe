@@ -1,8 +1,26 @@
+import { memo, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import React from 'react'
 import { Checkbox, Button } from '@mui/material'
 import { DeleteSweepOutlined } from '@mui/icons-material'
-function CartTotal() {
+import { formatPrice } from '../../../../../utils/format'
+
+function CartTotal({
+    selectedCheckout,
+    totalProducts,
+    setIsSelectAll,
+    isSelectAll,
+}) {
+    const totalPrice = useMemo(() => {
+        return selectedCheckout.reduce((total, shop) => {
+            return (
+                total +
+                shop.products.reduce((total, product) => {
+                    return total + product.cartQuantity * product.price
+                }, 0)
+            )
+        }, 0)
+    }, [selectedCheckout])
+
     return (
         <div
             className="cart-total d-flex align-items-center justify-content-between"
@@ -11,7 +29,8 @@ function CartTotal() {
                 position: 'sticky',
                 height: '8rem',
                 backgroundColor: 'var(--white)',
-                boxShadow: 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px',
+                boxShadow:
+                    'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px',
                 zIndex: '5',
             }}
         >
@@ -24,17 +43,10 @@ function CartTotal() {
                                     '& .MuiSvgIcon-root': { fontSize: 28 },
                                     marginRight: '7px',
                                 }}
+                                onClick={() => setIsSelectAll(!isSelectAll)}
                             />
-                            <h3 className="pt-2">Chọn tất cả (50)</h3>
-                            <DeleteSweepOutlined
-                                style={{ marginLeft: '5rem' }}
-                                sx={{ fontSize: '25px', color: 'var(--main-red)' }}
-                            />
-                            <h3
-                                className="pt-2"
-                                style={{ color: 'var(--main-red)', marginLeft: '1rem' }}
-                            >
-                                Xóa
+                            <h3 className="pt-2">
+                                Chọn tất cả ({totalProducts})
                             </h3>
                         </div>
                         <div className="cart-total-right d-flex align-items-center">
@@ -47,7 +59,7 @@ function CartTotal() {
                                     marginRight: '2rem',
                                 }}
                             >
-                                500.000đ
+                                {formatPrice(totalPrice)}
                             </h1>
                             <Button
                                 className="checkout-btn"
@@ -56,7 +68,7 @@ function CartTotal() {
                                     color: 'white',
                                     fontSize: '1.5rem',
                                     width: '25rem',
-                                    height: '4rem'
+                                    height: '4rem',
                                 }}
                             >
                                 Thanh toán
@@ -69,4 +81,4 @@ function CartTotal() {
     )
 }
 
-export default CartTotal
+export default memo(CartTotal)
