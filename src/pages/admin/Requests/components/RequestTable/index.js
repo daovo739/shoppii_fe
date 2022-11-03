@@ -1,11 +1,12 @@
-import * as React from 'react'
 import { Chip, TableContainer } from '@mui/material'
 import './index.css'
 import RequestModal from '../RequestModal'
+import { useState } from 'react'
 
-function RequestTable({ rows }) {
+function RequestTable({ rows, getStatus }) {
+
     return (
-        <React.Fragment>
+        <>
             <TableContainer sx={{ width: '100%' }}>
                 <table className="admin-request-table w-100">
                     <thead>
@@ -18,8 +19,8 @@ function RequestTable({ rows }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map(row => (
-                            <tr key={row.customer.userId}>
+                        {rows.map((row, index) => (
+                            <tr key={index}>
                                 <td>{row.customer.userId}</td>
                                 <td>{row.name}</td>
                                 <td>
@@ -54,11 +55,14 @@ function RequestTable({ rows }) {
                                 <td>{row.time}</td>
                                 <td style={{ cursor: 'pointer' }}>
                                     <RequestModal
+                                        request={row}
                                         isPending={
-                                            row.status === 'pending'
+                                            row.status === 'Pending'
                                                 ? true
                                                 : false
                                         }
+                                        getStatus={getStatus}
+                                        userId={row.customer.userId}
                                     />
                                 </td>
                             </tr>
@@ -66,7 +70,7 @@ function RequestTable({ rows }) {
                     </tbody>
                 </table>
             </TableContainer>
-        </React.Fragment>
+        </>
     )
 }
 

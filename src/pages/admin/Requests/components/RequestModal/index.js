@@ -3,7 +3,7 @@ import { Button, Box, Typography, Modal } from '@mui/material'
 import { style } from '../../../../../components/ModalStyle'
 import { Container, Row, Col } from 'react-bootstrap'
 
-function RequestModal({ isPending }) {
+function RequestModal({ isPending, request, getStatus, userId }) {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -26,7 +26,7 @@ function RequestModal({ isPending }) {
                         component="h2"
                         sx={{ mb: 4 }}
                     >
-                        Yêu cầu từ ID
+                        Yêu cầu #{request.customer.userId}
                     </Typography>
                     <Typography
                         component={'span'}
@@ -45,7 +45,7 @@ function RequestModal({ isPending }) {
                                     <p>Tên cửa hàng</p>
                                 </Col>
                                 <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Tên cửa hàng muốn đăng ký</p>
+                                    <p>{request.name}</p>
                                 </Col>
                             </Row>
                             <Row>
@@ -59,7 +59,7 @@ function RequestModal({ isPending }) {
                                     <p>Địa chỉ</p>
                                 </Col>
                                 <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Địa chỉ của cửa hàng muốn đăng ký</p>
+                                    <p>{request.address}</p>
                                 </Col>
                             </Row>
                             <Row>
@@ -73,30 +73,48 @@ function RequestModal({ isPending }) {
                                     <p>Mô tả</p>
                                 </Col>
                                 <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Mô tả về cửa hàng</p>
+                                    <p>{request.description}</p>
                                 </Col>
                             </Row>
                             {isPending ? (
                                 <Row className="d-flex justify-content-end">
                                     <Button
+                                        variant="contained"
                                         sx={{
-                                            width: '10rem',
+                                            width: '11rem',
                                             fontSize: '1.2rem',
                                             fontWeight: 'bold',
-                                            color: 'green',
+                                            backgroundColor:
+                                                'var(--main-green)',
+                                            mr: 2,
+                                        }}
+                                        onClick={() => {
+                                            getStatus({
+                                                status: 'Accepted',
+                                                userId: userId
+                                            })
+                                            handleClose()
                                         }}
                                     >
                                         Chấp nhận
                                     </Button>
                                     <Button
+                                        variant="contained"
                                         sx={{
                                             width: '10rem',
                                             fontSize: '1.2rem',
                                             fontWeight: 'bold',
-                                            color: 'var(--main-red)',
+                                            backgroundColor: 'var(--main-red)',
+                                        }}
+                                        onClick={() => {
+                                            getStatus({
+                                                status: 'Rejected',
+                                                userId: userId
+                                            })
+                                            handleClose()
                                         }}
                                     >
-                                        Hủy
+                                        Từ chối
                                     </Button>
                                 </Row>
                             ) : (
