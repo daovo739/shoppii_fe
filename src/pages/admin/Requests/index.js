@@ -1,20 +1,37 @@
-import React from 'react'
+import {useState, useEffect} from 'react'
 import RequestTable from './components/RequestTable'
 import { Container, Row, Col } from 'react-bootstrap'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Button,
+} from '@mui/material'
+import { get } from '../../../utils/httprequest'
+import queryString from 'query-string'
 
 function createData(userId, name, status, time) {
     return { userId, name, status, time }
 }
 
-export const rows = [
-    createData('1', 'shop 1', 'pending', '15-02-2002'),
-    createData('2', 'shop 2', 'accepted', '15-02-2002'),
-    createData('3', 'shop 3', 'rejected', '15-02-2002'),
-]
 
 function Requests() {
-    const [filter, setFilter] = React.useState('')
+    const [filter, setFilter] = useState('All')
+    const [rows, setRows] = useState([])
+    console.log(filter);
+    const getRequests = async () => {
+        const q = queryString.stringify({
+            status: filter
+        })
+        const res = await get('admin/request', q)
+        const data = await res.json()
+        setRows(data)
+    }
+
+    useEffect(() => {
+        getRequests()
+    }, [])
 
     const handleChange = event => {
         setFilter(event.target.value)
@@ -22,6 +39,21 @@ function Requests() {
 
     return (
         <>
+            <div style={{}}>
+                <Button
+                    variant="contained"
+                    sx={{
+                        fontSize: '1.5rem',
+                        backgroundColor: 'var(--main-blue)',
+                        width: '18rem',
+                        mb: 5,
+                        py: 1,
+                        ml: 5
+                    }}
+                >
+                    Đăng xuất
+                </Button>
+            </div>
             <Container
                 fluid="md"
                 style={{
@@ -55,14 +87,14 @@ function Requests() {
                                 label="Trạng thái"
                                 onChange={handleChange}
                             >
-                                <MenuItem value={'all'}>Tất cả</MenuItem>
-                                <MenuItem value={'pending'}>
+                                <MenuItem value={'All'}>Tất cả</MenuItem>
+                                <MenuItem value={'Pending'}>
                                     Chờ xác nhận
                                 </MenuItem>
-                                <MenuItem value={'accepted'}>
+                                <MenuItem value={'Accepted'}>
                                     Đã chấp nhận
                                 </MenuItem>
-                                <MenuItem value={'rejected'}>
+                                <MenuItem value={'Rejected'}>
                                     Đã từ chối
                                 </MenuItem>
                             </Select>
@@ -72,7 +104,7 @@ function Requests() {
                 <Row>
                     <RequestTable
                         rows={
-                            filter === '' || filter === 'all'
+                            filter === 'All'
                                 ? rows
                                 : rows.filter(row => row.status === filter)
                         }

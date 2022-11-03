@@ -1,15 +1,19 @@
 import SideBar from '../SideBar'
+import { useAuth } from '../../hooks/useAuth'
+import { ROLE_ADMIN } from '../../hooks/constants'
 
 function PrivateLayout({ children }) {
+    const { role } = useAuth()
+    const marginLeftStyle = role === ROLE_ADMIN ? '0' : '250px'
     return (
         <div>
-            <SideBar />
+            {role === ROLE_ADMIN ? null : <SideBar />}
             <div
                 style={{
-                    marginLeft: '250px',
+                    marginLeft: marginLeftStyle,
                     padding: '40px 30px',
                     minHeight: '100vh',
-                    backgroundColor: 'var(--box-color)'
+                    backgroundColor: 'var(--box-color)',
                 }}
             >
                 {children}

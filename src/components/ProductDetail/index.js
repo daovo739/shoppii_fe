@@ -101,7 +101,7 @@ const ProductDetail = ({ product }) => {
                     </div>
                 </div>
 
-                <div className="row page-box">
+                <div className="row page-box" style={{ backgroundColor: 'white' }}>
                     <div className="col-xs-12 col-sm-6">
                         {/* <div className="product-images">
                             <div
@@ -218,7 +218,7 @@ const ProductDetail = ({ product }) => {
 
                 {/* <hr></hr> */}
 
-                <div className="row page-box">
+                <div className="row page-box" style={{ backgroundColor: 'white' }}>
                     <div className="col-12">
                         <div className="shop">
                             <div className="shop-image">
@@ -248,7 +248,7 @@ const ProductDetail = ({ product }) => {
                     </div>
                 </div>
 
-                <div className="row page-box">
+                <div className="row page-box" style={{ backgroundColor: 'white' }}>
                     <div className="col-xs-12 col-xs-8">
                         <div className="product-decs">
                             <p>Mô tả sản phẩm</p>

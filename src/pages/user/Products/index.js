@@ -65,17 +65,26 @@ function Products() {
                         />
                     </Col>
                     <Col md={9}>
-                        {productsData?.products?.length > 0 ? (
-                            <ViewProduct
-                                totalPage={productsData.totalPage}
-                                setFilters={setFilters}
-                                filters={filters}
-                            />
-                        ) : (
-                            <div className="d-flex justify-content-center mt-5">
-                                <h1>No Products Found</h1>
-                            </div>
-                        )}
+                        <div
+                            style={{
+                                backgroundColor: 'white',
+                                padding: '2rem',
+                                borderRadius: '6px',
+                                boxShadow: 'var(--box-shadow-main)'
+                            }}
+                        >
+                            {productsData?.products?.length > 0 ? (
+                                <ViewProduct
+                                    totalPage={productsData.totalPage}
+                                    setFilters={setFilters}
+                                    filters={filters}
+                                />
+                            ) : (
+                                <div className="d-flex justify-content-center mt-5">
+                                    <h1>No Products Found</h1>
+                                </div>
+                            )}
+                        </div>
                     </Col>
                 </Row>
             </Container>
