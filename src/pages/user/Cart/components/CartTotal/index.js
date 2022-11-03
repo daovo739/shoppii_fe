@@ -9,13 +9,17 @@ function CartTotal({
     totalProducts,
     setIsSelectAll,
     isSelectAll,
+    isSelectAllCheckBox,
+    setIsSelectAllCheckBox,
 }) {
     const totalPrice = useMemo(() => {
         return selectedCheckout.reduce((total, shop) => {
             return (
                 total +
-                shop.products.reduce((total, product) => {
-                    return total + product.cartQuantity * product.price
+                shop.products.reduce((totalSingleShop, product) => {
+                    return (
+                        totalSingleShop + product.cartQuantity * product.price
+                    )
                 }, 0)
             )
         }, 0)
@@ -39,11 +43,15 @@ function CartTotal({
                     <Col md={12} className="d-flex justify-content-between">
                         <div className="cart-total-left d-flex align-items-center">
                             <Checkbox
+                                checked={isSelectAllCheckBox}
                                 sx={{
                                     '& .MuiSvgIcon-root': { fontSize: 28 },
                                     marginRight: '7px',
                                 }}
-                                onClick={() => setIsSelectAll(!isSelectAll)}
+                                onChange={() => {
+                                    setIsSelectAllCheckBox(!isSelectAllCheckBox)
+                                    setIsSelectAll(!isSelectAll)
+                                }}
                             />
                             <h3 className="pt-2">
                                 Chọn tất cả ({totalProducts})

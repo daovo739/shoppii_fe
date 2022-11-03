@@ -17,7 +17,22 @@ function Cart() {
     const [idDelete, setIdDelete] = useState(null)
     const [selectedCheckout, setSelectedCheckout] = useState([])
     const [isSelectAll, setIsSelectAll] = useState(false)
-    console.log(selectedCheckout)
+    const [isSelectAllCheckBox, setIsSelectAllCheckBox] = useState(false)
+    // console.log(selectedCheckout)
+    useEffect(() => {
+        getData()
+    }, [])
+
+    useEffect(() => {
+        console.log('cart', cart)
+        console.log('selectedCheckout', selectedCheckout)
+        if (cart.length === selectedCheckout.length) {
+            setIsSelectAllCheckBox(true)
+        } else {
+            setIsSelectAllCheckBox(false)
+        }
+    }, [selectedCheckout])
+
     const totalProducts = useMemo(() => {
         return cart.reduce((acc, item) => {
             return acc + item.products.length
@@ -32,10 +47,6 @@ function Cart() {
         setIdDelete(id)
         setShowModalDelete(true)
     }
-
-    useEffect(() => {
-        getData()
-    }, [])
 
     const getData = async () => {
         const q = queryString.stringify({
@@ -54,9 +65,19 @@ function Cart() {
             userId: user.userId,
             productId: idDelete,
         })
+        console.log(idDelete)
         const res = await _delete('cart', formData)
         const data = await res.json()
+        const newItem = selectedCheckout.map(item => {
+            let productDeleted = item.products.filter(
+                product => product.productId !== idDelete,
+            )
+            return productDeleted.length > 0
+                ? { ...item, products: productDeleted }
+                : null
+        })
         getData()
+        setSelectedCheckout(newItem.filter(Boolean))
         setIdDelete(null)
         handleCloseModalDelete()
     }
@@ -111,6 +132,8 @@ function Cart() {
                 totalProducts={totalProducts}
                 setIsSelectAll={setIsSelectAll}
                 isSelectAll={isSelectAll}
+                isSelectAllCheckBox={isSelectAllCheckBox}
+                setIsSelectAllCheckBox={setIsSelectAllCheckBox}
             />
             <Modal
                 show={showModalDelete}
