@@ -1,10 +1,9 @@
 import * as React from 'react'
-import { Chip, TableContainer} from '@mui/material'
+import { Chip, TableContainer } from '@mui/material'
 import './index.css'
 import RequestModal from '../RequestModal'
 
-
-function RequestTable({rows}) {
+function RequestTable({ rows }) {
     return (
         <React.Fragment>
             <TableContainer sx={{ width: '100%' }}>
@@ -20,27 +19,47 @@ function RequestTable({rows}) {
                     </thead>
                     <tbody>
                         {rows.map(row => (
-                            <tr key={row.userId}>
-                                <td>{row.userId}</td>
+                            <tr key={row.customer.userId}>
+                                <td>{row.customer.userId}</td>
                                 <td>{row.name}</td>
                                 <td>
-                                <Chip
+                                    <Chip
                                         size="small"
                                         label={
-                                            <span style={{ fontSize: '1.3rem', color:
-                                                row.status === 'pending' ? "var(--main-blue)" : row.status === 'accepted' ? "var(--main-green)" : "var(--main-red)"
-                                            }}>
+                                            <span
+                                                style={{
+                                                    fontSize: '1.3rem',
+                                                    color:
+                                                        row.status === 'Pending'
+                                                            ? 'var(--main-blue)'
+                                                            : row.status ===
+                                                              'Accepted'
+                                                            ? 'var(--main-green)'
+                                                            : 'var(--main-red)',
+                                                }}
+                                            >
                                                 {row.status}
                                             </span>
                                         }
-                                        style={{ backgroundColor:
-                                            row.status === 'pending' ? "#2877ee46" : row.status === 'accepted' ? "#87bdd64b" : "rgba(234, 22, 22, 0.249)"
+                                        style={{
+                                            backgroundColor:
+                                                row.status === 'Pending'
+                                                    ? '#2877ee46'
+                                                    : row.status === 'Accepted'
+                                                    ? '#87bdd64b'
+                                                    : 'rgba(234, 22, 22, 0.249)',
                                         }}
                                     />
                                 </td>
                                 <td>{row.time}</td>
-                                <td style={{cursor: 'pointer'}}>
-                                    <RequestModal isPending={row.status === 'pending' ? true : false}/>
+                                <td style={{ cursor: 'pointer' }}>
+                                    <RequestModal
+                                        isPending={
+                                            row.status === 'pending'
+                                                ? true
+                                                : false
+                                        }
+                                    />
                                 </td>
                             </tr>
                         ))}

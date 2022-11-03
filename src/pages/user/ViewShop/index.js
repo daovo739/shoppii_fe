@@ -45,6 +45,7 @@ function ViewShop() {
                         paddingTop: '3rem',
                         paddingLeft: '6rem',
                         paddingRight: '6rem',
+                        boxShadow: 'var(--box-shadow-main)'
                     }}
                 >
                     <BasicTabs />
