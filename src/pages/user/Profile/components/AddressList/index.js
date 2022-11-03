@@ -9,8 +9,6 @@ import { handleFormData } from '../../../../../utils/handleForm'
 import { _delete } from '../../../../../utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../../../../hooks/useAuth'
-import reducer, { initState } from '../AddressModal/hook/reducer'
-import { reset } from '../AddressModal/hook/instant'
 
 const style = {
     position: 'absolute',
@@ -25,6 +23,7 @@ const style = {
     px: 4,
     pb: 3,
 }
+
 function AddressList() {
     const { user } = useAuth()
     const { addresses, getAddresses } = useStore()

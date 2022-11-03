@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, memo } from 'react'
 import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import { Container, Row, Col } from 'react-bootstrap'
 import './index.css'
@@ -13,7 +13,13 @@ import { put, _delete } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 import { useAuth } from '../../../../../hooks/useAuth'
 
-function CartProduct({ product, getData, handleOpenModalDelete }) {
+function CartProduct({
+    product,
+    getData,
+    handleOpenModalDelete,
+    productsChecked,
+    setProductsChecked,
+}) {
     const { user } = useAuth()
     const [quantity, setQuantity] = useState(product.cartQuantity)
 
@@ -30,6 +36,7 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
         })
         const res = await put('cart', formData)
         const data = await res.json()
+        handleCheckIsChecked(id, newQuantity)
         setQuantity(newQuantity)
         getData()
     }
@@ -43,12 +50,17 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
         })
         const res = await put('cart', formData)
         const data = await res.json()
+        handleCheckIsChecked(id, newQuantity)
         setQuantity(newQuantity)
         getData()
     }
 
     const handleQuantity = (e, id) => {
         const newQuantity = e.target.value
+        if (newQuantity > product.quantity) {
+            setQuantity(product.quantity)
+            return
+        }
         setQuantity(newQuantity)
     }
 
@@ -65,8 +77,19 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
             })
             const res = await put('cart', formData)
             const data = await res.json()
+            handleCheckIsChecked(id, value)
             setQuantity(value)
             getData()
+        }
+    }
+
+    const handleCheckIsChecked = (id, newQuantity) => {
+        const isExist = productsChecked.find(item => item.productId === id)
+        if (isExist) {
+            setProductsChecked(prev => [
+                ...prev.filter(item => item.productId !== id),
+                { ...isExist, cartQuantity: newQuantity },
+            ])
         }
     }
 
@@ -186,4 +209,4 @@ function CartProduct({ product, getData, handleOpenModalDelete }) {
     )
 }
 
-export default CartProduct
+export default memo(CartProduct)
