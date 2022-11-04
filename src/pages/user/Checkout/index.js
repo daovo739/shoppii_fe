@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
@@ -16,7 +16,7 @@ function Checkout() {
     const { addresses } = useStore()
     const { state } = useLocation()
     const [selectedAddress, setSelectedAddress] = useState({})
-    const [paymentMethod, setPaymentMethod] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState('paypal')
 
     const updateCheckout = () => {
         return state.map(item => {
@@ -48,8 +48,8 @@ function Checkout() {
         setTotalCheckout(updateCheckout())
     }, [state])
 
-    const handleCheckout = async () => {
-        const infoCheckout = {
+    const infoCheckout = useMemo(() => {
+        return {
             ...totalCheckout,
             totalPrice: totalCheckout.reduce((total, item) => {
                 return total + item.checkout.total
@@ -57,8 +57,9 @@ function Checkout() {
             selectedAddress,
             paymentMethod,
         }
-        console.log(infoCheckout)
-    }
+    }, [totalCheckout, selectedAddress, paymentMethod])
+
+    const handleCheckoutCash = async () => {}
     return (
         <Container fluid="md">
             <Row>
@@ -94,23 +95,23 @@ function Checkout() {
                         <Row className="d-flex flex-column">
                             <Bill totalCheckout={totalCheckout} />
 
-                            <Button
-                                sx={{
-                                    backgroundColor: 'var(--main-red)',
-                                    color: 'white',
-                                    fontSize: '1.5rem',
-                                    border: '2px solid var(--main-red)',
-                                }}
-                                className="checkout-btn"
-                                onClick={handleCheckout}
-                            >
-                                Đặt hàng
-                            </Button>
-                            <PaypalButton
-                                style={{
-                                    padding: '0',
-                                }}
-                            />
+                            {paymentMethod === 'cash' && (
+                                <Button
+                                    sx={{
+                                        backgroundColor: 'var(--main-red)',
+                                        color: 'white',
+                                        fontSize: '1.5rem',
+                                        border: '2px solid var(--main-red)',
+                                    }}
+                                    className="checkout-btn"
+                                    onClick={handleCheckoutCash}
+                                >
+                                    Đặt hàng
+                                </Button>
+                            )}
+                            {paymentMethod === 'paypal' && (
+                                <PaypalButton infoCheckout={infoCheckout} />
+                            )}
                         </Row>
                     </Container>
                 </Col>
