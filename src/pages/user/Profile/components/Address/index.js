@@ -1,9 +1,11 @@
 import { useState, memo } from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
 import './index.css'
+import { Chip } from '@mui/material'
 import { DeleteOutline, BorderColorOutlined } from '@mui/icons-material'
 
 function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
+    console.log(address)
     return (
         <div className="address w-100">
             <Container fluid="md" sx={{ width: '100%', height: 'auto' }}>
@@ -35,6 +37,28 @@ function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
                             </span>
                             {address.receiverPhone}
                         </p>
+                        {address.isDefault ? (
+                            <p>
+                                <Chip
+                                    size="small"
+                                    variant="outlined"
+                                    label={
+                                        <span
+                                            style={{
+                                                color: 'var(--main-blue)',
+                                            }}
+                                        >
+                                            Mặc định
+                                        </span>
+                                    }
+                                    sx={{
+                                        border: '1px solid var(--main-blue)',
+                                    }}
+                                />
+                            </p>
+                        ) : (
+                            <></>
+                        )}
                     </Col>
                     <Col md={2}>
                         <div>

@@ -18,6 +18,7 @@ import { ROLE_SHOP } from '../.././hooks/constants'
 import SearchProducts from './components/SearchProducts'
 import ListCategories from './components/ListCategories'
 import { useHome } from '../.././hooks/./useHome'
+import useStore from '../../store/hooks'
 
 const Navbar = () => {
     const { categories } = useHome()
@@ -25,6 +26,7 @@ const Navbar = () => {
     const [showDropdownProfile, setShowDropdownProfile] = useState(false)
     const [showDropdownCategory, setShowDropdownCategory] = useState(false)
     const [isLogin, setIsLogin] = useState(() => (user ? true : false))
+    const { cartTotal } = useStore()
 
     useEffect(() => {
         setIsLogin(user ? true : false)
@@ -64,8 +66,8 @@ const Navbar = () => {
                     <Col md={2} className="col-flex">
                         {' '}
                         {isLogin ? (
-                            <div className="d-flex align-items-center justify-content-around w-75 ">
-                                <div className="ms-2">
+                            <div className="d-flex align-items-center justify-content-around w-75 position-relative">
+                                <div className="ms-2 d-flex align-items-center">
                                     <Link to="/cart">
                                         <ShoppingCartOutlined
                                             sx={{
@@ -74,6 +76,7 @@ const Navbar = () => {
                                             }}
                                         />
                                     </Link>
+                                    <div className="cart-number-badge">{cartTotal}</div>
                                 </div>
                                 <div>
                                     <Dropdown
