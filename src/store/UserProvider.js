@@ -10,12 +10,15 @@ function UserProvider({ children }) {
     const [addresses, setAddresses] = useState([])
 
     const getAddresses = async () => {
-        const q = queryString.stringify({
-            userId: user.userId,
-        })
-        const res = await get('address', q)
-        const data = await res.json()
-        setAddresses(data)
+        if (user) {
+            const q = queryString.stringify({
+                userId: user.userId,
+            })
+            const res = await get('address', q)
+            const data = await res.json()
+            setAddresses(data)
+        }
+        return
     }
 
     useEffect(() => {

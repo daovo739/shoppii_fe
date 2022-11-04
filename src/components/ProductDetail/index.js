@@ -29,6 +29,10 @@ const ProductDetail = ({ product }) => {
     const { user } = useAuth()
     console.log(product)
     const handleAddToCart = async (e, id) => {
+        if (!user) {
+            toast('Đăng nhập để trải nghiệm mua hàng')
+            return
+        }
         e.preventDefault()
         const formData = handleFormData({
             productId: id,
@@ -45,6 +49,10 @@ const ProductDetail = ({ product }) => {
     }
 
     const decreaseQuantity = () => {
+        if (!user) {
+            toast('Đăng nhập để trải nghiệm mua hàng')
+            return
+        }
         setQuantity(quantity => {
             if (quantity > 1) {
                 return quantity - 1
@@ -54,6 +62,10 @@ const ProductDetail = ({ product }) => {
     }
 
     const increaseQuantity = () => {
+        if (!user) {
+            toast('Đăng nhập để trải nghiệm mua hàng')
+            return
+        }
         setQuantity(quantity => {
             if (quantity < product.quantity) {
                 return quantity + 1
@@ -63,6 +75,10 @@ const ProductDetail = ({ product }) => {
     }
 
     const handleQuantity = e => {
+        if (!user) {
+            toast('Đăng nhập để trải nghiệm mua hàng')
+            return
+        }
         if (quantity > product.quantity) {
             setQuantity(product.quantity)
         } else if (quantity < 1) {
@@ -101,67 +117,11 @@ const ProductDetail = ({ product }) => {
                     </div>
                 </div>
 
-                <div className="row page-box" style={{ backgroundColor: 'white' }}>
+                <div
+                    className="row page-box"
+                    style={{ backgroundColor: 'white' }}
+                >
                     <div className="col-xs-12 col-sm-6">
-                        {/* <div className="product-images">
-                            <div
-                                id="imagesCarousel"
-                                className="carousel slide"
-                                data-bs-ride="carousel"
-                            >
-                                <div className="carousel-inner">
-                                    <div className="carousel-item active">
-                                        <img
-                                            src={ProductImage}
-                                            alt="img1"
-                                        ></img>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img
-                                            src={ProductImage}
-                                            alt="img1"
-                                        ></img>
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img
-                                            src={ProductImage}
-                                            alt="img1"
-                                        ></img>
-                                    </div>
-                                </div>
-
-                                <button
-                                    className="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#imagesCarousel"
-                                    data-bs-slide="prev"
-                                >
-                                    <ArrowBackIos
-                                        fontSize="medium"
-                                        className="text-dark next-prev-icon"
-                                    ></ArrowBackIos>
-                                </button>
-                                <button
-                                    className="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#imagesCarousel"
-                                    data-bs-slide="next"
-                                >
-                                    <ArrowForwardIos
-                                        fontSize="medium"
-                                        className="text-dark next-prev-icon"
-                                    ></ArrowForwardIos>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="small-images">
-                            <img src={ProductImage} alt="img1"></img>
-                            <img src={ProductImage} alt="img1"></img>
-                            <img src={ProductImage} alt="img1"></img>
-                            <img src={ProductImage} alt="img1"></img>
-                        </div> */}
-
                         <ImageGallery isDelete={false} />
                     </div>
 
@@ -218,7 +178,10 @@ const ProductDetail = ({ product }) => {
 
                 {/* <hr></hr> */}
 
-                <div className="row page-box" style={{ backgroundColor: 'white' }}>
+                <div
+                    className="row page-box"
+                    style={{ backgroundColor: 'white' }}
+                >
                     <div className="col-12">
                         <div className="shop">
                             <div className="shop-image">
@@ -248,7 +211,10 @@ const ProductDetail = ({ product }) => {
                     </div>
                 </div>
 
-                <div className="row page-box" style={{ backgroundColor: 'white' }}>
+                <div
+                    className="row page-box"
+                    style={{ backgroundColor: 'white' }}
+                >
                     <div className="col-xs-12 col-xs-8">
                         <div className="product-decs">
                             <p>Mô tả sản phẩm</p>

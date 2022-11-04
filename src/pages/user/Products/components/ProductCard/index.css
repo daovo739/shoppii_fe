@@ -34,7 +34,7 @@
 }
 
 .add-cart-container:hover + .product-price-main {
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 .add-cart-container:hover svg {
@@ -66,6 +66,6 @@
         font-size: 0;
     }
     to {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
 }

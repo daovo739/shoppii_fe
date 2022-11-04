@@ -9,6 +9,7 @@ import SendTo from './components/SendTo'
 import Bill from './components/Bill'
 import useStore from '../../../store/hooks'
 import { shippingUnit } from './components/CheckoutShop/ShippingUnitData'
+import PaypalButton from '../../../components/PaypalButton'
 
 function Checkout() {
     const navigate = useNavigate()
@@ -90,7 +91,7 @@ function Checkout() {
                                 setSelectedAddress={setSelectedAddress}
                             />
                         </Row>
-                        <Row>
+                        <Row className="d-flex flex-column">
                             <Bill totalCheckout={totalCheckout} />
 
                             <Button
@@ -105,6 +106,11 @@ function Checkout() {
                             >
                                 Đặt hàng
                             </Button>
+                            <PaypalButton
+                                style={{
+                                    padding: '0',
+                                }}
+                            />
                         </Row>
                     </Container>
                 </Col>

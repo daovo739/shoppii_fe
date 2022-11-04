@@ -12,7 +12,7 @@ import {
     Box,
 } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { handleChange, handleFormData } from '../.././utils/handleForm'
 import { GoogleLogin } from 'react-google-login'
 import { gapi } from 'gapi-script'
@@ -23,6 +23,7 @@ import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
 
 function LoginForm() {
     const { login } = useAuth()
+    const toastId = useRef()
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
@@ -55,6 +56,7 @@ function LoginForm() {
         if (info === 'admin' && password === 'admin') {
             login(null, ROLE_ADMIN)
         } else {
+            toastId.current = toast('Đang đăng nhập', { autoClose: false })
             const formData = handleFormData(user)
             const res = await post('auth', formData)
             const data = await res.json()
@@ -62,8 +64,17 @@ function LoginForm() {
             console.log(data)
             if (res.status === 200) {
                 login(data, ROLE_USER)
+                toast.update(toastId.current, {
+                    render: 'Đăng nhập thành công',
+                    type: toast.TYPE.SUCCESS,
+                    autoClose: 1000,
+                })
             } else {
-                toast.error('Đăng nhập thất bại')
+                toast.update(toastId.current, {
+                    render: 'Đăng nhập thất bại',
+                    type: toast.TYPE.ERROR,
+                    autoClose: 1000,
+                })
             }
         }
     }
