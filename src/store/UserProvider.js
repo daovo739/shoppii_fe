@@ -11,12 +11,15 @@ function UserProvider({ children }) {
     const [cartTotal, setCartTotal] = useState(0)
 
     const getAddresses = async () => {
-        const q = queryString.stringify({
-            userId: user.userId,
-        })
-        const res = await get('address', q)
-        const data = await res.json()
-        setAddresses(data)
+        if (user) {
+            const q = queryString.stringify({
+                userId: user.userId,
+            })
+            const res = await get('address', q)
+            const data = await res.json()
+            setAddresses(data)
+        }
+        return
     }
 
     const getTotalCart = async () => {

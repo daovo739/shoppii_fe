@@ -20,6 +20,10 @@ function ProductCard({ product }) {
     const { user } = useAuth()
     const handleAddToCart = async (e, id) => {
         e.preventDefault()
+        if (!user) {
+            toast('Đăng nhập để trải nghiệm mua hàng')
+            return
+        }
         const formData = handleFormData({
             productId: id,
             quantity: 1,
@@ -69,7 +73,7 @@ function ProductCard({ product }) {
                 >
                     <AddShoppingCartIcon fontSize="large" color="primary" />
 
-                    <p className="add-cart-content">Add to cart</p>
+                    <p className="add-cart-content">Thêm vào giỏ hàng</p>
                 </IconButton>
                 <Typography
                     gutterBottom

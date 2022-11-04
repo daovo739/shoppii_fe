@@ -80,7 +80,7 @@ function Cart() {
         setIdDelete(null)
         handleCloseModalDelete()
     }
-    return (
+    return cart.length > 0 ? (
         <div>
             <Container fluid="md">
                 <Row
@@ -165,6 +165,10 @@ function Cart() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+        </div>
+    ) : (
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <h1>Giỏ hàng của bạn đang trống</h1>
         </div>
     )
 }
