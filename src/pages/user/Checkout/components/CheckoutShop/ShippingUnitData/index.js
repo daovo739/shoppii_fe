@@ -1,14 +1,14 @@
 export const shippingUnit = [
     {
         name: 'J&T Express',
-        price: '51.100',
+        price: '51100',
     },
     {
         name: 'VNPost (EMS)',
-        price: '35.000',
+        price: '35000',
     },
     {
         name: 'Viettel Post',
-        price: '30.100',
+        price: '30100',
     },
 ]

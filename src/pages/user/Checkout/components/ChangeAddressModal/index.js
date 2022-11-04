@@ -22,7 +22,7 @@ function ChangeAddressModal({ onClick, addresses }) {
     const handleClose = () => setOpen(false)
 
     const [selected, setSelected] = useState(
-        addresses.find(address => address?.isDefault).addressId,
+        addresses.find(address => address?.isDefault)?.addressId,
     )
 
     const handleSelectAddress = event => {
@@ -61,6 +61,11 @@ function ChangeAddressModal({ onClick, addresses }) {
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 name="radio-buttons-group"
                                 value={selected}
+                                defaultChecked={
+                                    addresses.find(
+                                        address => address?.isDefault,
+                                    )?.addressId
+                                }
                                 onChange={e => handleSelectAddress(e)}
                             >
                                 {addresses?.map(item => {

@@ -1,9 +1,28 @@
-import React from 'react'
+import { memo, useMemo } from 'react'
 import './index.css'
 import { Container, Row, Col } from 'react-bootstrap'
-import { Button } from '@mui/material'
 
-function Bill() {
+import { formatPrice } from '../../../../../utils/format'
+
+function Bill({ totalCheckout }) {
+    const totalDeliveryFee = useMemo(() => {
+        return totalCheckout.reduce((total, shop) => {
+            return total + shop.checkout.deliveryFee
+        }, 0)
+    }, [totalCheckout])
+
+    const totalProducts = useMemo(() => {
+        return totalCheckout.reduce((total, shop) => {
+            return total + shop.checkout.totalProduct
+        }, 0)
+    }, [totalCheckout])
+
+    const totalCheckouts = useMemo(() => {
+        return totalCheckout.reduce((total, shop) => {
+            return total + shop.checkout.total
+        }, 0)
+    }, [totalCheckout])
+
     return (
         <div className="bill py-4">
             <Container
@@ -23,20 +42,31 @@ function Bill() {
                     </Col>
                     <Col
                         md={6}
-                        style={{ textAlign: 'right', color: 'var(--main-green)' }}
+                        style={{
+                            textAlign: 'right',
+                            color: 'var(--main-green)',
+                        }}
                     >
-                        293.000đ
+                        {formatPrice(totalProducts)}
                     </Col>
                 </Row>
-                <Row style={{ borderBottom: '3px solid #fafafa', paddingBottom: '2rem' }}>
+                <Row
+                    style={{
+                        borderBottom: '3px solid #fafafa',
+                        paddingBottom: '2rem',
+                    }}
+                >
                     <Col md={6} style={{ color: 'gray' }}>
                         Phí vận chuyển
                     </Col>
                     <Col
                         md={6}
-                        style={{ textAlign: 'right', color: 'var(--main-green)' }}
+                        style={{
+                            textAlign: 'right',
+                            color: 'var(--main-green)',
+                        }}
                     >
-                        32.000đ
+                        {formatPrice(totalDeliveryFee)}
                     </Col>
                 </Row>
                 <Row style={{ paddingTop: '2rem' }}>
@@ -49,26 +79,12 @@ function Bill() {
                             fontSize: '2.3rem',
                         }}
                     >
-                        293.000₫
+                        {formatPrice(totalCheckouts)}
                     </Col>
-                </Row>
-                <Row className="px-4">
-                    <Button
-                        sx={{
-                            backgroundColor: 'var(--main-red)',
-                            color: 'white',
-                            fontSize: '1.5rem',
-                            marginTop: '2rem',
-                            border: '2px solid var(--main-red)'
-                        }}
-                        className="checkout-btn"
-                    >
-                        Đặt hàng
-                    </Button>
                 </Row>
             </Container>
         </div>
     )
 }
 
-export default Bill
+export default memo(Bill)

@@ -1,34 +1,16 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ChangeAddressModal from '../ChangeAddressModal'
 import { LocationOn } from '@mui/icons-material'
 
-export const addressList = [
-    {
-        id: '1',
-        name: 'Ton That Khiem',
-        phone: '0459877589',
-        address: '1x/45x đường XX, phường XX, Quận XX, Thành phố XX',
-        isDefault: true,
-    },
-    {
-        id: '2',
-        name: 'Vo Van Dao',
-        phone: '0459877589',
-        address: '1x/45x đường XX, phường XX, Quận XX, Thành phố XX',
-        isDefault: false,
-    },
-]
-
-function SendTo({ addresses }) {
-    const [selectedAddress, setSelectedAddress] = useState(
-        addresses.find(address => address.isDefault),
-    )
-    const [total, setTotal] = useState(0)
-
+function SendTo({ addresses, selectedAddress, setSelectedAddress }) {
     const getSelectedAddress = id => {
         setSelectedAddress(addresses.find(item => item.addressId === +id))
     }
+
+    useEffect(() => {
+        setSelectedAddress(addresses.find(address => address.isDefault))
+    }, [addresses])
 
     return (
         <div className="sendto py-4">

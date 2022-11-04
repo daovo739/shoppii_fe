@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import {
     Radio,
@@ -8,9 +8,9 @@ import {
     Avatar,
 } from '@mui/material'
 import { LocalAtm } from '@mui/icons-material'
-import { ZaloPay, Momo, ViettelPay } from './images/images'
+import { ZaloPay, Momo, ViettelPay, Paypal } from './images/images'
 
-function PaymentMethods() {
+function PaymentMethods({ setPaymentMethod }) {
     return (
         <div className="payment-methods">
             <Container
@@ -18,7 +18,7 @@ function PaymentMethods() {
                 className="py-4 px-3"
                 style={{
                     backgroundColor: 'white',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
                 }}
             >
                 <Row>
@@ -33,12 +33,13 @@ function PaymentMethods() {
                         <FormControl>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue="female"
+                                defaultValue="paypal"
                                 name="radio-buttons-group"
+                                onChange={e => setPaymentMethod(e.target.value)}
                             >
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
-                                        value="money"
+                                        value="cash"
                                         control={<Radio size="medium" />}
                                     />
                                     <LocalAtm
@@ -54,51 +55,19 @@ function PaymentMethods() {
                                 </div>
                                 <div className="d-flex align-items-center">
                                     <FormControlLabel
-                                        value="zalopay"
-                                        control={<Radio size="medium"  />}
+                                        value="paypal"
+                                        control={<Radio size="medium" />}
                                     />
                                     <Avatar
-                                        alt="zalopay"
-                                        src={ZaloPay}
+                                        alt="paypal"
+                                        src={Paypal}
                                         sx={{
                                             width: 24,
                                             height: 24,
                                             marginRight: '1rem',
                                         }}
                                     />
-                                    <span>Thanh toán bằng ví ZaloPay</span>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                    <FormControlLabel
-                                        value="momo"
-                                        control={<Radio size="medium"  />}
-                                    />
-                                    <Avatar
-                                        alt="momo"
-                                        src={Momo}
-                                        sx={{
-                                            width: 24,
-                                            height: 24,
-                                            marginRight: '1rem',
-                                        }}
-                                    />
-                                    <span>Thanh toán bằng ví Momo</span>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                    <FormControlLabel
-                                        value="viettelpay"
-                                        control={<Radio size="medium"  />}
-                                    />
-                                    <Avatar
-                                        alt="viettelpay"
-                                        src={ViettelPay}
-                                        sx={{
-                                            width: 24,
-                                            height: 24,
-                                            marginRight: '1rem',
-                                        }}
-                                    />
-                                    <span>Thanh toán bằng ví Viettel Pay</span>
+                                    <span>Thanh toán bằng ví Paypal</span>
                                 </div>
                             </RadioGroup>
                         </FormControl>
@@ -109,4 +78,4 @@ function PaymentMethods() {
     )
 }
 
-export default PaymentMethods
+export default memo(PaymentMethods)

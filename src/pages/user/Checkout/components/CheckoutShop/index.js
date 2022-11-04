@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { Store } from '@mui/icons-material'
@@ -7,22 +7,31 @@ import ShippingUnitModal from '../ShippingUnitModal'
 import { shippingUnit } from '../CheckoutShop/ShippingUnitData'
 import { formatPrice } from '../../../../../utils/format'
 
-function CheckoutShop({ shop }) {
+function CheckoutShop({ shop, setTotalCheckout }) {
     const [selectedUnit, setSelectedUnit] = useState(shippingUnit[0])
 
     const getSelectedUnit = index => {
+        setTotalCheckout(prev => {
+            return prev.map(item => {
+                if (item.shopId === shop.shopId) {
+                    return {
+                        ...item,
+                        checkout: {
+                            ...item.checkout,
+                            deliveryFee: parseInt(shippingUnit[index].price),
+                            deliveryMethod: shippingUnit[index],
+                            total:
+                                item.checkout.totalProduct +
+                                parseInt(shippingUnit[index].price),
+                        },
+                    }
+                }
+
+                return item
+            })
+        })
         setSelectedUnit(shippingUnit[index])
     }
-
-    const totalPrice = useMemo(() => {
-        return (
-            shop.products.reduce((total, product) => {
-                return total + product.cartQuantity * product.price
-            }, 0) +
-            Number(selectedUnit.price) +
-            parseInt(selectedUnit.price.replace('.', ''))
-        )
-    }, [shop])
 
     return (
         <div className="checkout-shop py-4 px-3">
@@ -113,7 +122,7 @@ function CheckoutShop({ shop }) {
                             </Col>
                             <Col md={2}>
                                 <div style={{ textAlign: 'right' }}>
-                                    {selectedUnit.price}
+                                    {formatPrice(selectedUnit.price)}
                                 </div>
                             </Col>
                         </Row>
@@ -132,7 +141,7 @@ function CheckoutShop({ shop }) {
                                     className="fs-1 me-3"
                                     style={{ color: 'var(--main-red)' }}
                                 >
-                                    {formatPrice(totalPrice)}
+                                    {formatPrice(shop?.checkout?.total)}
                                 </span>
                             </Col>
                         </Row>
