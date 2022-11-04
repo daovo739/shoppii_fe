@@ -8,25 +8,26 @@ function CheckoutProduct({ product }) {
         <div className="checkout-product mb-3">
             <Container fluid="md">
                 <Row>
-                    <Col md={8} className="d-flex">
+                    <Col md={10} className="d-flex">
                         <img
                             src={ProductImg}
                             alt="image"
-                            style={{ width: '70px' }}
+                            style={{ width: '70px', height: '70px' }}
+                            className="pt-1"
                         />
                         <div className="ms-3">
                             <h3 className="mb-2 text-capitalize">
                                 {product.productName}
                             </h3>
-                            <h4 style={{ color: 'gray' }}>
+                            <h5 style={{ color: 'gray' }}>
                                 Số lượng: {product.cartQuantity}
-                            </h4>
-                            <h4 style={{ color: 'gray' }}>
+                            </h5>
+                            <h5 style={{ color: 'gray' }}>
                                 Giá: {formatPrice(product.price)}
-                            </h4>
+                            </h5>
                         </div>
                     </Col>
-                    <Col md={4}>
+                    <Col md={2}>
                         <div
                             className="fs-4"
                             style={{ fontWeight: 'bold', textAlign: 'right' }}

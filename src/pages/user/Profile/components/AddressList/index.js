@@ -69,6 +69,7 @@ function AddressList() {
             province: '',
             district: '',
             ward: '',
+            isDefault: false
         })
         setOpenModalCreate(true)
     }, [])

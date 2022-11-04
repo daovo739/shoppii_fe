@@ -8,6 +8,7 @@ function UserProvider({ children }) {
     const { user } = useAuth()
     const [productsData, setProductsData] = useState({})
     const [addresses, setAddresses] = useState([])
+    const [cartTotal, setCartTotal] = useState(0)
 
     const getAddresses = async () => {
         if (user) {
@@ -21,8 +22,18 @@ function UserProvider({ children }) {
         return
     }
 
+    const getTotalCart = async () => {
+        const q = queryString.stringify({
+            userId: user.userId
+        })
+        const res = await get('/cart', q)
+        const data = await res.json()
+        setCartTotal(data.length);
+    }
+
     useEffect(() => {
         getAddresses()
+        getTotalCart()
     }, [])
 
     const value = {
@@ -30,6 +41,8 @@ function UserProvider({ children }) {
         setProductsData,
         addresses,
         getAddresses,
+        cartTotal,
+        getTotalCart
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

@@ -12,6 +12,7 @@ import {
     FormControl,
     Select,
     Button,
+    Checkbox,
 } from '@mui/material'
 import { Container, Row, Col } from 'react-bootstrap'
 import {
@@ -41,6 +42,8 @@ function AddressModalCreate({
     const [state, dispatch] = useReducer(reducer, initState)
     const { cities, districts, wards, city, district, ward } = state
     const [anotherInfo, setAnotherInfo] = useState(addressAction)
+    const [isDefault, setIsDefault] = useState(false)
+    console.log(isDefault)
 
     useEffect(() => {
         ;(async () => {
@@ -87,6 +90,7 @@ function AddressModalCreate({
             province: state.city.ProvinceName,
             district: state.district.DistrictName,
             ward: state.ward.WardName,
+            isDefault: isDefault
         }
         console.log(data)
         const formData = handleFormData(data)
@@ -271,7 +275,7 @@ function AddressModalCreate({
                                         }
                                         variant="outlined"
                                         sx={{
-                                            marginBottom: '2.5rem',
+                                            marginBottom: '1.2rem',
                                             width: '100%',
                                         }}
                                         InputProps={{
@@ -281,6 +285,25 @@ function AddressModalCreate({
                                             handleChange(e, setAnotherInfo)
                                         }
                                     />
+                                </Col>
+                            </Row>
+                            <Row className="mb-3">
+                                <Col
+                                    md={12}
+                                    className="d-flex align-items-center"
+                                >
+                                    <Checkbox
+                                        checked={isDefault}
+                                        onChange={() =>
+                                            setIsDefault(!isDefault)
+                                        }
+                                        sx={{
+                                            '& .MuiSvgIcon-root': {
+                                                fontSize: 25,
+                                            },
+                                        }}
+                                    />
+                                    <span>Đặt làm địa chỉ mặc định</span>
                                 </Col>
                             </Row>
                             <Row>
