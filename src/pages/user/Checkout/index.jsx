@@ -14,7 +14,7 @@ import ModalNotification from '../../../components/ModalNotification/index'
 
 function Checkout() {
     const navigate = useNavigate()
-    const { addresses } = useStore()
+    const { addresses, getAddresses } = useStore()
     const { state } = useLocation()
     const [selectedAddress, setSelectedAddress] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('paypal')
@@ -100,6 +100,7 @@ function Checkout() {
                                     addresses={addresses}
                                     selectedAddress={selectedAddress}
                                     setSelectedAddress={setSelectedAddress}
+                                    getAddresses={getAddresses}
                                 />
                             </Row>
                             <Row className="d-flex flex-column">

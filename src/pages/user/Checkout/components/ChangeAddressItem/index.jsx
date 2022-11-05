@@ -1,7 +1,8 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Button, Chip, Radio, FormControlLabel } from '@mui/material'
-import { EditLocationAlt } from '@mui/icons-material'
+import { EditLocationTwoTone } from '@mui/icons-material'
+import { AddressModalEdit } from '../../../Profile/components/AddressModal'
 
 function ChangeAddressItem({
     isDefault,
@@ -12,9 +13,17 @@ function ChangeAddressItem({
     province,
     district,
     ward,
+    getAddresses
 }) {
+    const [open, setOpen] = React.useState(false)
+    const handleOpen = () => {
+        setOpen(true)
+    }
+    const handleClose = () => {
+        setOpen(false)
+    }
     return (
-        <div className="change-address-item">
+        <div className="change-address-item pb-0">
             <Container fluid="md">
                 <Row>
                     <Col md={1} className="pt-2 ps-5">
@@ -28,7 +37,9 @@ function ChangeAddressItem({
                                     className="d-flex justify-content-between"
                                 >
                                     <div className="d-flex align-items-center">
-                                        <h3 className="mt-3">{name}</h3>
+                                        <h3 className="mt-3">
+                                            <strong>{name}</strong>
+                                        </h3>
                                         <span
                                             className="mx-3 fs-1 p-0"
                                             style={{
@@ -46,27 +57,56 @@ function ChangeAddressItem({
                                         </h4>
                                     </div>
                                     <div>
-                                        <Button sx={{ fontSize: '1.2rem' }}>
-                                            <EditLocationAlt
+                                        <Button
+                                            sx={{
+                                                fontSize: '1.5rem',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                color: 'var(--main-red)',
+                                            }}
+                                            onClick={handleOpen}
+                                        >
+                                            <EditLocationTwoTone
                                                 sx={{
-                                                    fontSize: '1.5rem',
+                                                    fontSize: '1.9rem',
                                                     marginRight: '0.5rem',
+                                                    color: 'var(--main-red)',
                                                 }}
                                             />
                                             Sửa
                                         </Button>
+                                        <AddressModalEdit
+                                            open={open}
+                                            handleClose={handleClose}
+                                            addressAction={{
+                                                isDefault,
+                                                receiverName: name,
+                                                receiverPhone: phone,
+                                                addressId : id,
+                                                receiverAddress: address,
+                                                province,
+                                                district,
+                                                ward,
+                                            }}
+                                            getAddresses={getAddresses}
+                                        />
                                     </div>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col md={12}>
-                                    <p style={{ marginBottom: 0 }}>
-                                        Tỉnh / Thành Phố:
-                                        <strong>{province}</strong>
+                                    <p
+                                        style={{
+                                            marginBottom: 0,
+                                            fontSize: '1.5rem',
+                                        }}
+                                    >
+                                        Tỉnh / Thành Phố :
+                                        <strong> {province}</strong>
                                         <br />
-                                        Quận: <strong>{district}</strong>
-                                        <br />
-                                        Phường: <strong>{ward}</strong>
+                                        Quận : <strong>{district}, </strong>
+                                        {/* <br /> */}
+                                        Phường : <strong>{ward}</strong>
                                     </p>
                                     <h4 style={{ color: 'gray' }}>{address}</h4>
                                 </Col>
@@ -89,7 +129,7 @@ function ChangeAddressItem({
                                         sx={{
                                             width: '7rem',
                                             height: '1.8rem',
-                                            // border: '1px solid #ff424e ',
+                                            border: '1px solid var(--main-red) ',
                                             marginTop: '0.5rem',
                                             color: '#fff !important',
                                         }}

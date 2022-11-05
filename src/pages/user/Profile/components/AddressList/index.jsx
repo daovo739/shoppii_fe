@@ -97,14 +97,6 @@ function AddressList() {
 
     return (
         <div className="address-list w-100 h-auto">
-            {addresses?.map(address => (
-                <AddressItem
-                    key={address.addressId}
-                    address={address}
-                    handleOpen={handleOpen}
-                    handleOpenModalEdit={handleOpenModalEdit}
-                />
-            ))}
             <Box
                 className="add-new-address d-flex justify-content-center"
                 component="span"
@@ -114,6 +106,15 @@ function AddressList() {
                 <AddOutlinedIcon sx={{ fontSize: '25px', color: 'gray' }} />
                 <div className="ms-3 pt-1">THÊM ĐỊA CHỈ MỚI</div>
             </Box>
+            {addresses?.map(address => (
+                <AddressItem
+                    key={address.addressId}
+                    address={address}
+                    handleOpen={handleOpen}
+                    handleOpenModalEdit={handleOpenModalEdit}
+                />
+            ))}
+            
             <Modal
                 open={open}
                 onClose={handleClose}

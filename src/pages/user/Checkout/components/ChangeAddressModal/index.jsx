@@ -15,7 +15,7 @@ import { Business } from '@mui/icons-material'
 import ChangeAddressItem from '../ChangeAddressItem'
 import './index.css'
 
-function ChangeAddressModal({ onClick, addresses }) {
+function ChangeAddressModal({ onClick, getAddresses, addresses }) {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -79,6 +79,7 @@ function ChangeAddressModal({ onClick, addresses }) {
                                             ward={item?.ward}
                                             district={item?.district}
                                             province={item?.province}
+                                            getAddresses
                                         />
                                     )
                                 })}
