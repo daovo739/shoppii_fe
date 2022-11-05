@@ -7,6 +7,7 @@ and [Vitejs](https://github.com/vitejs/vite) (recommend Vitejs)
 1. Clone latest branch version
 2. Clone latest version of server backend [Shoppi Back-End](https://github.com/th4tkh13m/shoppii)
 3. Install MySQL server and run sql script at folder sql [Shoppi Back-End](https://github.com/th4tkh13m/shoppii)
+4. Add .env to project
 
 # How to run this project:
 
