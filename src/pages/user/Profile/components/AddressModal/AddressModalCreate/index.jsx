@@ -326,14 +326,20 @@ function AddressModalCreate({
                             <Row className="mb-3">
                                 <Col
                                     md={12}
-                                    className="d-flex align-items-center"
+                                    className="d-flex align-items-center my-3"
                                 >
                                     <FormControlLabel
                                         control={<CheckedDefault />}
                                         onChange={() =>
                                             setIsDefault(!isDefault)
                                         }
-                                        label="Đặt làm địa chỉ mặc định"
+                                        label={
+                                            <span
+                                                style={{ fontSize: '1.6rem' }}
+                                            >
+                                                Đặt làm địa chỉ mặc định
+                                            </span>
+                                        }
                                     />
                                 </Col>
                             </Row>

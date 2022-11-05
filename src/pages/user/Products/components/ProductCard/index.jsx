@@ -60,10 +60,7 @@ function ProductCard({ product }) {
                     gutterBottom
                     variant="h5"
                     component="div"
-                    style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                    }}
+                    className="card-product-name"
                 >
                     {product.name}
                 </Typography>

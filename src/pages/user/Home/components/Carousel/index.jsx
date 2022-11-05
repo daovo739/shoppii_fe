@@ -12,6 +12,7 @@ function ControlledCarousel() {
                             className="d-block w-100"
                             src={slide.image}
                             alt={index}
+                            style={{ borderRadius: '3px' }}
                         />
                     </Carousel.Item>
                 )

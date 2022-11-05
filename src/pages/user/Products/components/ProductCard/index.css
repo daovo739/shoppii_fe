@@ -69,3 +69,13 @@
         font-size: 1.2rem;
     }
 }
+
+.card-product-name {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
