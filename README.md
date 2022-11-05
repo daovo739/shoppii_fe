@@ -16,4 +16,4 @@ and [Vitejs](https://github.com/vitejs/vite) (recommend Vitejs)
 ## Available Scripts: 
 
 1. ### `npm i --force` to pull libraries at the first time
-2. ### `npm i start` to run the server
+2. ### `npm start` to run the server
