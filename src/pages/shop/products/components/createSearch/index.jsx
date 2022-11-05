@@ -7,6 +7,7 @@ import { get } from '../../../../../utils/httprequest'
 import queryString from 'query-string'
 import { useAuth } from '../../../../../hooks/useAuth'
 import CreateProductModal from '../CreateProductModal'
+
 function CreateAndSearch({ setProducts, fetchProducts }) {
     const { user } = useAuth()
     const [search, setSearch] = useState({ keyword: '', shopId: user.userId })
@@ -38,7 +39,12 @@ function CreateAndSearch({ setProducts, fetchProducts }) {
             >
                 Tạo sản phẩm mới
             </Button>
-            <CreateProductModal fetchProducts={fetchProducts} open={open} handleOpen={handleOpen} handleClose={handleClose} />
+            <CreateProductModal
+                fetchProducts={fetchProducts}
+                open={open}
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+            />
             <Box
                 sx={{
                     display: 'flex',

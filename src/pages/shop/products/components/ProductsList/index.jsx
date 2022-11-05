@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 function ProductsList(props) {
     const navigate = useNavigate()
     const { products, showModalDelete, getProductAction } = props
+
     const showProductEdit = id => {
         const product = getProductAction(id)
         navigate(`/shop/product/${id}`, { state: product })

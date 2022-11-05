@@ -4,11 +4,15 @@ import { Button, Modal } from 'react-bootstrap'
 import { IconButton } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-function ImageGallery({ isDelete = true }) {
+function ImageGallery({ isDelete = true, images }) {
     const [showModalDel, setShowModalDelete] = useState(false)
     const [imgSelected, setImgSelected] = useState(
-        'https://picsum.photos/id/1015/600/400.jpg',
+        images.length > 0 ? images[0].image : '',
     )
+
+    useEffect(() => {
+        setImgSelected(images.length > 0 ? images[0].image : '')
+    }, [images])
 
     const handleSelectImg = e => {
         console.log(e.target.src)
@@ -20,7 +24,7 @@ function ImageGallery({ isDelete = true }) {
     return (
         <section className="gallery">
             <div className="gallery_image">
-                {isDelete && (
+                {isDelete && imgSelected && (
                     <IconButton
                         className="gallery__img--clear"
                         onClick={() => setShowModalDelete(true)}
@@ -33,10 +37,38 @@ function ImageGallery({ isDelete = true }) {
                         />
                     </IconButton>
                 )}
-                <img className="gallery__img" src={imgSelected} alt="" />
+                {imgSelected && (
+                    <img className="gallery__img" src={imgSelected} alt="" />
+                )}
             </div>
             <div className="gallery_items">
-                <div className="gallery__item">
+                {images.map((img, index) => {
+                    return (
+                        <div className="gallery__item" key={index}>
+                            <input
+                                type="radio"
+                                id={`img-${index}`}
+                                name="gallery"
+                                className="gallery__selector"
+                            />
+                            <label
+                                htmlFor={`img-${index}`}
+                                className="gallery__thumb"
+                            >
+                                <img
+                                    src={img.image}
+                                    alt=""
+                                    onClick={e => handleSelectImg(e)}
+                                    style={{
+                                        height: '100px',
+                                        width: '100px',
+                                    }}
+                                />
+                            </label>
+                        </div>
+                    )
+                })}
+                {/* <div className="gallery__item">
                     <input
                         type="radio"
                         id="img-1"
@@ -98,7 +130,7 @@ function ImageGallery({ isDelete = true }) {
                             onClick={e => handleSelectImg(e)}
                         />
                     </label>
-                </div>
+                </div> */}
             </div>
             <Modal
                 show={showModalDel}

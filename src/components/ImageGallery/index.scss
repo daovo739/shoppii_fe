@@ -13,7 +13,6 @@ img {
 .gallery {
     display: flex;
     flex-direction: column;
-    margin: 10px auto;
     max-width: $img-width;
 
     &_image {
@@ -43,7 +42,7 @@ img {
 
     &_items {
         display: flex;
-        justify-content: space-around;
+        // justify-content: space-around;
     }
 
     &__item {

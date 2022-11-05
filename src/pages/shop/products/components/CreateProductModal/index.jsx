@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import {
     Modal,
     Button,
@@ -10,7 +10,9 @@ import {
     MenuItem,
     FormControl,
     Select,
+    IconButton,
 } from '@mui/material'
+import { FileUpload } from '@mui/icons-material'
 import { style } from '../../../../../components/ModalStyle'
 import { Row, Col, Overlay } from 'react-bootstrap'
 import ImageGallery from '../../../../../components/ImageGallery'
@@ -21,6 +23,7 @@ import queryString from 'query-string'
 import { toast } from 'react-toastify'
 
 function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
+    const toastId = useRef()
     const [productInfo, setProductInfo] = useState({
         name: '',
         price: '',
@@ -30,7 +33,9 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
     })
     const { user } = useAuth()
     const [categories, setCategories] = useState([])
+    const [images, setImages] = useState([])
 
+    console.log(images)
     const getCategories = async () => {
         const q = queryString.stringify({})
         const res = await get('category', q)
@@ -42,8 +47,21 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
         getCategories()
     }, [])
 
+    const handleUploadImage = e => {
+        const files = Array.from(e.target.files).slice(0, 5)
+        const arr = []
+        files.forEach(file =>
+            arr.push({
+                file,
+                image: URL.createObjectURL(file),
+            }),
+        )
+        setImages(arr)
+    }
+
     const handleSubmit = async e => {
         e.preventDefault()
+        toastId.current = toast('Đang tạo sản phẩm', { autoClose: false })
         const formData = handleFormData({
             shopId: user.userId,
             name: productInfo.name,
@@ -51,16 +69,25 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
             quantity: productInfo.quantity,
             categoryId: productInfo.categoryId,
             description: productInfo.description,
+            files: images.map(image => image.file),
         })
-
         const res = await post('shop/products', formData)
         // console.log(await res.json())
         if (res.status === 201) {
-            toast.success('Thêm sản phẩm thành công')
+            toast.update(toastId.current, {
+                render: 'Tạo sản phẩm thành công',
+                type: toast.TYPE.SUCCESS,
+                autoClose: 1000,
+            })
         } else {
-            toast.error('Thêm sản phẩm không thành công')
+            toast.update(toastId.current, {
+                render: 'Tạo sản phẩm thất bại',
+                type: toast.TYPE.ERROR,
+                autoClose: 1000,
+            })
         }
         handleClose()
+        setImages([])
         fetchProducts()
     }
 
@@ -68,7 +95,10 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
         <>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={() => {
+                    handleClose
+                    setImages([])
+                }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -85,65 +115,57 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                         sx={{ mt: 2 }}
                         component="div"
                     >
-                        <Box component="form">
+                        <Box component="form" onSubmit={e => handleSubmit(e)}>
                             <Row>
                                 <Col md={6} className="d-flex flex-column ">
-                                    <ImageGallery />
+                                    <ImageGallery
+                                        isDelete={false}
+                                        images={images}
+                                    />
                                     <Box
                                         style={{
                                             display: 'flex',
+                                            flexDirection: 'column',
                                             justifyContent: 'center',
+                                            alignItems: 'center',
+                                            height: '100%',
+                                            marginTop: '1rem',
                                         }}
                                     >
-                                        <Button
-                                            variant="contained"
-                                            className="fs-4 w-50 mt-3"
-                                            // disabled={false ? true : false}
-                                            // ref={popover}
+                                        <p
                                             style={{
-                                                position: 'relative',
+                                                fontSize: '1.2rem',
+                                                color: 'red',
+                                                marginRight: '1rem',
                                             }}
                                         >
-                                            Tải thêm ảnh
+                                            Chỉ được phép tải tối đa 5 ảnh
+                                        </p>
+                                        <Button
+                                            variant="outlined"
+                                            component="label"
+                                            sx={{
+                                                padding: '1rem 2rem',
+                                                fontSize: '1.2rem',
+                                            }}
+                                        >
+                                            Tải ảnh lên
                                             <input
                                                 hidden
+                                                encType="multipart/form-data"
                                                 accept=".jpeg,.jpg,.png,.gif,image/*"
                                                 type="file"
                                                 onChange={e => {
-                                                    // setImgURI(getImage(e))
-                                                    // handleChange(e, setProductInfo)
+                                                    handleUploadImage(e)
+                                                }}
+                                                multiple
+                                            />
+                                            <FileUpload
+                                                style={{
+                                                    fontSize: '2rem',
                                                 }}
                                             />
                                         </Button>
-                                        <Overlay
-                                            // target={popover.current}
-                                            show={false}
-                                            placement="bottom"
-                                        >
-                                            {({
-                                                placement,
-                                                arrowProps,
-                                                show: _show,
-                                                popper,
-                                                ...props
-                                            }) => (
-                                                <div
-                                                    {...props}
-                                                    style={{
-                                                        position: 'absolute',
-                                                        fontSize: '1.1rem',
-                                                        color: 'red',
-                                                        // marginLeft: '50px',
-                                                        marginTop: '10px',
-                                                        ...props.style,
-                                                    }}
-                                                >
-                                                    Đã quá số lượng ảnh cho
-                                                    phép. Hãy xóa bớt để có thể
-                                                    tải ảnh mới!
-                                                </div>
-                                            )}
-                                        </Overlay>
                                     </Box>
                                 </Col>
                                 <Col md={6}>
@@ -165,6 +187,7 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                                         margin="normal"
                                         required
                                         fullWidth
+                                        type="number"
                                         label="Giá"
                                         name="price"
                                         autoComplete="price"
@@ -212,7 +235,7 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                                                 handleChange(e, setProductInfo)
                                             }
                                         >
-                                            {categories.map(cate => (
+                                            {categories?.map(cate => (
                                                 <MenuItem
                                                     key={cate.category_id}
                                                     value={cate.category_id}
@@ -224,7 +247,6 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                                     </FormControl>
                                     <TextField
                                         margin="normal"
-                                        required
                                         fullWidth
                                         label="Mô tả"
                                         name="description"
@@ -258,6 +280,7 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                                                     categoryId: '',
                                                     description: '',
                                                 })
+                                                setImages([])
                                             }}
                                         >
                                             Huỷ
@@ -269,7 +292,6 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
                                                 fontSize: '1.3rem',
                                             }}
                                             type="submit"
-                                            onClick={e => handleSubmit(e)}
                                         >
                                             Xác nhận
                                         </Button>
