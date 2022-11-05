@@ -20,7 +20,7 @@ import { toast } from 'react-toastify'
 function ShopProfile() {
     const { user } = useAuth()
     const [showModalDeleteShop, setShowModalDeleteShop] = useState(false)
-    const [imgURI, setImgURI] = useState()
+    const [imgURI, setImgURI] = useState(user.avatar)
     const [shopInfo, setShopInfo] = useState({})
     const [infoUpdate, setInfoUpdate] = useState({
         name: '',
@@ -28,26 +28,31 @@ function ShopProfile() {
         description: '',
     })
 
-    const handleDeleteShop = async (e) => {
+    const handleDeleteShop = async e => {
         const formData = handleFormData({
-            shopId: shopInfo.shopId
+            shopId: shopInfo.shopId,
         })
         const res = await _delete('shop/profiles', formData)
         console.log(await res.json())
         e.preventDefault()
-        
     }
 
     const handleUpdate = async () => {
         const formData = handleFormData({
             shopId: shopInfo.shopId,
             name: infoUpdate.name !== '' ? infoUpdate.name : shopInfo.name,
-            address: infoUpdate.address !== '' ? infoUpdate.address : shopInfo.address,
-            description: infoUpdate.description !== '' ? infoUpdate.description : shopInfo.description,
+            address:
+                infoUpdate.address !== ''
+                    ? infoUpdate.address
+                    : shopInfo.address,
+            description:
+                infoUpdate.description !== ''
+                    ? infoUpdate.description
+                    : shopInfo.description,
         })
         const res = await put('shop/profile', formData)
         console.log(await res.json())
-        if (res.status === 201){
+        if (res.status === 201) {
             toast.success('Cập nhật thành công')
         } else {
             toast.error('Cập nhật không thành công')
@@ -97,7 +102,7 @@ function ShopProfile() {
                                 className="mx-auto my-0"
                             />
                         </Row>
-                        <Row className="d-flex justify-content-center">
+                        {/* <Row className="d-flex justify-content-center">
                             <Button
                                 variant="outlined"
                                 className="fs-5 w-50 mt-3"
@@ -112,7 +117,7 @@ function ShopProfile() {
                                     onChange={e => handleChangeFile(e)}
                                 />
                             </Button>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </Col>
                 <FormShop

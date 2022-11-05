@@ -18,6 +18,7 @@ import {
     ExpandLess,
     ExpandMore,
 } from '@mui/icons-material'
+import { useAuth } from '../../../../../hooks/useAuth'
 
 export const changePass = 'Change Password'
 export const editPro = 'Edit Profile'
@@ -25,6 +26,7 @@ export const orderHistory = 'Order History'
 export const addressList = 'Address'
 
 function ProfileSidebar({ getAction, action }) {
+    const { user } = useAuth()
     const sendAction = action => {
         getAction(action)
     }
@@ -44,7 +46,7 @@ function ProfileSidebar({ getAction, action }) {
             <Stack direction="row" spacing={2}>
                 <Avatar
                     alt="Remy Sharp"
-                    src="/static/images/avatar/1.jpg"
+                    src={user.avatar}
                     sx={{ width: 56, height: 56 }}
                 />
                 <div className="d-flex align-content-center pt-4 fw-bold">

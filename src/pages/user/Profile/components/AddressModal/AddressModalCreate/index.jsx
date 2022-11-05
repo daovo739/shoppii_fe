@@ -324,23 +324,6 @@ function AddressModalCreate({
                                 </Col>
                             </Row>
                             <Row className="mb-3">
-                                {/* <Col
-                                    md={12}
-                                    className="d-flex align-items-center"
-                                >
-                                    <Checkbox
-                                        checked={isDefault}
-                                        onChange={() =>
-                                            setIsDefault(!isDefault)
-                                        }
-                                        sx={{
-                                            '& .MuiSvgIcon-root': {
-                                                fontSize: 25,
-                                            },
-                                        }}
-                                    />
-                                    <span>Đặt làm địa chỉ mặc định</span>
-                                </Col> */}
                                 <Col
                                     md={12}
                                     className="d-flex align-items-center"

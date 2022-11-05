@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './index.css'
 import {
     TextField,
@@ -26,6 +26,7 @@ import { put } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 
 function EditProfileForm() {
+    const toastId = useRef()
     const { user, updateUserInfo } = useAuth()
     const [date, setDate] = useState(user.dob)
     const [imgURI, setImgURI] = useState(user.avatar)
@@ -40,15 +41,15 @@ function EditProfileForm() {
     }
 
     const handleUpdate = async () => {
+        toastId.current = toast('Đang cập nhật', { autoClose: false })
+        const date = new Date(infoUpdate.dob || user.dob)
+        // console.log('date', date)
+        // console.log(moment(date).format('YYYY-MM-DD'))
         const body = {
             userId: user.userId,
             name: infoUpdate.name || user.name,
             sex: infoUpdate.sex === 'male' ? true : false || user.sex,
-            dob:
-                moment(infoUpdate.dob, 'DD-MM-YYYY').format('YYYY-MM-DD') ||
-                moment(user.dob.replace(',', ''), 'MMM DD YYYY').format(
-                    'YYYY-MM-DD',
-                ),
+            dob: moment(date).format('YYYY-MM-DD'),
             phone: infoUpdate.phone || user.phone || '',
             email: infoUpdate.email || user.email || '',
             file: infoUpdate.file || '',
@@ -60,7 +61,11 @@ function EditProfileForm() {
         console.log(res)
         console.log(data)
         if (res.status === 200) {
-            toast.success('Cập nhật thành công')
+            toast.update(toastId.current, {
+                render: 'Cập nhật thành công',
+                type: toast.TYPE.SUCCESS,
+                autoClose: 1000,
+            })
             updateUserInfo({
                 ...data,
                 hasShop: user.hasShop,
@@ -70,7 +75,11 @@ function EditProfileForm() {
             setDate(data.dob)
             SetSexBoolean(data.sex)
         } else {
-            toast.error('Cập nhật thất bại')
+            toast.update(toastId.current, {
+                render: 'Cập nhật thất bại',
+                type: toast.TYPE.ERROR,
+                autoClose: 1000,
+            })
         }
     }
 
