@@ -1,4 +1,4 @@
-.slider {
+/* .slider {
     position: relative;
     display: flex;
     justify-content: center;
@@ -38,4 +38,4 @@
 .slide.active {
     opacity: 1;
     animation: slide 3s linear 3s reverse running both;
-}
+} */

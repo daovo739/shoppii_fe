@@ -5,7 +5,7 @@ import { useHome } from '../../../hooks/useHome'
 
 function Home() {
     const { categories } = useHome()
-
+    console.log('home')
     return (
         <div>
             <Container>

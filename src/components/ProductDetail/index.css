@@ -12,23 +12,6 @@
     margin-bottom: 3rem;
 }
 
-.carousel-item,
-.carousel-item:active {
-    padding: 2rem;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel-item img {
-    width: 70%;
-    border-radius: 1rem;
-}
-
-.next-prev-icon {
-    font-size: 10rem;
-}
-
 .small-images {
     display: flex;
     justify-content: center;
