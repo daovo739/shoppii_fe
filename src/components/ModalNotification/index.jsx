@@ -1,22 +1,20 @@
 import './index.css'
 
-function ModalNotification() {
+function ModalNotification({ type }) {
+    const className =
+        type === 'success'
+            ? 'o-circle__sign--success'
+            : 'o-circle__sign--failure'
+    const description =
+        type === 'success' ? 'Thanh toán thành công' : 'Thanh toán thất bại'
+
     return (
-        <div className="success-checkmark d-flex flex-column justify-content-between align-items-center">
-            <div className="check-icon">
-                <span className="icon-line line-tip"></span>
-                <span className="icon-line line-long"></span>
-                <div className="icon-circle"></div>
-                <div className="icon-fix"></div>
+        <section className="c-container">
+            <div className={`o-circle c-container__circle ${className}`}>
+                <div className="o-circle__sign"></div>
             </div>
-            <h2
-                style={{
-                    marginTop: '20px',
-                }}
-            >
-                Check
-            </h2>
-        </div>
+            <h1 className="o-circle_notification">{description}</h1>
+        </section>
     )
 }
 

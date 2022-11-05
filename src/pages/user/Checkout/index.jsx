@@ -10,7 +10,7 @@ import Bill from './components/Bill'
 import useStore from '../../../store/hooks'
 import { shippingUnit } from './components/CheckoutShop/ShippingUnitData'
 import PaypalButton from '../../../components/PaypalButton'
-import ModalNotification from '../../../components/ModalNotification'
+import ModalNotification from '../../../components/ModalNotification/index'
 
 function Checkout() {
     const navigate = useNavigate()
@@ -18,6 +18,8 @@ function Checkout() {
     const { state } = useLocation()
     const [selectedAddress, setSelectedAddress] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('paypal')
+    const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false)
+    const [typeCheckout, setTypeCheckout] = useState('success')
 
     const updateCheckout = () => {
         return state.map(item => {
@@ -61,63 +63,77 @@ function Checkout() {
     }, [totalCheckout, selectedAddress, paymentMethod])
 
     const handleCheckoutCash = async () => {}
+
+    const handleCheckoutPaypal = async type => {
+        setIsCheckoutSuccess(true)
+        setTypeCheckout(type)
+    }
+
     return (
         <Container fluid="md">
-            <Row>
-                <Col md={9}>
-                    <Container fluid="md">
-                        {totalCheckout?.map(shop => {
-                            return (
-                                <Row key={shop.shopId}>
-                                    <CheckoutShop
-                                        shop={shop}
-                                        setTotalCheckout={setTotalCheckout}
-                                        totalCheckout={totalCheckout}
-                                    />
-                                </Row>
-                            )
-                        })}
-                        <Row>
-                            <PaymentMethods
-                                setPaymentMethod={setPaymentMethod}
-                            />
-                        </Row>
-                    </Container>
-                </Col>
-                <Col md={3}>
-                    <Container fluid="md">
-                        <Row>
-                            <SendTo
-                                addresses={addresses}
-                                selectedAddress={selectedAddress}
-                                setSelectedAddress={setSelectedAddress}
-                            />
-                        </Row>
-                        <Row className="d-flex flex-column">
-                            <Bill totalCheckout={totalCheckout} />
+            {!isCheckoutSuccess ? (
+                <Row>
+                    <Col md={9}>
+                        <Container fluid="md">
+                            {totalCheckout?.map(shop => {
+                                return (
+                                    <Row key={shop.shopId}>
+                                        <CheckoutShop
+                                            shop={shop}
+                                            setTotalCheckout={setTotalCheckout}
+                                            totalCheckout={totalCheckout}
+                                        />
+                                    </Row>
+                                )
+                            })}
+                            <Row>
+                                <PaymentMethods
+                                    setPaymentMethod={setPaymentMethod}
+                                />
+                            </Row>
+                        </Container>
+                    </Col>
+                    <Col md={3}>
+                        <Container fluid="md">
+                            <Row>
+                                <SendTo
+                                    addresses={addresses}
+                                    selectedAddress={selectedAddress}
+                                    setSelectedAddress={setSelectedAddress}
+                                />
+                            </Row>
+                            <Row className="d-flex flex-column">
+                                <Bill totalCheckout={totalCheckout} />
 
-                            {paymentMethod === 'cash' && (
-                                <Button
-                                    sx={{
-                                        backgroundColor: 'var(--main-red)',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        border: '2px solid var(--main-red)',
-                                    }}
-                                    className="checkout-btn"
-                                    onClick={handleCheckoutCash}
-                                >
-                                    Đặt hàng
-                                </Button>
-                            )}
-                            {paymentMethod === 'paypal' && (
-                                <PaypalButton infoCheckout={infoCheckout} />
-                            )}
-                        </Row>
-                    </Container>
-                </Col>
-            </Row>
-            <ModalNotification />
+                                {paymentMethod === 'cash' && (
+                                    <Button
+                                        sx={{
+                                            backgroundColor: 'var(--main-red)',
+                                            color: 'white',
+                                            fontSize: '1.5rem',
+                                            border: '2px solid var(--main-red)',
+                                        }}
+                                        className="checkout-btn"
+                                        onClick={handleCheckoutCash}
+                                    >
+                                        Đặt hàng
+                                    </Button>
+                                )}
+                                {paymentMethod === 'paypal' && (
+                                    <PaypalButton
+                                        infoCheckout={infoCheckout}
+                                        handleCheckoutPaypal={
+                                            handleCheckoutPaypal
+                                        }
+                                    />
+                                )}
+                            </Row>
+                        </Container>
+                    </Col>
+                </Row>
+            ) : (
+                <ModalNotification type={typeCheckout} />
+            )}
         </Container>
     )
 }
