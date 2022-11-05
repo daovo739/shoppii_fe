@@ -49,6 +49,7 @@ function UserProvider({ children }) {
         getAddresses,
         cartTotal,
         getTotalCart,
+        setCartTotal
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

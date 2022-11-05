@@ -22,7 +22,6 @@ function CartProduct({
 }) {
     const { user } = useAuth()
     const [quantity, setQuantity] = useState(product.cartQuantity)
-
     const totalPrice = useMemo(() => {
         return formatPrice(product?.cartQuantity * product?.price)
     }, [product])
@@ -187,9 +186,9 @@ function CartProduct({
                         <div className="d-block">
                             <IconButton
                                 className="d-flex flex-column"
-                                onClick={() =>
+                                onClick={() => {
                                     handleOpenModalDelete(product?.productId)
-                                }
+                                }}
                             >
                                 <DeleteForeverOutlined
                                     sx={{

@@ -23,10 +23,12 @@ import { useAuth } from '../../hooks/useAuth'
 import { handleFormData } from '../../utils/handleForm'
 import { toast } from 'react-toastify'
 import { post } from '../../utils/httprequest'
+import useStore from '../../store/hooks'
 
 const ProductDetail = ({ product }) => {
     const [quantity, setQuantity] = useState(1)
     const { user } = useAuth()
+    const { cartTotal, setCartTotal } = useStore()
     console.log(product)
     const handleAddToCart = async (e, id) => {
         if (!user) {
@@ -169,7 +171,10 @@ const ProductDetail = ({ product }) => {
                             variant="outlined"
                             startIcon={<AddShoppingCart fontSize="large" />}
                             className="add-cart-btn ms-5"
-                            onClick={e => handleAddToCart(e, product.productId)}
+                            onClick={e => {
+                                handleAddToCart(e, product.productId)
+                                setCartTotal(cartTotal + 1)
+                            }}
                         >
                             Thêm vào giỏ hàng
                         </Button>

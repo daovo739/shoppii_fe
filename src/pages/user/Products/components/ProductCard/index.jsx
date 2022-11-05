@@ -15,9 +15,11 @@ import { post } from '../../../../../utils/httprequest'
 import { handleFormData } from '../../../../../utils/handleForm'
 import { useAuth } from '../../../../../hooks/useAuth'
 import { toast } from 'react-toastify'
+import useStore from '../../../../../store/hooks'
 
 function ProductCard({ product }) {
     const { user } = useAuth()
+    const { cartTotal, setCartTotal } = useStore()
     const handleAddToCart = async (e, id) => {
         e.preventDefault()
         if (!user) {
@@ -69,7 +71,10 @@ function ProductCard({ product }) {
             <CardActions className="d-flex justify-content-between align-items-center">
                 <IconButton
                     className="add-cart-container "
-                    onClick={e => handleAddToCart(e, product.productId)}
+                    onClick={e => {
+                        handleAddToCart(e, product.productId)
+                        setCartTotal(cartTotal + 1)
+                    }}
                 >
                     <AddShoppingCartIcon fontSize="large" color="primary" />
 

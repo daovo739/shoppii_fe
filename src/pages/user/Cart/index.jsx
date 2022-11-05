@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Container, Row, Col, Modal, Button } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import queryString from 'query-string'
 import CartShop from './components/CartShop'
 import CartTotal from './components/CartTotal'
@@ -9,6 +9,8 @@ import { useAuth } from '../../../hooks/useAuth'
 import { style } from '../../../components/ModalStyle/index'
 import { _delete } from '../../../utils/httprequest'
 import { handleFormData } from '../../../utils/handleForm'
+import useStore from '../../../store/hooks'
+import { Box, Button, Typography, Modal } from '@mui/material'
 
 function Cart() {
     const { user } = useAuth()
@@ -18,6 +20,7 @@ function Cart() {
     const [selectedCheckout, setSelectedCheckout] = useState([])
     const [isSelectAll, setIsSelectAll] = useState(false)
     const [isSelectAllCheckBox, setIsSelectAllCheckBox] = useState(false)
+    const { cartTotal, setCartTotal } = useStore()
     // console.log(selectedCheckout)
     useEffect(() => {
         getData()
@@ -135,6 +138,58 @@ function Cart() {
                 setIsSelectAllCheckBox={setIsSelectAllCheckBox}
             />
             <Modal
+                open={showModalDelete}
+                onClose={handleCloseModalDelete}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={{ ...style, width: 'auto', py: 5 }}>
+                    <Typography
+                        id="modal-modal-title"
+                        variant="h4"
+                        component="h2"
+                        style={{ textAlign: 'center' }}
+                    >
+                        Bạn muốn xóa sản phẩm này ra khỏi giỏ hàng?
+                    </Typography>
+                    <Typography
+                        id="modal-modal-description"
+                        sx={{ mt: 2 }}
+                        component="div"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'var(--main-blue)',
+                                fontSize: '1.2rem',
+                                mr: 3
+                            }}
+                            onClick={handleCloseModalDelete}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'var(--main-red)',
+                                fontSize: '1.2rem',
+                                ml: 3
+                            }}
+                            onClick={() => {
+                                handleRemoveProduct()
+                                setCartTotal(cartTotal - 1)
+                            }}
+                        >
+                            Xóa
+                        </Button>
+                    </Typography>
+                </Box>
+            </Modal>
+            {/* <Modal
                 show={showModalDelete}
                 onHide={handleCloseModalDelete}
                 centered
@@ -164,7 +219,7 @@ function Cart() {
                         Xóa
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </div>
     ) : (
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
