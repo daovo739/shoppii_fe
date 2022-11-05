@@ -13,7 +13,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { style } from '../../../../../components/ModalStyle'
 import { Business } from '@mui/icons-material'
 import ChangeAddressItem from '../ChangeAddressItem'
-import { addressList } from '../SendTo'
 import './index.css'
 
 function ChangeAddressModal({ onClick, addresses }) {

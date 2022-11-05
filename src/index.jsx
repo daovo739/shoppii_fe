@@ -10,8 +10,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 const initialOptions = {
-    'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
-    'merchant-id': process.env.REACT_APP_PAYPAL_MERCHANT_ID,
+    'client-id': import.meta.env.REACT_APP_PAYPAL_CLIENT_ID,
+    'merchant-id': import.meta.env.REACT_APP_PAYPAL_MERCHANT_ID,
 }
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

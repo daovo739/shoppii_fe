@@ -5,7 +5,7 @@ const getCities = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+            Token: `${import.meta.env.REACT_APP_API_TOKEN_GHN}`,
         },
     })
     const data = await res.json()
@@ -17,7 +17,7 @@ const getDistricts = async id => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+            Token: `${import.meta.env.REACT_APP_API_TOKEN_GHN}`,
         },
     })
     const data = await res.json()
@@ -29,7 +29,7 @@ const getWards = async id => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Token: `${process.env.REACT_APP_API_TOKEN_GHN}`,
+            Token: `${import.meta.env.REACT_APP_API_TOKEN_GHN}`,
         },
     })
     const data = await res.json()

@@ -10,6 +10,7 @@ import Bill from './components/Bill'
 import useStore from '../../../store/hooks'
 import { shippingUnit } from './components/CheckoutShop/ShippingUnitData'
 import PaypalButton from '../../../components/PaypalButton'
+import ModalNotification from '../../../components/ModalNotification'
 
 function Checkout() {
     const navigate = useNavigate()
@@ -116,6 +117,7 @@ function Checkout() {
                     </Container>
                 </Col>
             </Row>
+            <ModalNotification />
         </Container>
     )
 }

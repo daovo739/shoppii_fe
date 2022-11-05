@@ -83,9 +83,8 @@ function RegisterForm() {
                             InputProps={{
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
-                                    pattern:
-                                        process.env
-                                            .REACT_APP_REGEX_AUTH_REGISTER,
+                                    pattern: import.meta.env
+                                        .REACT_APP_REGEX_AUTH_REGISTER,
                                     title: 'Vui lòng số điện thoại',
                                 },
                                 label: 'Nhập số điện thoại aaaaasa',

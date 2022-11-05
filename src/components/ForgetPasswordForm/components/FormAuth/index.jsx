@@ -39,7 +39,7 @@ function FormAuth({ setIsAuth }) {
                         label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
                         // onChange: e => handleChange(e, setUser),
                         inputProps: {
-                            pattern: process.env.REACT_APP_REGEX_AUTH_LOGIN,
+                            pattern: import.meta.env.REACT_APP_REGEX_AUTH_LOGIN,
                             title: 'Vui lòng nhập email hoặc số điện thoại',
                         },
                     }}

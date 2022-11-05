@@ -33,10 +33,10 @@ export const AuthProvider = ({ children }) => {
     }
 
     const handleSwitchShop = () => {
-        if (user.hasShop){
-        changeRole(ROLE_SHOP)
-        navigate('/shop', { replace: true })
-        } else{
+        if (user.hasShop) {
+            changeRole(ROLE_SHOP)
+            navigate('/shop', { replace: true })
+        } else {
             navigate('/register-shop')
         }
     }

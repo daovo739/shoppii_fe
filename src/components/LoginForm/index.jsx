@@ -30,7 +30,7 @@ function LoginForm() {
     useEffect(() => {
         gapi.load('client:auth2', () => {
             gapi.auth2.getAuthInstance({
-                clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                clientId: import.meta.env.REACT_APP_GOOGLE_CLIENT_ID,
             })
         })
     }, [])
@@ -114,8 +114,8 @@ function LoginForm() {
                                 label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
                                 onChange: e => handleChange(e, setUser),
                                 inputProps: {
-                                    pattern:
-                                        process.env.REACT_APP_REGEX_AUTH_LOGIN,
+                                    pattern: import.meta.env
+                                        .REACT_APP_REGEX_AUTH_LOGIN,
                                     title: 'Vui lòng nhập email hoặc số điện thoại',
                                 },
                             }}
@@ -194,7 +194,7 @@ function LoginForm() {
                 </Typography>
 
                 <GoogleLogin
-                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    clientId={import.meta.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Đăng nhập bằng tài khoản Google"
                     onSuccess={handleLoginGoogle}
                     onFailure={() => {
