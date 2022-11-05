@@ -29,7 +29,10 @@ function UserProvider({ children }) {
             })
             const res = await get('/cart', q)
             const data = await res.json()
-            setCartTotal(data.length)
+            const total = data.reduce((total, item) => {
+                return total + item.products.length
+            }, 0)
+            setCartTotal(total)
         }
         return
     }

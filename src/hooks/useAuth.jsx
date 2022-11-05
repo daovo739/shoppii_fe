@@ -58,8 +58,6 @@ export const AuthProvider = ({ children }) => {
         [user, role],
     )
 
-    console.log('render')
-
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
