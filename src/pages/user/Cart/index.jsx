@@ -103,7 +103,7 @@ function Cart() {
                         <div className="fs-3">Sản phẩm</div>
                     </Col>
                     <Col md={3}>
-                        <div className="fs-3" style={{ marginLeft: '6rem' }}>
+                        <div className="fs-3" style={{ marginLeft: '6rem', paddingLeft: '7rem' }}>
                             Số lượng
                         </div>
                     </Col>

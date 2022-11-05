@@ -10,7 +10,21 @@ function Home() {
         <div>
             <Container>
                 <Row style={{ marginBottom: '4rem' }}>
-                    <ControlledCarousel />
+                    <Col md={8}>
+                        <ControlledCarousel />
+                    </Col>
+                    <Col md={4}>
+                        <img
+                            style={{ marginBottom: '0.4rem', borderRadius: '3px' }}
+                            src="https://cf.shopee.vn/file/090a6e7f62b4b4a5739fcb9237931780_xhdpi"
+                            alt=""
+                        />
+                        <img
+                            style={{ borderRadius: '3px' }}
+                            src="https://cf.shopee.vn/file/e8a32ad980217e152f03f6210069d11c_xhdpi"
+                            alt=""
+                        />
+                    </Col>
                 </Row>
                 <Row>
                     <Col>

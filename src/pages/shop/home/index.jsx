@@ -4,8 +4,8 @@ import BestSeller from './components/BestSeller'
 import FilterTotal from './components/FilterTotal'
 
 function ShopHomePage() {
-
-    <Container fluid="md">
+    <>
+        <Container fluid="md">
             <Row
                 className="p-3 my-4"
                 style={{
@@ -26,6 +26,7 @@ function ShopHomePage() {
                 </Col>
             </Row>
         </Container>
+    </>
 }
 
 export default ShopHomePage

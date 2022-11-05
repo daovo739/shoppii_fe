@@ -77,6 +77,9 @@ function CartShop({
                             height: '5rem',
                             borderBottom: '3px solid var(--box-color)',
                             backgroundColor: 'white',
+                            // boxShadow: 'var(--box-shadow-main)',
+                            borderTopLeftRadius: '5px',
+                            borderTopRightRadius: '5px'
                         }}
                     >
                         <Checkbox
@@ -113,7 +116,7 @@ function CartShop({
                     </Col>
                 </Row>
                 {item?.products?.map(product => (
-                    <Row key={product.productId}>
+                    <Row key={product.productId} style={{  }}>
                         <Col
                             md={12}
                             className="d-flex align-items-center py-4"
@@ -121,6 +124,9 @@ function CartShop({
                                 height: 'auto',
                                 borderBottom: '3px solid var(--box-color)',
                                 backgroundColor: 'white',
+                                // boxShadow: 'var(--box-shadow-main)',
+                                borderEndEndRadius: '5px',
+                                borderEndStartRadius: '5px'
                             }}
                         >
                             <Checkbox
