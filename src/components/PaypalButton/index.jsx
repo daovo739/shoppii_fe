@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react'
 import queryString from 'query-string'
 
 const API_CONVERTER = 'https://api.exchangerate.host/convert'
-function PaypalButton({ infoCheckout }) {
+function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
     const [amountUSD, setAmountUSD] = useState(0)
 
     const convertUSDtoVND = async () => {
@@ -38,8 +38,12 @@ function PaypalButton({ infoCheckout }) {
                 })
             }}
             onApprove={(data, actions) => {
-                console.log(data)
-                console.log(actions)
+                return actions.order.capture().then(details => {
+                    handleCheckoutPaypal('success')
+                })
+            }}
+            onError={err => {
+                handleCheckoutPaypal('failure')
             }}
         />
     )
