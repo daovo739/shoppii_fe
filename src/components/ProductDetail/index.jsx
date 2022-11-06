@@ -15,6 +15,7 @@ import {
     Remove,
     AddShoppingCart,
     LocationOn,
+    NavigateNext,
 } from '@mui/icons-material'
 import { Link as LinkRouter } from 'react-router-dom'
 import { formatPrice } from '../../utils/format'
@@ -93,27 +94,40 @@ const ProductDetail = ({ product }) => {
     return (
         <>
             <div className="container">
-                <div className="row">
+                <div
+                    className="row mb-3 ps-3"
+                    style={{
+                        backgroundColor: 'white',
+                        boxShadow: 'var(--box-shadow-main)',
+                    }}
+                >
                     <div className="col-12">
                         <Breadcrumbs
                             aria-label="breadcrumb"
                             className="breadcrumbs-product"
+                            separator={<NavigateNext fontSize="medium" />}
                         >
                             <LinkRouter
                                 underline="hover"
                                 color="inherit"
                                 to="/"
                             >
-                                HomePage
+                                <strong style={{ fontSize: '1.6rem' }}>
+                                    Trang chủ
+                                </strong>
                             </LinkRouter>
                             <Link underline="hover" color="inherit">
-                                Shop
+                                <div style={{ fontSize: '1.6rem' }}>
+                                    Cửa hàng
+                                </div>
                             </Link>
                             <Typography
                                 color="text.primary"
                                 className="bread-active"
                             >
-                                Product
+                                <div style={{ fontSize: '1.6rem' }}>
+                                    Sản phẩm
+                                </div>
                             </Typography>
                         </Breadcrumbs>
                     </div>
@@ -134,7 +148,17 @@ const ProductDetail = ({ product }) => {
                                 label={product?.category?.category_name}
                                 className="catalog"
                             />
-                            <p>{formatPrice(product.price)}</p>
+                            <div
+                                style={{
+                                    fontSize: '3rem',
+                                    backgroundColor: '#fafafa',
+                                    paddingLeft: '1rem',
+                                    color: 'var(--main-red)'
+                                }}
+                                className="my-3 py-2"
+                            >
+                                {formatPrice(product.price)}
+                            </div>
                             <div className="d-flex align-items-center">
                                 <div className="quantity">
                                     <IconButton onClick={increaseQuantity}>
@@ -163,12 +187,13 @@ const ProductDetail = ({ product }) => {
                                         marginLeft: '20px',
                                     }}
                                 >
-                                    Còn lại {product.quantity} sản phẩm
+                                    Còn lại <strong>{product.quantity}</strong>{' '}
+                                    sản phẩm
                                 </p>
                             </div>
                         </div>
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             startIcon={<AddShoppingCart fontSize="large" />}
                             className="add-cart-btn ms-5"
                             onClick={e => {

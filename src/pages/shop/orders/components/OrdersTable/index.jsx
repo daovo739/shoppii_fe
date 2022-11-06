@@ -1,27 +1,32 @@
 import * as React from 'react'
-import { Chip, TableContainer } from '@mui/material'
+import { Chip, TableContainer, Button } from '@mui/material'
 import './index.css'
 import OrdersModal from '../OrdersModal'
 
-function OrdersTable({ orders }) {
+function OrdersTable({ orders, setActionOrderId, setActionStatus, handleAccept }) {
+    const [open, setOpen] = React.useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
+
+
     return (
         <React.Fragment>
             <TableContainer sx={{ width: '100%' }}>
                 <table className="admin-request-table w-100">
                     <thead>
                         <tr className="header-row">
-                            <th></th>
-                            <th>Tên cửa hàng</th>
+                            <th>NO</th>
+                            <th>Mã đơn</th>
                             <th>Trạng thái</th>
                             <th>Thời gian</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {orders?.map(order => (
-                            <tr key={order.customerId}>
-                                <td>{order.userId}</td>
-                                <td>{order.name}</td>
+                        {orders?.map((order, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{order.orderId}</td>
                                 <td>
                                     <Chip
                                         size="small"
@@ -30,35 +35,51 @@ function OrdersTable({ orders }) {
                                                 style={{
                                                     fontSize: '1.3rem',
                                                     color:
-                                                        row.status === 'pending'
+                                                        order.status ===
+                                                        'Pending'
                                                             ? 'var(--main-blue)'
-                                                            : row.status ===
-                                                              'accepted'
+                                                            : order.status ===
+                                                              'Accepted'
                                                             ? 'var(--main-green)'
                                                             : 'var(--main-red)',
                                                 }}
                                             >
-                                                {row.status}
+                                                {order.status}
                                             </span>
                                         }
                                         style={{
                                             backgroundColor:
-                                                row.status === 'pending'
+                                                order.status === 'Pending'
                                                     ? '#2877ee46'
-                                                    : row.status === 'accepted'
+                                                    : order.status ===
+                                                      'Accepted'
                                                     ? '#87bdd64b'
                                                     : 'rgba(234, 22, 22, 0.249)',
                                         }}
                                     />
                                 </td>
-                                <td>{row.time}</td>
+                                <td>{order.time}</td>
                                 <td style={{ cursor: 'pointer' }}>
+                                    <Button
+                                        onClick={() => {
+                                            handleOpen()
+                                            setActionOrderId(order.orderId)
+                                        }}
+                                        sx={{ fontSize: '1.3rem' }}
+                                    >
+                                        Chi tiết
+                                    </Button>
                                     <OrdersModal
                                         isPending={
-                                            row.status === 'pending'
+                                            order.status === 'Pending'
                                                 ? true
                                                 : false
                                         }
+                                        order={order}
+                                        open={open}
+                                        handleClose={handleClose}
+                                        setActionStatus={setActionStatus}
+                                        handleAccept={handleAccept}
                                     />
                                 </td>
                             </tr>

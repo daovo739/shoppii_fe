@@ -3,23 +3,17 @@ import OrdersTable from './components/OrdersTable'
 import { Container, Row, Col } from 'react-bootstrap'
 import queryString from 'query-string'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { get } from '../../.././utils/httprequest'
+import { get, post } from '../../.././utils/httprequest'
 import { useAuth } from '../../../hooks/useAuth'
-
-function createData(userId, name, status, time) {
-    return { userId, name, status, time }
-}
-
-export const rows = [
-    createData('1', 'shop 1', 'pending', '15-02-2002'),
-    createData('2', 'shop 2', 'accepted', '15-02-2002'),
-    createData('3', 'shop 3', 'rejected', '15-02-2002'),
-]
+import { handleFormData } from '../../../utils/handleForm'
+import { toast } from 'react-toastify'
 
 function ShopOrders() {
     const { user } = useAuth()
     const [filter, setFilter] = useState('pending')
     const [orders, setOrders] = useState([])
+    const [actionOrderId, setActionOrderId] = useState(0)
+    const [actionStatus, setActionStatus] = useState(0)
 
     const handleChange = event => {
         setFilter(event.target.value)
@@ -30,7 +24,23 @@ function ShopOrders() {
         const res = await get(`shop/orders`, q)
         const data = await res.json()
         console.log(data)
+        setOrders(data)
     }
+
+    const handleAccept = async () => {
+        const formData = handleFormData({
+            status: actionStatus,
+            orderId: actionOrderId,
+        })
+        const res = await post('shop/orders', formData)
+        console.log(await res.json())
+        if (res.status === 200){
+            toast.success('Cập nhật đơn hàng thành công')
+        } else {
+            toast.error('Cập nhật đơn hàng không thành công')
+        }
+    }
+
 
     useEffect(() => {
         getOrders()
@@ -57,7 +67,7 @@ function ShopOrders() {
                             paddingLeft: '1.5rem',
                         }}
                     >
-                        <div className="mt-2">YÊU CẦU</div>
+                        <div className="mt-2">ĐƠN HÀNG</div>
                     </Col>
                     <Col md={6} className="d-flex justify-content-end">
                         <FormControl size="small" sx={{ width: '15rem' }}>
@@ -85,7 +95,12 @@ function ShopOrders() {
                     </Col>
                 </Row>
                 <Row>
-                    <OrdersTable orders={orders} />
+                    <OrdersTable
+                        setActionOrderId={setActionOrderId}
+                        setActionStatus={setActionStatus}
+                        orders={orders}
+                        handleAccept={handleAccept}
+                    />
                 </Row>
             </Container>
         </>
