@@ -11,8 +11,12 @@ import useStore from '../../../store/hooks'
 import { shippingUnit } from './components/CheckoutShop/ShippingUnitData'
 import PaypalButton from '../../../components/PaypalButton'
 import ModalNotification from '../../../components/ModalNotification/index'
+import { post } from '../../../utils/httprequest'
+import { handleFormData } from '../../../utils/handleForm'
+import { useAuth } from '../../../hooks/useAuth'
 
 function Checkout() {
+    const { user } = useAuth()
     const navigate = useNavigate()
     const { addresses, getAddresses } = useStore()
     const { state } = useLocation()
@@ -65,6 +69,22 @@ function Checkout() {
     const handleCheckoutCash = async () => {}
 
     const handleCheckoutPaypal = async type => {
+        console.log({
+            orderJson: JSON.stringify(totalCheckout),
+            addressId: selectedAddress.addressId,
+            paymentMethod,
+            userId: user.userId,
+        })
+        const formData = handleFormData({
+            orders: JSON.stringify(totalCheckout),
+            addressId: selectedAddress.addressId,
+            paymentMethod,
+            userId: user.userId,
+        })
+        const res = await post('/order', formData)
+        const data = await res.json()
+        console.log(res)
+        console.log(data)
         setIsCheckoutSuccess(true)
         setTypeCheckout(type)
     }
@@ -105,8 +125,8 @@ function Checkout() {
                             </Row>
                             <Row className="d-flex flex-column">
                                 <Bill totalCheckout={totalCheckout} />
-
-                                {paymentMethod === 'cash' && (
+                                {/* paymentMethod === 'cash'  */}
+                                {true && (
                                     <Button
                                         sx={{
                                             backgroundColor: 'var(--main-red)',
