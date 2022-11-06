@@ -1,107 +1,172 @@
 import React from 'react'
-import { Button, Box, Typography, Modal } from '@mui/material'
+import { Box, Typography, Modal, Button } from '@mui/material'
 import { style } from '../../../../../components/ModalStyle'
 import { Container, Row, Col } from 'react-bootstrap'
+import OrderProduct from '../OrderProduct'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-function OrdersModal({ isPending }) {
-    const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+function OrdersModal({ isPending, order, handleClose, open, setActionStatus, handleAccept }) {
+    const {
+        address,
+        customerId,
+        items,
+        orderId,
+        paymentMethod,
+        shop,
+        status,
+        time,
+    } = order
+    const {
+        addressId,
+        district,
+        province,
+        receiverAddress,
+        receiverName,
+        receiverPhone,
+        userId,
+        ward,
+    } = address
+    const [orderTotal, setOrderTotal] = useState(0)
+
+    useEffect(
+        () =>
+            setOrderTotal(
+                items.reduce(
+                    (total, item) => total + item.orderQuantity * item.price,
+                    0,
+                ),
+            ),
+        [],
+    )
 
     return (
         <>
-            <Button onClick={handleOpen} sx={{ fontSize: '1.3rem' }}>
-                Chi tiết
-            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={{ ...style, width: '60%' }}>
                     <Typography
                         id="modal-modal-title"
                         variant="h4"
                         component="h2"
                         sx={{ mb: 4 }}
                     >
-                        Yêu cầu từ ID
+                        <div>
+                            <strong>Đơn hàng #{orderId}</strong>
+                            <p
+                                style={{
+                                    fontSize: '1.3rem',
+                                    color: 'gray',
+                                    paddingLeft: '1.2rem',
+                                }}
+                            >
+                                {time}
+                            </p>
+                        </div>
                     </Typography>
                     <Typography
                         component={'span'}
                         id="modal-modal-description"
                         sx={{ mt: 2 }}
                     >
-                        <Container fluid="md">
+                        <Container
+                            fluid="md"
+                            style={{ overflow: 'auto', height: '40rem' }}
+                        >
                             <Row>
-                                <Col
-                                    md={3}
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    <p>Tên cửa hàng</p>
-                                </Col>
-                                <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Tên cửa hàng muốn đăng ký</p>
+                                <Col md={12}>
+                                    <div
+                                        style={{
+                                            backgroundColor:
+                                                'var(--light-blue)',
+                                            border: '2px dashed white',
+                                            fontSize: '1.5rem',
+                                        }}
+                                        className="pt-3 ps-3"
+                                    >
+                                        <p>
+                                            <strong>Người nhận</strong> :{' '}
+                                            <span>{receiverName}</span>
+                                        </p>
+                                        <p>
+                                            <strong>Số điện thoại</strong> :{' '}
+                                            <span>{receiverPhone}</span>
+                                        </p>
+                                        <p>
+                                            <strong>Địa chỉ</strong> :{' '}
+                                            <span>
+                                                {receiverAddress}, {ward},{' '}
+                                                {district}, {province}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col
-                                    md={3}
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    <p>Địa chỉ</p>
-                                </Col>
-                                <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Địa chỉ của cửa hàng muốn đăng ký</p>
+                            <Row >
+                                <Col md={12}>
+                                    {items.map(item => (
+                                        <OrderProduct item={item} />
+                                    ))}
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row style={{ marginTop: '1.2rem' }}>
                                 <Col
-                                    md={3}
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                    }}
+                                    md={12}
+                                    className="d-flex justify-content-end"
                                 >
-                                    <p>Mô tả</p>
-                                </Col>
-                                <Col md={9} style={{ fontSize: '1.5rem' }}>
-                                    <p>Mô tả về cửa hàng</p>
+                                    <h4>
+                                        Tổng đơn hàng :{' '}
+                                        <span
+                                            style={{
+                                                fontSize: '2.5rem',
+                                                color: 'var(--main-red)',
+                                            }}
+                                        >
+                                            {orderTotal} ₫
+                                        </span>
+                                    </h4>
                                 </Col>
                             </Row>
-                            {isPending ? (
-                                <Row className="d-flex justify-content-end">
+                            { isPending ? <Row>
+                                <Col
+                                    md={12}
+                                    className="d-flex justify-content-end mt-5"
+                                >
                                     <Button
+                                        variant="contained"
                                         sx={{
-                                            width: '10rem',
-                                            fontSize: '1.2rem',
-                                            fontWeight: 'bold',
-                                            color: 'green',
+                                            backgroundColor: 'var(--main-red)',
+                                            fontSize: '1.5rem',
+                                            marginRight: '3rem',
+                                        }}
+                                        onClick={() => {
+                                            handleClose()
+                                            setActionStatus('Rejected')
+                                            handleAccept()
                                         }}
                                     >
-                                        Chấp nhận
+                                        Hủy đơn
                                     </Button>
                                     <Button
+                                        variant="contained"
                                         sx={{
-                                            width: '10rem',
-                                            fontSize: '1.2rem',
-                                            fontWeight: 'bold',
-                                            color: 'var(--main-red)',
+                                            backgroundColor: 'var(--main-blue)',
+                                            fontSize: '1.5rem',
+                                        }}
+                                        onClick={() => {
+                                            handleClose()
+                                            setActionStatus('Accepted')
+                                            handleAccept()
                                         }}
                                     >
-                                        Hủy
+                                        Xác nhận đơn
                                     </Button>
-                                </Row>
-                            ) : (
-                                <></>
-                            )}
+                                </Col>
+                            </Row> : <></>}
                         </Container>
                     </Typography>
                 </Box>
