@@ -1,7 +1,10 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import OrdersTable from './components/OrdersTable'
 import { Container, Row, Col } from 'react-bootstrap'
+import queryString from 'query-string'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { get } from '../../.././utils/httprequest'
+import { useAuth } from '../../../hooks/useAuth'
 
 function createData(userId, name, status, time) {
     return { userId, name, status, time }
@@ -14,11 +17,24 @@ export const rows = [
 ]
 
 function ShopOrders() {
-    const [filter, setFilter] = React.useState('')
+    const { user } = useAuth()
+    const [filter, setFilter] = useState('pending')
+    const [orders, setOrders] = useState([])
 
     const handleChange = event => {
         setFilter(event.target.value)
     }
+
+    const getOrders = async () => {
+        const q = queryString.stringify({ shopId: user.userId, status: filter })
+        const res = await get(`shop/orders`, q)
+        const data = await res.json()
+        console.log(data)
+    }
+
+    useEffect(() => {
+        getOrders()
+    }, [filter])
 
     return (
         <>
@@ -55,7 +71,6 @@ function ShopOrders() {
                                 label="Trạng thái"
                                 onChange={e => handleChange(e)}
                             >
-                                <MenuItem value={'all'}>Tất cả</MenuItem>
                                 <MenuItem value={'pending'}>
                                     Chờ xác nhận
                                 </MenuItem>
@@ -70,13 +85,7 @@ function ShopOrders() {
                     </Col>
                 </Row>
                 <Row>
-                    <OrdersTable
-                        rows={
-                            filter === '' || filter === 'all'
-                                ? rows
-                                : rows.filter(row => row.status === filter)
-                        }
-                    />
+                    <OrdersTable orders={orders} />
                 </Row>
             </Container>
         </>
