@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { Box, TextField, Divider } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import { Search } from '@mui/icons-material'
 import { Row, Col, Button, Modal } from 'react-bootstrap'
 import { get } from '../../../utils/httprequest'
@@ -15,6 +15,7 @@ import ProductsList from './components/ProductsList'
 
 function ShopProducts() {
     const { user } = useAuth()
+    const [isLoading, setIsLoading] = useState(true)
     const [products, setProducts] = useState([])
     const [showModalDel, setShowModalDelete] = useState(false)
     const [deleteId, setDeleteId] = useState(0)
@@ -57,9 +58,10 @@ function ShopProducts() {
         const res = await get('shop/products', q)
         const data = await res.json()
         setProducts(data)
+        setIsLoading(false)
         console.log(data)
     }
-    return (
+    return !isLoading ? (
         <Box sx={{ paddingTop: '5px' }}>
             <Box
                 sx={{
@@ -68,13 +70,16 @@ function ShopProducts() {
                     alignItems: 'center',
                 }}
             >
-                <CreateAndSearch fetchProducts={getProducts} setProducts={setProducts} />
+                <CreateAndSearch
+                    fetchProducts={getProducts}
+                    setProducts={setProducts}
+                    products={products}
+                />
             </Box>
 
             <ProductsList
                 products={products}
                 showModalDelete={showModalDelete}
-                getProductAction={getProductAction}
                 handleDeleteProduct={handleDeleteProduct}
             />
 
@@ -110,6 +115,15 @@ function ShopProducts() {
                 </Modal.Footer>
             </Modal>
         </Box>
+    ) : (
+        <CircularProgress
+            sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+            }}
+        />
     )
 }
 

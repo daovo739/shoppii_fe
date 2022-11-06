@@ -8,7 +8,8 @@ import queryString from 'query-string'
 import { useAuth } from '../../../../../hooks/useAuth'
 import CreateProductModal from '../CreateProductModal'
 
-function CreateAndSearch({ setProducts, fetchProducts }) {
+function CreateAndSearch({ setProducts, fetchProducts, products }) {
+    const [oldProducts, setOldProducts] = useState(products)
     const { user } = useAuth()
     const [search, setSearch] = useState({ keyword: '', shopId: user.userId })
     const [open, setOpen] = useState(false)
@@ -20,10 +21,16 @@ function CreateAndSearch({ setProducts, fetchProducts }) {
     }, [search])
 
     const getProducts = async () => {
-        const q = queryString.stringify(search)
-        const res = await get('shop/products', q)
-        const data = await res.json()
-        setProducts(data)
+        if (search.keyword) {
+            const data = oldProducts.filter(product =>
+                product.name
+                    .toLowerCase()
+                    .includes(search.keyword.toLowerCase()),
+            )
+            setProducts(data)
+        } else {
+            setProducts(oldProducts)
+        }
     }
     return (
         <>

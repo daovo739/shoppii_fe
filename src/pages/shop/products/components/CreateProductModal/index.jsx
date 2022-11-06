@@ -22,7 +22,7 @@ import { post, get } from '../../../../../utils/httprequest'
 import queryString from 'query-string'
 import { toast } from 'react-toastify'
 
-function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
+function CreateProductModal({ open, handleClose, fetchProducts }) {
     const toastId = useRef()
     const [productInfo, setProductInfo] = useState({
         name: '',
@@ -35,7 +35,6 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
     const [categories, setCategories] = useState([])
     const [images, setImages] = useState([])
 
-    console.log(images)
     const getCategories = async () => {
         const q = queryString.stringify({})
         const res = await get('category', q)
@@ -61,6 +60,7 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
 
     const handleSubmit = async e => {
         e.preventDefault()
+
         toastId.current = toast('Đang tạo sản phẩm', { autoClose: false })
         const formData = handleFormData({
             shopId: user.userId,
@@ -69,8 +69,8 @@ function CreateProductModal({ open, handleOpen, handleClose, fetchProducts }) {
             quantity: productInfo.quantity,
             categoryId: productInfo.categoryId,
             description: productInfo.description,
-            files: images.map(image => image.file),
         })
+        images.forEach(image => formData.append('files', image.file))
         const res = await post('shop/products', formData)
         // console.log(await res.json())
         if (res.status === 201) {

@@ -20,7 +20,7 @@ function Products() {
         startPrice: '',
         endPrice: '',
         // Change limit to change page size
-        limit: 1,
+        limit: 3,
         page: 1,
     })
 
@@ -70,7 +70,7 @@ function Products() {
                                 backgroundColor: 'white',
                                 padding: '2rem',
                                 borderRadius: '6px',
-                                boxShadow: 'var(--box-shadow-main)'
+                                boxShadow: 'var(--box-shadow-main)',
                             }}
                         >
                             {productsData?.products?.length > 0 ? (

@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 
 function ProductsList(props) {
     const navigate = useNavigate()
-    const { products, showModalDelete, getProductAction } = props
+    const { products, showModalDelete } = props
 
     const showProductEdit = id => {
-        const product = getProductAction(id)
-        navigate(`/shop/product/${id}`, { state: product })
+        navigate(`/shop/product/${id}`)
     }
+
     return (
         <>
             <Box sx={{ marginTop: '2rem' }}>

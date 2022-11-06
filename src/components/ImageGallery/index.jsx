@@ -4,7 +4,11 @@ import { Button, Modal } from 'react-bootstrap'
 import { IconButton } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-function ImageGallery({ isDelete = true, images }) {
+function ImageGallery({
+    isDelete = true,
+    images = [],
+    handleDeleteImage = () => {},
+}) {
     const [showModalDel, setShowModalDelete] = useState(false)
     const [imgSelected, setImgSelected] = useState(
         images.length > 0 ? images[0].image : '',
@@ -18,8 +22,6 @@ function ImageGallery({ isDelete = true, images }) {
         console.log(e.target.src)
         setImgSelected(e.target.src)
     }
-
-    const handleDeleteImage = e => {}
 
     return (
         <section className="gallery">
@@ -156,7 +158,10 @@ function ImageGallery({ isDelete = true, images }) {
                     </Button>
                     <Button
                         variant="danger"
-                        onClick={handleDeleteImage}
+                        onClick={() => {
+                            handleDeleteImage(imgSelected)
+                            setShowModalDelete(false)
+                        }}
                         className="btnModal"
                     >
                         Xóa
