@@ -66,7 +66,26 @@ function Checkout() {
         }
     }, [totalCheckout, selectedAddress, paymentMethod])
 
-    const handleCheckoutCash = async () => {}
+    const handleCheckoutCash = async () => {
+        console.log({
+            orderJson: JSON.stringify(totalCheckout),
+            addressId: selectedAddress.addressId,
+            paymentMethod,
+            userId: user.userId,
+        })
+        const formData = handleFormData({
+            orders: JSON.stringify(totalCheckout),
+            addressId: selectedAddress.addressId,
+            paymentMethod,
+            userId: user.userId,
+        })
+        const res = await post('/order', formData)
+        const data = await res.json()
+        console.log(res)
+        console.log(data)
+        setIsCheckoutSuccess(true)
+        setTypeCheckout(type)
+    }
 
     const handleCheckoutPaypal = async type => {
         console.log({
