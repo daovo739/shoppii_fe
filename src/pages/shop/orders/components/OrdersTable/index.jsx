@@ -3,14 +3,14 @@ import { Chip, TableContainer } from '@mui/material'
 import './index.css'
 import OrdersModal from '../OrdersModal'
 
-function OrdersTable({ rows }) {
+function OrdersTable({ orders }) {
     return (
         <React.Fragment>
             <TableContainer sx={{ width: '100%' }}>
                 <table className="admin-request-table w-100">
                     <thead>
                         <tr className="header-row">
-                            <th>ID người dùng</th>
+                            <th></th>
                             <th>Tên cửa hàng</th>
                             <th>Trạng thái</th>
                             <th>Thời gian</th>
@@ -18,10 +18,10 @@ function OrdersTable({ rows }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map(row => (
-                            <tr key={row.userId}>
-                                <td>{row.userId}</td>
-                                <td>{row.name}</td>
+                        {orders?.map(order => (
+                            <tr key={order.customerId}>
+                                <td>{order.userId}</td>
+                                <td>{order.name}</td>
                                 <td>
                                     <Chip
                                         size="small"
