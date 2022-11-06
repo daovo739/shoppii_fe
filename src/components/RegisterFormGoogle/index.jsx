@@ -22,6 +22,7 @@ import { Link, useLocation } from 'react-router-dom'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { handleFormData } from '../.././utils/handleForm'
 import { useAuth } from '../.././hooks/useAuth'
+import { ROLE_USER } from '../../hooks/constants'
 
 function RegisterFormGoogle() {
     const { login } = useAuth()
@@ -256,7 +257,17 @@ function RegisterFormGoogle() {
                                 color: '#fff',
                                 fontSize: '1.5rem',
                             }}
-                            onClick={() => login(data)}
+                            onClick={() =>
+                                login(
+                                    {
+                                        ...data,
+                                        isGoogle: true,
+                                        avatar: location.state.profileObj
+                                            .imageUrl,
+                                    },
+                                    ROLE_USER,
+                                )
+                            }
                         >
                             Về trang chủ
                         </Button>

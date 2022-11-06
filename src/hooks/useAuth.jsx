@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     const updateUserInfo = data => {
         setUser(data)
     }
+
     const value = useMemo(
         () => ({
             user,

@@ -44,7 +44,14 @@ function LoginForm() {
         if (data.statusCode === 404) {
             navigate('/registerGG', { state: response }, { replace: true })
         } else if (res.status === 200) {
-            login(data, ROLE_USER)
+            login(
+                {
+                    ...data,
+                    isGoogle: true,
+                    avatar: response.profileObj.imageUrl,
+                },
+                ROLE_USER,
+            )
         } else {
             toast.error('Đăng nhập thất bại')
         }

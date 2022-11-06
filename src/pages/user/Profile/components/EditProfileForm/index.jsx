@@ -7,9 +7,6 @@ import {
     FormControlLabel,
     FormControl,
     FormLabel,
-    InputLabel,
-    MenuItem,
-    Select,
     Button,
     Avatar,
 } from '@mui/material'
@@ -33,6 +30,8 @@ function EditProfileForm() {
     const [infoUpdate, setInfoUpdate] = useState({})
     const [isUpdate, setIsUpdate] = useState(false)
     const [sexBoolean, SetSexBoolean] = useState(user.sex)
+
+    console.log(user.isGoogle)
 
     const handleChangeFile = e => {
         const file = e.target.files[0]
@@ -266,25 +265,27 @@ function EditProfileForm() {
                             />
                         </Row>
                         <Row className="d-flex justify-content-center">
-                            <Button
-                                variant="outlined"
-                                className="fs-5 w-50 mt-3"
-                                size="medium"
-                                component="label"
-                            >
-                                Chọn ảnh
-                                <input
-                                    hidden
-                                    accept=".jpeg,.jpg,.png,.gif,image/*"
-                                    type="file"
-                                    name="file"
-                                    encType="multipart/form-data"
-                                    onChange={e => {
-                                        setImgURI(getImage(e))
-                                        handleChangeFile(e)
-                                    }}
-                                />
-                            </Button>
+                            {user.isGoogle ? null : (
+                                <Button
+                                    variant="outlined"
+                                    className="fs-5 w-50 mt-3"
+                                    size="medium"
+                                    component="label"
+                                >
+                                    Chọn ảnh
+                                    <input
+                                        hidden
+                                        accept=".jpeg,.jpg,.png,.gif,image/*"
+                                        type="file"
+                                        name="file"
+                                        encType="multipart/form-data"
+                                        onChange={e => {
+                                            setImgURI(getImage(e))
+                                            handleChangeFile(e)
+                                        }}
+                                    />
+                                </Button>
+                            )}
                         </Row>
                     </Container>
                 </Col>
