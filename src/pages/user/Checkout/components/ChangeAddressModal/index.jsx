@@ -4,21 +4,23 @@ import {
     Typography,
     Modal,
     Box,
-    Radio,
     RadioGroup,
-    FormControlLabel,
     FormControl,
 } from '@mui/material'
-import { Container, Row, Col } from 'react-bootstrap'
 import { style } from '../../../../../components/ModalStyle'
 import { Business } from '@mui/icons-material'
 import ChangeAddressItem from '../ChangeAddressItem'
+import { AddressModalCreate } from '../../../Profile/components/AddressModal'
 import './index.css'
 
 function ChangeAddressModal({ onClick, getAddresses, addresses }) {
+    const [openModalCreate, setOpenModalCreate] = useState(false)
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+
+    const handleOpenModalCreate = () => setOpenModalCreate(true)
+    const handleCloseModalCreate = () => setOpenModalCreate(false)
 
     const [selected, setSelected] = useState(
         addresses.find(address => address?.isDefault)?.addressId,
@@ -50,6 +52,16 @@ function ChangeAddressModal({ onClick, getAddresses, addresses }) {
                         />
                         Thay đổi địa chỉ
                     </Typography>
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            fontSize: '1.2rem',
+                            marginTop: '1rem',
+                        }}
+                        onClick={handleOpenModalCreate}
+                    >
+                        Thêm địa chỉ
+                    </Button>
                     <Typography
                         id="modal-modal-description"
                         sx={{ mt: 2 }}
@@ -68,6 +80,7 @@ function ChangeAddressModal({ onClick, getAddresses, addresses }) {
                                 onChange={e => handleSelectAddress(e)}
                             >
                                 {addresses?.map(item => {
+                                    console.log(item.addressId)
                                     return (
                                         <ChangeAddressItem
                                             key={item?.addressId}
@@ -79,7 +92,7 @@ function ChangeAddressModal({ onClick, getAddresses, addresses }) {
                                             ward={item?.ward}
                                             district={item?.district}
                                             province={item?.province}
-                                            getAddresses
+                                            getAddresses={getAddresses}
                                         />
                                     )
                                 })}
@@ -106,6 +119,11 @@ function ChangeAddressModal({ onClick, getAddresses, addresses }) {
                     </Button>
                 </Box>
             </Modal>
+            <AddressModalCreate
+                open={openModalCreate}
+                handleClose={handleCloseModalCreate}
+                getAddresses={getAddresses}
+            />
         </>
     )
 }

@@ -34,7 +34,6 @@ function AddressList() {
     const [addressCreate, setAddressCreate] = useState({})
     const [addressEdit, setAddressEdit] = useState({})
 
-    console.log('addresses', addresses)
     const handleOpen = useCallback(id => {
         setIdAction(id)
         setOpen(true)
@@ -69,7 +68,7 @@ function AddressList() {
             province: '',
             district: '',
             ward: '',
-            isDefault: false
+            isDefault: false,
         })
         setOpenModalCreate(true)
     }, [])
@@ -114,7 +113,7 @@ function AddressList() {
                     handleOpenModalEdit={handleOpenModalEdit}
                 />
             ))}
-            
+
             <Modal
                 open={open}
                 onClose={handleClose}

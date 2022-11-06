@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Button, Chip, Radio, FormControlLabel } from '@mui/material'
 import { EditLocationTwoTone } from '@mui/icons-material'
@@ -13,9 +13,9 @@ function ChangeAddressItem({
     province,
     district,
     ward,
-    getAddresses
+    getAddresses,
 }) {
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(true)
     }
@@ -82,7 +82,7 @@ function ChangeAddressItem({
                                                 isDefault,
                                                 receiverName: name,
                                                 receiverPhone: phone,
-                                                addressId : id,
+                                                addressId: id,
                                                 receiverAddress: address,
                                                 province,
                                                 district,

@@ -3,7 +3,12 @@ import { Container, Row, Col } from 'react-bootstrap'
 import ChangeAddressModal from '../ChangeAddressModal'
 import { LocationOn } from '@mui/icons-material'
 
-function SendTo({ addresses, selectedAddress, setSelectedAddress, getAddresses }) {
+function SendTo({
+    addresses,
+    selectedAddress,
+    setSelectedAddress,
+    getAddresses,
+}) {
     const getSelectedAddress = id => {
         setSelectedAddress(addresses.find(item => item.addressId === +id))
     }
