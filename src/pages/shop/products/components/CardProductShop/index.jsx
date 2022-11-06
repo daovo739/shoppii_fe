@@ -4,7 +4,8 @@ import { Delete, Edit } from '@mui/icons-material'
 import { formatPrice } from '.././../.././.././.././utils/format'
 function CardProductShop(props) {
     const { product, showModalDelete, showProductEdit } = props
-    const { productId, index, quantity, name, price, image, category } = product
+    const { productId, index, quantity, name, price, images, category } =
+        product
 
     return (
         <Row className="mt-3">
@@ -16,9 +17,9 @@ function CardProductShop(props) {
             >
                 {index + 1}
             </Col>
-            <Col md={2}>
+            <Col md={2} style={{ padding: '0' }}>
                 <img
-                    src="https://cdn2.cellphones.com.vn/358x/media/catalog/product/i/p/ipad-pro-2021-11inch-grey_2.jpg"
+                    src={images[0]}
                     alt=""
                     className="img-fluid"
                     style={{

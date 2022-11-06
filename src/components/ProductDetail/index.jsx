@@ -138,7 +138,14 @@ const ProductDetail = ({ product }) => {
                     style={{ backgroundColor: 'white' }}
                 >
                     <div className="col-xs-12 col-sm-6">
-                        <ImageGallery isDelete={false} />
+                        <ImageGallery
+                            isDelete={false}
+                            images={product?.images?.map(img => {
+                                return {
+                                    image: img,
+                                }
+                            })}
+                        />
                     </div>
 
                     <div className="col-xs-12 col-sm-6">
@@ -153,7 +160,7 @@ const ProductDetail = ({ product }) => {
                                     fontSize: '3rem',
                                     backgroundColor: '#fafafa',
                                     paddingLeft: '1rem',
-                                    color: 'var(--main-red)'
+                                    color: 'var(--main-red)',
                                 }}
                                 className="my-3 py-2"
                             >

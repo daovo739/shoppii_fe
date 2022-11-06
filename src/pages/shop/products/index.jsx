@@ -51,8 +51,6 @@ function ShopProducts() {
         getProducts()
     }
 
-    const handleEditProduct = () => {}
-
     const getProducts = async () => {
         const q = queryString.stringify({ shopId: user.userId })
         const res = await get('shop/products', q)
@@ -61,6 +59,7 @@ function ShopProducts() {
         setIsLoading(false)
         console.log(data)
     }
+
     return !isLoading ? (
         <Box sx={{ paddingTop: '5px' }}>
             <Box
