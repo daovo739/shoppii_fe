@@ -164,6 +164,11 @@ function AddressModalCreate({
                                         }}
                                         InputProps={{
                                             label: 'Số điện thoại ####',
+                                            inputProps: {
+                                                pattern: import.meta.env
+                                                    .REACT_APP_REGEX_AUTH_LOGIN,
+                                                title: 'Vui lòng nhập email hoặc số điện thoại',
+                                            },
                                         }}
                                         onChange={e =>
                                             handleChange(e, setAnotherInfo)

@@ -1,16 +1,20 @@
-import * as React from 'react'
+import { useState, Fragment } from 'react'
 import { Chip, TableContainer, Button } from '@mui/material'
 import './index.css'
 import OrdersModal from '../OrdersModal'
 
 function OrdersTable({ orders, getActionStatus, handleAccept }) {
-    const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
+    const [open, setOpen] = useState(false)
+    const [orderSelected, setOrderSelected] = useState({})
+    const handleOpen = order => {
+        console.log(order)
+        setOpen(true)
+        setOrderSelected(order)
+    }
     const handleClose = () => setOpen(false)
 
-
     return (
-        <React.Fragment>
+        <Fragment>
             <TableContainer sx={{ width: '100%' }}>
                 <table className="admin-request-table w-100">
                     <thead>
@@ -62,31 +66,27 @@ function OrdersTable({ orders, getActionStatus, handleAccept }) {
                                 <td style={{ cursor: 'pointer' }}>
                                     <Button
                                         onClick={() => {
-                                            handleOpen()
+                                            handleOpen(order)
                                         }}
                                         sx={{ fontSize: '1.3rem' }}
                                     >
                                         Chi tiết
                                     </Button>
-                                    <OrdersModal
-                                        isPending={
-                                            order.status === 'Pending'
-                                                ? true
-                                                : false
-                                        }
-                                        order={order}
-                                        open={open}
-                                        handleClose={handleClose}
-                                        getActionStatus={getActionStatus}
-                                        handleAccept={handleAccept}
-                                    />
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </TableContainer>
-        </React.Fragment>
+            <OrdersModal
+                isPending={orderSelected.status === 'Pending' ? true : false}
+                order={orderSelected}
+                open={open}
+                handleClose={handleClose}
+                getActionStatus={getActionStatus}
+                handleAccept={handleAccept}
+            />
+        </Fragment>
     )
 }
 
