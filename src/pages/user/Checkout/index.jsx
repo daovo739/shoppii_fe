@@ -78,7 +78,7 @@ function Checkout() {
             paymentMethod,
             userId: user.userId,
         })
-        const res = await post('/order', formData)
+        const res = await post('order', formData)
         const data = await res.json()
         if (res.status === 201) {
             setTypeCheckout('success')
@@ -104,7 +104,7 @@ function Checkout() {
             paymentMethod,
             userId: user.userId,
         })
-        const res = await post('/order', formData)
+        const res = await post('order', formData)
         const data = await res.json()
         console.log(res)
         console.log(data)
