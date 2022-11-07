@@ -6,7 +6,7 @@ import OrderProduct from '../OrderProduct'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-function OrdersModal({ isPending, order, handleClose, open, setActionStatus, handleAccept }) {
+function OrdersModal({ isPending, order, handleClose, open, getActionStatus, handleAccept }) {
     const {
         address,
         customerId,
@@ -108,8 +108,8 @@ function OrdersModal({ isPending, order, handleClose, open, setActionStatus, han
                             </Row>
                             <Row >
                                 <Col md={12}>
-                                    {items.map(item => (
-                                        <OrderProduct item={item} />
+                                    {items.map((item, index) => (
+                                        <OrderProduct key={index} item={item} />
                                     ))}
                                 </Col>
                             </Row>
@@ -144,9 +144,12 @@ function OrdersModal({ isPending, order, handleClose, open, setActionStatus, han
                                             marginRight: '3rem',
                                         }}
                                         onClick={() => {
+                                            getActionStatus({
+                                                status: 'Rejected',
+                                                orderId: orderId
+                                            })
+                                            // handleAccept()
                                             handleClose()
-                                            setActionStatus('Rejected')
-                                            handleAccept()
                                         }}
                                     >
                                         Hủy đơn
@@ -158,9 +161,12 @@ function OrdersModal({ isPending, order, handleClose, open, setActionStatus, han
                                             fontSize: '1.5rem',
                                         }}
                                         onClick={() => {
+                                            getActionStatus({
+                                                status: 'Accepted',
+                                                orderId: orderId
+                                            })
+                                            // handleAccept()
                                             handleClose()
-                                            setActionStatus('Accepted')
-                                            handleAccept()
                                         }}
                                     >
                                         Xác nhận đơn

@@ -12,13 +12,15 @@ function ShopOrders() {
     const { user } = useAuth()
     const [filter, setFilter] = useState('pending')
     const [orders, setOrders] = useState([])
-    const [actionOrderId, setActionOrderId] = useState(0)
-    const [actionStatus, setActionStatus] = useState(0)
+    const [actionStatus, setActionStatus] = useState({
+        status: '',
+        orderId: 0
+    })
 
     const handleChange = event => {
         setFilter(event.target.value)
     }
-
+    console.log(actionStatus)
     const getOrders = async () => {
         const q = queryString.stringify({ shopId: user.userId, status: filter })
         const res = await get(`shop/orders`, q)
@@ -29,8 +31,8 @@ function ShopOrders() {
 
     const handleAccept = async () => {
         const formData = handleFormData({
-            status: actionStatus,
-            orderId: actionOrderId,
+            status: actionStatus.status,
+            orderId: actionStatus.orderId,
         })
         const res = await post('shop/orders', formData)
         console.log(await res.json())
@@ -39,8 +41,16 @@ function ShopOrders() {
         } else {
             toast.error('Cập nhật đơn hàng không thành công')
         }
+        getOrders()
     }
 
+    const getActionStatus = (object) => {
+        setActionStatus(object)
+    }
+
+    useEffect(() => {
+        handleAccept()
+    }, [actionStatus])
 
     useEffect(() => {
         getOrders()
@@ -96,8 +106,7 @@ function ShopOrders() {
                 </Row>
                 <Row>
                     <OrdersTable
-                        setActionOrderId={setActionOrderId}
-                        setActionStatus={setActionStatus}
+                        getActionStatus={getActionStatus}
                         orders={orders}
                         handleAccept={handleAccept}
                     />

@@ -3,7 +3,7 @@ import { Chip, TableContainer, Button } from '@mui/material'
 import './index.css'
 import OrdersModal from '../OrdersModal'
 
-function OrdersTable({ orders, setActionOrderId, setActionStatus, handleAccept }) {
+function OrdersTable({ orders, getActionStatus, handleAccept }) {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -63,7 +63,6 @@ function OrdersTable({ orders, setActionOrderId, setActionStatus, handleAccept }
                                     <Button
                                         onClick={() => {
                                             handleOpen()
-                                            setActionOrderId(order.orderId)
                                         }}
                                         sx={{ fontSize: '1.3rem' }}
                                     >
@@ -78,7 +77,7 @@ function OrdersTable({ orders, setActionOrderId, setActionStatus, handleAccept }
                                         order={order}
                                         open={open}
                                         handleClose={handleClose}
-                                        setActionStatus={setActionStatus}
+                                        getActionStatus={getActionStatus}
                                         handleAccept={handleAccept}
                                     />
                                 </td>
