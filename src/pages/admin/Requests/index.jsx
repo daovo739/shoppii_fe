@@ -26,10 +26,13 @@ function Requests() {
     const setStatus = async () => {
         const formData = handleFormData({
             status: resultStatus.status,
-            userId: resultStatus.userId
+            userId: resultStatus.userId,
         })
         const res = await post('admin/request', formData)
-        if (res.status === 200){
+        const data = await res.json()
+        console.log(res)
+        console.log(data)
+        if (res.status === 200) {
             toast.success('Cập nhật yêu cầu thành công')
         } else {
             toast.error('Cập nhật yêu cầu không thành công')
@@ -37,9 +40,9 @@ function Requests() {
         getRequests()
     }
 
-    const getStatus = (status) => {
+    const getStatus = status => {
         setResultStatus(status)
-    } 
+    }
 
     const getRequests = async () => {
         const q = queryString.stringify({
@@ -51,7 +54,7 @@ function Requests() {
     }
 
     useEffect(() => {
-        if (resultStatus !== null){
+        if (resultStatus !== null) {
             setStatus()
             console.log(true)
         }
