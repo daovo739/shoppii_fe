@@ -16,8 +16,7 @@ import { useAuth } from '../../../hooks/useAuth'
 
 function Checkout() {
     const { user } = useAuth()
-    const navigate = useNavigate()
-    const { addresses, getAddresses } = useStore()
+    const { addresses, getAddresses, getTotalCart } = useStore()
     const { state } = useLocation()
     const [selectedAddress, setSelectedAddress] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('paypal')
@@ -81,10 +80,15 @@ function Checkout() {
         })
         const res = await post('/order', formData)
         const data = await res.json()
+        if (res.status === 201) {
+            setTypeCheckout('success')
+        } else {
+            setTypeCheckout('failure')
+        }
         console.log(res)
         console.log(data)
         setIsCheckoutSuccess(true)
-        setTypeCheckout(type)
+        getTotalCart()
     }
 
     const handleCheckoutPaypal = async type => {
@@ -106,6 +110,7 @@ function Checkout() {
         console.log(data)
         setIsCheckoutSuccess(true)
         setTypeCheckout(type)
+        getTotalCart()
     }
 
     return (
@@ -144,8 +149,8 @@ function Checkout() {
                             </Row>
                             <Row className="d-flex flex-column">
                                 <Bill totalCheckout={totalCheckout} />
-                                {/* paymentMethod === 'cash'  */}
-                                {true && (
+
+                                {paymentMethod === 'cash' && (
                                     <Button
                                         sx={{
                                             backgroundColor: 'var(--main-red)',
