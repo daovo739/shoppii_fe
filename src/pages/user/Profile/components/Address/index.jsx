@@ -38,24 +38,22 @@ function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
                             {address.receiverPhone}
                         </p>
                         {address.isDefault ? (
-                            <p>
-                                <Chip
-                                    size="small"
-                                    variant="outlined"
-                                    label={
-                                        <span
-                                            style={{
-                                                color: 'var(--main-blue)',
-                                            }}
-                                        >
-                                            Mặc định
-                                        </span>
-                                    }
-                                    sx={{
-                                        border: '1px solid var(--main-blue)',
-                                    }}
-                                />
-                            </p>
+                            <Chip
+                                size="small"
+                                variant="outlined"
+                                label={
+                                    <span
+                                        style={{
+                                            color: 'var(--main-blue)',
+                                        }}
+                                    >
+                                        Mặc định
+                                    </span>
+                                }
+                                sx={{
+                                    border: '1px solid var(--main-blue)',
+                                }}
+                            />
                         ) : (
                             <></>
                         )}

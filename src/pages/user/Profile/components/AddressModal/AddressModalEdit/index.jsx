@@ -11,9 +11,10 @@ import {
     FormControl,
     Select,
     Button,
-    CircularProgress,
+    FormControlLabel,
 } from '@mui/material'
 import { Container, Row, Col } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import {
     setCities,
     setDistricts,
@@ -25,11 +26,11 @@ import {
 import { reset, style } from '../hook/instant'
 import { handleChange } from '../../../../../../utils/handleForm'
 import reducer, { initState } from '../hook/reducer'
-import { toast } from 'react-toastify'
 import { handleFormData } from '../../../../../../utils/handleForm'
 import { put } from '../../../../../../utils/httprequest'
 import { useAuth } from '../../../../../../hooks/useAuth'
 import { getCities, getDistricts, getWards } from '../hook/function'
+import CheckedDefault from '../../../../../../components/CheckedDefaultSwitch'
 
 function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
     const { user } = useAuth()
@@ -39,7 +40,6 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
     const [isUpdate, setIsUpdate] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    // console.log('state in', state)
     useEffect(() => {
         let isEdit = false
         if (anotherInfo.province) {
@@ -149,6 +149,7 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
         handleClose()
     }
 
+    console.log(addressAction)
     return (
         <div>
             <Modal
@@ -326,6 +327,34 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
                                         onChange={e =>
                                             handleChange(e, setAnotherInfo)
                                         }
+                                    />
+                                </Col>
+                            </Row>
+                            <Row className="mb-3">
+                                <Col
+                                    md={12}
+                                    className="d-flex align-items-center my-3"
+                                >
+                                    <FormControlLabel
+                                        control={<CheckedDefault />}
+                                        name="isDefault"
+                                        checked={anotherInfo?.isDefault}
+                                        onChange={e =>
+                                            setAnotherInfo(prev => {
+                                                return {
+                                                    ...prev,
+                                                    isDefault: !prev.isDefault,
+                                                }
+                                            })
+                                        }
+                                        label={
+                                            <span
+                                                style={{ fontSize: '1.6rem' }}
+                                            >
+                                                Đặt làm địa chỉ mặc định
+                                            </span>
+                                        }
+                                        disabled={addressAction?.isDefault}
                                     />
                                 </Col>
                             </Row>

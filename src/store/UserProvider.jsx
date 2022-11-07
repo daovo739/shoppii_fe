@@ -17,7 +17,7 @@ function UserProvider({ children }) {
             })
             const res = await get('address', q)
             const data = await res.json()
-            setAddresses(data)
+            setAddresses(data.sort((a, b) => (a.isDefault ? -1 : 1)))
         }
         return
     }
@@ -49,7 +49,7 @@ function UserProvider({ children }) {
         getAddresses,
         cartTotal,
         getTotalCart,
-        setCartTotal
+        setCartTotal,
     }
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
