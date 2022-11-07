@@ -20,7 +20,7 @@ function Products() {
         startPrice: '',
         endPrice: '',
         // Change limit to change page size
-        limit: 3,
+        limit: 4,
         page: 1,
     })
 

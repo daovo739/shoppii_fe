@@ -28,9 +28,13 @@ function ProductTab({ totalPage, setFilters }) {
             <Row>
                 {productsData?.products?.map(product => (
                     <Col sm={6} md={3} key={product.productId} className="pb-4">
-                        <Link to={`/product/${product.productId}`}>
+                        {product?.isAvailable ? (
+                            <Link to={`/product/${product.productId}`}>
+                                <ProductCard product={product} />
+                            </Link>
+                        ) : (
                             <ProductCard product={product} />
-                        </Link>
+                        )}
                     </Col>
                 ))}
             </Row>
