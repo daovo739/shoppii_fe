@@ -30,7 +30,7 @@ const ProductDetail = ({ product }) => {
     const [quantity, setQuantity] = useState(1)
     const { user } = useAuth()
     const { cartTotal, setCartTotal } = useStore()
-    console.log(product)
+
     const handleAddToCart = async (e, id) => {
         if (!user) {
             toast('Đăng nhập để trải nghiệm mua hàng')
@@ -78,16 +78,14 @@ const ProductDetail = ({ product }) => {
     }
 
     const handleQuantity = e => {
-        if (!user) {
-            toast('Đăng nhập để trải nghiệm mua hàng')
-            return
-        }
-        if (quantity > product.quantity) {
+        console.log('onchange', e.target.value)
+        const value = e.target.value
+        if (value > product.quantity) {
             setQuantity(product.quantity)
-        } else if (quantity < 1) {
+        } else if (value < 1) {
             setQuantity(1)
         } else {
-            setQuantity(e.target.value)
+            setQuantity(value)
         }
     }
 
@@ -112,9 +110,9 @@ const ProductDetail = ({ product }) => {
                                 color="inherit"
                                 to="/"
                             >
-                                <strong style={{ fontSize: '1.6rem' }}>
+                                <div style={{ fontSize: '1.6rem' }}>
                                     Trang chủ
-                                </strong>
+                                </div>
                             </LinkRouter>
                             <Link underline="hover" color="inherit">
                                 <div style={{ fontSize: '1.6rem' }}>
@@ -124,6 +122,7 @@ const ProductDetail = ({ product }) => {
                             <Typography
                                 color="text.primary"
                                 className="bread-active"
+                                component="div"
                             >
                                 <div style={{ fontSize: '1.6rem' }}>
                                     Sản phẩm
@@ -168,8 +167,8 @@ const ProductDetail = ({ product }) => {
                             </div>
                             <div className="d-flex align-items-center">
                                 <div className="quantity">
-                                    <IconButton onClick={increaseQuantity}>
-                                        <Add fontSize="large" />
+                                    <IconButton onClick={decreaseQuantity}>
+                                        <Remove fontSize="large" />
                                     </IconButton>
                                     <input
                                         type="number"
@@ -179,12 +178,14 @@ const ProductDetail = ({ product }) => {
                                         style={{
                                             textAlign: 'center',
                                             outline: 'none',
-                                            width: '50px',
+                                            width: '75px',
+                                            height: '45px',
                                         }}
                                         onChange={handleQuantity}
                                     />
-                                    <IconButton onClick={decreaseQuantity}>
-                                        <Remove fontSize="large" />
+
+                                    <IconButton onClick={increaseQuantity}>
+                                        <Add fontSize="large" />
                                     </IconButton>
                                 </div>
                                 <p

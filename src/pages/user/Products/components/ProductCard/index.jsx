@@ -52,7 +52,7 @@ function ProductCard({ product }) {
             <CardMedia
                 component="img"
                 height="200"
-                image={product.images[0]}
+                image={product?.images[0]}
                 alt="green iguana"
             />
             <CardContent sx={{ padding: '8px' }}>
