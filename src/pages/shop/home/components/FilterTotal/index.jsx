@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Container, Row } from 'react-bootstrap'
 import { SavingsOutlined } from '@mui/icons-material'
 
-function FilterTotal() {
+function FilterTotal({ totalIncome }) {
     const [from, setFrom] = useState(null)
     const [to, setTo] = useState(null)
 
@@ -101,7 +101,7 @@ function FilterTotal() {
                                 color: 'white',
                             }}
                         >
-                            2.000.000đ
+                            {totalIncome}
                         </div>
                     </div>
                 </div>

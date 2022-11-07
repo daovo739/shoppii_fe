@@ -4,8 +4,16 @@ import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c
 import './index.css'
 import { formatPrice } from '../../../../../utils/format'
 
-function PurchasedProduct({product}) {
-    const { category, description, name, orderQuantity, price, productId, quantity } = product
+function PurchasedProduct({ product }) {
+    const {
+        category,
+        description,
+        name,
+        orderQuantity,
+        price,
+        productId,
+        quantity,
+    } = product
     return (
         <div className="product-item">
             <Container fluid="md">
@@ -15,7 +23,7 @@ function PurchasedProduct({product}) {
                         className="d-flex justify-content-end align-content-center"
                     >
                         <img
-                            src={ProductImage}
+                            src={product?.images[0]}
                             alt="productimage"
                             className="w-75"
                             style={{
@@ -26,10 +34,14 @@ function PurchasedProduct({product}) {
                     </Col>
                     <Col md={7} className="d-block">
                         <h3>{name}</h3>
-                        <div className="product-quantity">X {orderQuantity}</div>
+                        <div className="product-quantity">
+                            X {orderQuantity}
+                        </div>
                     </Col>
                     <Col md={3} className="d-flex justify-content-center">
-                        <div className="product-price">₫{formatPrice(price)}</div>
+                        <div className="product-price">
+                            ₫{formatPrice(price)}
+                        </div>
                     </Col>
                 </Row>
             </Container>

@@ -17,7 +17,7 @@ function OrderProduct({ item }) {
                 <Row>
                     <Col md={12} className="d-flex">
                         <img
-                            src={ProductImg}
+                            src={item?.images[0]}
                             alt=""
                             style={{
                                 width: '90px',

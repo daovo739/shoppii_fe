@@ -7,7 +7,7 @@ import {
     HighlightOffTwoTone,
 } from '@mui/icons-material'
 
-function Todo() {
+function Todo({ todo }) {
     return (
         <>
             <Container className="w-100 d-flex align-items-center px-0">
@@ -43,7 +43,7 @@ function Todo() {
                             Chờ xác nhận
                         </h4>
                         <div style={{ fontSize: '3rem', fontWeight: '600' }}>
-                            3
+                            {todo.pending}
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ function Todo() {
                             Đã xử lý
                         </h4>
                         <div style={{ fontSize: '3rem', fontWeight: '600' }}>
-                            2
+                            {todo.accepted}
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ function Todo() {
                             Đã hủy
                         </h4>
                         <div style={{ fontSize: '3rem', fontWeight: '600' }}>
-                            0
+                            {todo.rejected}
                         </div>
                     </div>
                 </div>
