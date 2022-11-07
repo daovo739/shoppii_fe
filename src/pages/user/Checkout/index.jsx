@@ -24,8 +24,19 @@ function Checkout() {
     const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false)
     const [typeCheckout, setTypeCheckout] = useState('success')
 
+    useEffect(() => {
+        if (!state) {
+            navigate('/cart', { replace: true })
+        }
+    }, [])
+
+    useEffect(() => {
+        setTotalCheckout(updateCheckout())
+    }, [state])
+
     const updateCheckout = () => {
-        return state.map(item => {
+        if (!state) return []
+        return state?.map(item => {
             const totalProduct = item.products.reduce((total, product) => {
                 return total + product.cartQuantity * product.price
             }, 0)
@@ -44,20 +55,10 @@ function Checkout() {
 
     const [totalCheckout, setTotalCheckout] = useState(updateCheckout())
 
-    useEffect(() => {
-        if (!state) {
-            navigate('/cart', { replace: true })
-        }
-    }, [])
-
-    useEffect(() => {
-        setTotalCheckout(updateCheckout())
-    }, [state])
-
     const infoCheckout = useMemo(() => {
         return {
             ...totalCheckout,
-            totalPrice: totalCheckout.reduce((total, item) => {
+            totalPrice: totalCheckout?.reduce((total, item) => {
                 return total + item.checkout.total
             }, 0),
             selectedAddress,

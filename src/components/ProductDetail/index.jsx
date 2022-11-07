@@ -29,7 +29,7 @@ import useStore from '../../store/hooks'
 const ProductDetail = ({ product }) => {
     const [quantity, setQuantity] = useState(1)
     const { user } = useAuth()
-    const { cartTotal, setCartTotal } = useStore()
+    const { getTotalCart } = useStore()
 
     const handleAddToCart = async (e, id) => {
         if (!user) {
@@ -46,6 +46,7 @@ const ProductDetail = ({ product }) => {
         const data = await res.json()
         if (res.status > 200 && res.status < 300) {
             toast.success('Thêm vào giỏ hàng thành công')
+            getTotalCart()
         } else {
             toast.error('Có lỗi xảy ra! Thử lại sau')
         }
@@ -206,7 +207,6 @@ const ProductDetail = ({ product }) => {
                             className="add-cart-btn ms-5"
                             onClick={e => {
                                 handleAddToCart(e, product.productId)
-                                setCartTotal(cartTotal + 1)
                             }}
                         >
                             Thêm vào giỏ hàng
