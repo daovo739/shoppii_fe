@@ -7,6 +7,7 @@ import './index.css'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { formatPrice } from '../../../../../utils/format'
+import { Link } from 'react-router-dom'
 
 const listProps = [0, 1, 2]
 const firstItem = listProps.slice(0, 1)
@@ -46,20 +47,22 @@ function OrderHistoryItem({ order }) {
                     <Col md={8}>
                         <div className="d-flex">
                             <div className="fs-4 fw-bold mt-2 ms-3">{name}</div>
-                            <Button
-                                variant="outlined"
-                                startIcon={<Storefront />}
-                                size="small"
-                                className="view-shop-btn"
-                                sx={{
-                                    color: 'white',
-                                    borderColor: 'white',
-                                    fontSize: '1rem',
-                                    marginLeft: '1rem'
-                                }}
-                            >
-                                Xem cửa hàng
-                            </Button>
+                            <Link to={`/viewshop/${shopId}`}>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<Storefront />}
+                                    size="small"
+                                    className="view-shop-btn"
+                                    sx={{
+                                        color: 'white',
+                                        borderColor: 'white',
+                                        fontSize: '1rem',
+                                        marginLeft: '1rem'
+                                    }}
+                                >
+                                    Xem cửa hàng
+                                </Button>
+                            </Link>
                         </div>
                     </Col>
                     <Col md={4}>

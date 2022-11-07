@@ -14,30 +14,51 @@ function OrderHistory() {
         accepted: [],
         pending: [],
         rejected: [],
+        all: [],
     })
     const { user } = useAuth()
 
-    const getOrders = async status => {
+    const getOrders = async () => {
         const q = queryString.stringify({
             userId: user.userId,
-            status: "Accepted",
+            // status: "Accepted",
         })
         const res = await get('order', q)
         const data = await res.json()
-        // console.log(data)
-        setOrders({
-            ...orders,
-            [status]: data,
+        const pendingList = data.filter(order => order.status === 'Pending')
+        const acceptedList = data.filter(order => order.status === 'Accepted')
+        const rejectedList = data.filter(order => order.status === 'Rejected')
+        console.log(acceptedList)
+        setOrders(prev => {
+            return {
+                ...prev,
+                all: data,
+            }
+        })
+        setOrders(prev => {
+            return {
+                ...prev,
+                accepted: acceptedList,
+            }
+        })
+        setOrders(prev => {
+            return {
+                ...prev,
+                rejected: rejectedList,
+            }
+        })
+        setOrders(prev => {
+            return {
+                ...prev,
+                pending: pendingList,
+            }
         })
     }
 
     useEffect(() => {
-        getOrders('accepted')
-        getOrders('pending')
-        getOrders('rejected')
+        getOrders()
     }, [])
-    console.log(orders);
-
+    console.log(orders)
     return (
         <div className="order-history w-100">
             {/* {orders.map((order, index) => (
