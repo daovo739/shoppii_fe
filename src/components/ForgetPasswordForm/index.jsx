@@ -8,6 +8,7 @@ import FormReset from './components/FormReset'
 
 function ForgetPasswordForm() {
     const [isAuth, setIsAuth] = useState(false)
+    const [tokens, setTokens] = useState({})
 
     return (
         <>
@@ -24,9 +25,9 @@ function ForgetPasswordForm() {
                         <Password sx={{ fontSize: '24px' }} />
                     </Avatar>
                     {isAuth ? (
-                        <FormReset />
+                        <FormReset tokens={tokens} />
                     ) : (
-                        <FormAuth setIsAuth={setIsAuth} />
+                        <FormAuth setIsAuth={setIsAuth} setTokens={setTokens} />
                     )}
                 </Box>
             </Container>

@@ -4,7 +4,7 @@ import Home from './Home'
 import Products from './Products'
 import Cart from './Cart'
 import Checkout from './Checkout'
-import ForgetPassword from './ForgetPassword'
+
 import ViewShop from './ViewShop'
 import Product from './Product'
 import GoToShop from './GoToShop'
@@ -17,7 +17,6 @@ export {
     Products,
     Cart,
     Checkout,
-    ForgetPassword,
     ViewShop,
     Product,
     GoToShop,

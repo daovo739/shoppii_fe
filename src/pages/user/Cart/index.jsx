@@ -21,7 +21,7 @@ function Cart() {
     const [isSelectAll, setIsSelectAll] = useState(false)
     const [isSelectAllCheckBox, setIsSelectAllCheckBox] = useState(false)
     const { cartTotal, setCartTotal } = useStore()
-    // console.log(selectedCheckout)
+    console.log(cart)
     useEffect(() => {
         getData()
     }, [])
@@ -103,7 +103,10 @@ function Cart() {
                         <div className="fs-3">Sản phẩm</div>
                     </Col>
                     <Col md={3}>
-                        <div className="fs-3" style={{ marginLeft: '6rem', paddingLeft: '7rem' }}>
+                        <div
+                            className="fs-3"
+                            style={{ marginLeft: '6rem', paddingLeft: '7rem' }}
+                        >
                             Số lượng
                         </div>
                     </Col>
@@ -158,7 +161,7 @@ function Cart() {
                         component="div"
                         style={{
                             display: 'flex',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                         }}
                     >
                         <Button
@@ -166,7 +169,7 @@ function Cart() {
                             sx={{
                                 backgroundColor: 'var(--main-blue)',
                                 fontSize: '1.2rem',
-                                mr: 3
+                                mr: 3,
                             }}
                             onClick={handleCloseModalDelete}
                         >
@@ -177,7 +180,7 @@ function Cart() {
                             sx={{
                                 backgroundColor: 'var(--main-red)',
                                 fontSize: '1.2rem',
-                                ml: 3
+                                ml: 3,
                             }}
                             onClick={() => {
                                 handleRemoveProduct()

@@ -1,11 +1,21 @@
 import { useState } from 'react'
-import { Typography, TextField, Button, Box } from '@mui/material'
+import {
+    Typography,
+    TextField,
+    Button,
+    Box,
+    InputAdornment,
+    IconButton,
+} from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { post } from '../../../../utils/httprequest'
 import { handleChange, handleFormData } from '../../../../utils/handleForm'
 import { toast } from 'react-toastify'
 
-function FormAuth({ setIsAuth }) {
+function FormAuth({ setIsAuth, setTokens }) {
     const [auth, setAuth] = useState({})
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleReset = async e => {
         e.preventDefault()
@@ -15,6 +25,10 @@ function FormAuth({ setIsAuth }) {
         const data = await res.json()
         console.log(res)
         console.log(data)
+        if (res.status === 200) {
+            setTokens(data)
+            setIsAuth(true)
+        }
         if (res.status === 500) {
             toast.error(data.message)
         }
@@ -50,10 +64,39 @@ function FormAuth({ setIsAuth }) {
                     required
                     fullWidth
                     name="code"
+                    type={showPassword ? 'text' : 'password'}
                     label="Nhập mã bảo mật"
                     id="token"
                     InputProps={{
                         label: 'Nhập mã bảo mật aaaaaa',
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onMouseDown={e => {
+                                        setShowPassword(true)
+                                    }}
+                                    onMouseUp={e => {
+                                        setShowPassword(false)
+                                    }}
+                                    edge="end"
+                                >
+                                    {showPassword ? (
+                                        <VisibilityOff
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        />
+                                    ) : (
+                                        <Visibility
+                                            sx={{
+                                                fontSize: '2.5rem',
+                                            }}
+                                        />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
                     }}
                     onChange={e => handleChange(e, setAuth)}
                 />
