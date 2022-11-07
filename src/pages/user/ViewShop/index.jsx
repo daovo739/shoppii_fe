@@ -62,7 +62,7 @@ function ViewShop() {
                     <Divider />
                     <Row className="my-5">
                         {products?.map((product, index) => (
-                            <Col md={3} key={index}>
+                            <Col md={3} key={index} className="d-flex justify-content-center mb-5">
                                 {product?.isAvailable ? (
                                     <Link to={`/product/${product.productId}`}>
                                         <ProductCard product={product} />
