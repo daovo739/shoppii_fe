@@ -31,7 +31,7 @@ function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
                         {
                             amount: {
                                 currency_code: 'USD',
-                                value: 1,
+                                value: amountUSD,
                             },
                         },
                     ],

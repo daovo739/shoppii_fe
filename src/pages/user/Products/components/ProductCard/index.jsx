@@ -46,8 +46,13 @@ function ProductCard({ product }) {
                 maxWidth: '200px',
                 height: '340px',
                 borderRadius: 'transparent',
+                position: 'relative',
             }}
-            className="d-flex flex-column justify-content-between product-card"
+            className={
+                product?.isAvailable
+                    ? 'd-flex flex-column justify-content-between product-card '
+                    : 'd-flex flex-column justify-content-between product-card disabled-card'
+            }
         >
             <CardMedia
                 component="img"

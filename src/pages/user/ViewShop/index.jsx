@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom'
 import { get } from '../../.././utils/./httprequest'
 import queryString from 'query-string'
 import { Container, Row, Col } from 'react-bootstrap'
-import { Divider } from '@mui/material'
+import { Divider, CircularProgress } from '@mui/material'
 import ProductCard from '../Products/components/ProductCard'
 import { useAuth } from '../../../hooks/useAuth'
 
@@ -14,6 +14,7 @@ function ViewShop() {
     const [products, setProducts] = useState([])
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         getData()
     }, [])
@@ -36,43 +37,54 @@ function ViewShop() {
             })
     }
 
-    return (
-        loading && (
-            <div className="view-shop">
-                <ShopHeader profile={profile} avatar={user.avatar} />
-                <div
-                    className="shop-content"
-                    style={{
-                        backgroundColor: 'var(--white)',
-                        marginTop: '3rem',
-                        paddingTop: '3rem',
-                        paddingBottom: '3rem',
-                        paddingLeft: '6rem',
-                        paddingRight: '6rem',
-                        boxShadow: 'var(--box-shadow-main)',
-                    }}
-                >
-                    {/* <BasicTabs /> */}
-                    <Container fluid="md">
-                        <Row>
-                            <Col md={12}>
-                                <h2>Sản phẩm</h2>
-                            </Col>
-                        </Row>
-                        <Divider />
-                        <Row className="my-5">
-                            {products?.map((item, index) => (
-                                <Col md={3} key={index}>
-                                    <Link to={`/product/${item.productId}`}>
-                                        <ProductCard product={item} />
+    return loading ? (
+        <div className="view-shop">
+            <ShopHeader profile={profile} avatar={user.avatar} />
+            <div
+                className="shop-content"
+                style={{
+                    backgroundColor: 'var(--white)',
+                    marginTop: '3rem',
+                    paddingTop: '3rem',
+                    paddingBottom: '3rem',
+                    paddingLeft: '6rem',
+                    paddingRight: '6rem',
+                    boxShadow: 'var(--box-shadow-main)',
+                }}
+            >
+                {/* <BasicTabs /> */}
+                <Container fluid="md">
+                    <Row>
+                        <Col md={12}>
+                            <h2>Sản phẩm</h2>
+                        </Col>
+                    </Row>
+                    <Divider />
+                    <Row className="my-5">
+                        {products?.map((product, index) => (
+                            <Col md={3} key={index}>
+                                {product?.isAvailable ? (
+                                    <Link to={`/product/${product.productId}`}>
+                                        <ProductCard product={product} />
                                     </Link>
-                                </Col>
-                            ))}
-                        </Row>
-                    </Container>
-                </div>
+                                ) : (
+                                    <ProductCard product={product} />
+                                )}
+                            </Col>
+                        ))}
+                    </Row>
+                </Container>
             </div>
-        )
+        </div>
+    ) : (
+        <CircularProgress
+            sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+            }}
+        />
     )
 }
 

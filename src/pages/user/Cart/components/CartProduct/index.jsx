@@ -98,7 +98,11 @@ function CartProduct({
                 <Row>
                     <Col md={6}>
                         <div className="cart-product-info d-flex align-items-center">
-                            <img style={{ width: '8rem', height: '8rem'}} src={ProductImage} alt="img" />
+                            <img
+                                style={{ width: '8rem', height: '8rem' }}
+                                src={product.images[0]}
+                                alt="img"
+                            />
                             <div className="pt-3 ms-3">
                                 <h3 className="mb-2">{product?.productName}</h3>
                                 <h4
@@ -155,7 +159,8 @@ function CartProduct({
                                     }
                                     disabled={
                                         product?.quantity < 1 ||
-                                        product?.cartQuantity >= product?.quantity
+                                        product?.cartQuantity >=
+                                            product?.quantity
                                     }
                                 >
                                     <AddCircleOutline
@@ -172,7 +177,8 @@ function CartProduct({
                                     marginTop: '3px',
                                 }}
                             >
-                                Còn lại <strong>{product.quantity}</strong> sản phẩm
+                                Còn lại <strong>{product.quantity}</strong> sản
+                                phẩm
                             </p>
                         </div>
                     </Col>

@@ -12,19 +12,16 @@ function ShopOrders() {
     const { user } = useAuth()
     const [filter, setFilter] = useState('pending')
     const [orders, setOrders] = useState([])
-    const [actionStatus, setActionStatus] = useState({
-        status: '',
-        orderId: 0
-    })
+    const [actionStatus, setActionStatus] = useState({})
 
     const handleChange = event => {
         setFilter(event.target.value)
     }
-    console.log(actionStatus)
     const getOrders = async () => {
         const q = queryString.stringify({ shopId: user.userId, status: filter })
         const res = await get(`shop/orders`, q)
         const data = await res.json()
+        console.log(res)
         console.log(data)
         setOrders(data)
     }
@@ -36,7 +33,7 @@ function ShopOrders() {
         })
         const res = await post('shop/orders', formData)
         console.log(await res.json())
-        if (res.status === 200){
+        if (res.status === 200) {
             toast.success('Cập nhật đơn hàng thành công')
         } else {
             toast.error('Cập nhật đơn hàng không thành công')
@@ -44,12 +41,14 @@ function ShopOrders() {
         getOrders()
     }
 
-    const getActionStatus = (object) => {
+    const getActionStatus = object => {
         setActionStatus(object)
     }
 
     useEffect(() => {
-        handleAccept()
+        if (actionStatus.status && actionStatus.orderId !== 0) {
+            handleAccept()
+        }
     }, [actionStatus])
 
     useEffect(() => {

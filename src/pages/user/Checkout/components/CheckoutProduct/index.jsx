@@ -10,7 +10,7 @@ function CheckoutProduct({ product }) {
                 <Row>
                     <Col md={10} className="d-flex">
                         <img
-                            src={ProductImg}
+                            src={product.images[0]}
                             alt="image"
                             style={{ width: '70px', height: '70px' }}
                             className="pt-1"
