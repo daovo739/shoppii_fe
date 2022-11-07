@@ -6,7 +6,7 @@ function BestSeller() {
     return (
         <>
             <div
-                className="d-flex justify-content-center align-items-center p-4 my-3"
+                className="d-flex justify-content-center align-items-center"
                 style={{
                     backgroundColor: 'white',
                     width: '100%',

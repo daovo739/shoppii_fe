@@ -15,9 +15,14 @@ function FilterTotal() {
         <Container
             fluid="md"
             className="mx-0"
-            style={{ backgroundColor: 'white', borderRadius: '10px', padding: '2rem', width: '94%' }}
+            style={{
+                backgroundColor: 'white',
+                borderRadius: '10px',
+                padding: '2rem',
+                width: '94%',
+            }}
         >
-            <Row>
+            {/* <Row>
                 <div className="d-flex justify-content-center align-items-center">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
@@ -70,10 +75,10 @@ function FilterTotal() {
                         />
                     </LocalizationProvider>
                 </div>
-            </Row>
-            <Row className="d-flex justify-content-center align-items-center mt-4">
+            </Row> */}
+            <Row className="d-flex justify-content-center align-items-center">
                 <div
-                    className="d-flex align-items-center mt-4 p-4"
+                    className="d-flex align-items-center p-4"
                     style={{
                         width: '26rem',
                         background:
@@ -87,7 +92,7 @@ function FilterTotal() {
                     />
                     <div className="ms-4">
                         <h4 style={{ color: 'white', marginBottom: '0' }}>
-                            Tổng cộng{' '}
+                            Tổng doanh thu{' '}
                         </h4>
                         <div
                             style={{

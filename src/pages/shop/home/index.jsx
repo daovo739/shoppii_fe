@@ -33,21 +33,22 @@ const labels = [
     'Saturday',
     'Sunday',
 ]
+
 const data = {
     labels,
     datasets: [
         {
-            label: 'Dataset 1',
+            label: 'Tuần này',
             data: labels.map(() =>
-                faker.datatype.number({ min: 100, max: 10000 }),
+                faker.datatype.number({ min: 100, max: 1000 }),
             ),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
         },
         {
-            label: 'Dataset 2',
+            label: 'Tuần trước',
             data: labels.map(() =>
-                faker.datatype.number({ min: 100, max: 10000 }),
+                faker.datatype.number({ min: 100, max: 1000 }),
             ),
             borderColor: 'rgb(53, 162, 235)',
             backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -63,9 +64,10 @@ const options = {
         },
         title: {
             display: true,
-            text: 'Chart.js Line Chart',
+            text: 'Thống kê doanh thu tuần này và tuần trước',
         },
     },
+    // maintainAspectRatio: false,
 }
 function ShopHomePage() {
     return (
@@ -89,6 +91,8 @@ function ShopHomePage() {
                     <Col md={4}>
                         <BestSeller />
                     </Col>
+                </Row>
+                <Row>
                     <Col md={12}>
                         <Line options={options} data={data} />
                     </Col>
