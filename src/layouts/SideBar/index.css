@@ -57,12 +57,15 @@
 
 /* BUTTON */
 .backBtn {
-    background-color: #6c757d !important;
-    width: 100%;
+    background-color: #8b97a1 !important;
+    width: 80%;
     padding: 8px 0 !important;
     font-size: 1.8rem !important;
     transition: var(--transition-normal);
-    border-radius: 8px;
+    border-radius: 12px;
+    border: none !important;
+    outline: none;
+    margin: 0 auto;
 }
 
 .backBtn:hover {

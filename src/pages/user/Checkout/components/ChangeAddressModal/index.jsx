@@ -80,7 +80,6 @@ function ChangeAddressModal({ onClick, getAddresses, addresses }) {
                                 onChange={e => handleSelectAddress(e)}
                             >
                                 {addresses?.map(item => {
-                                    console.log(item.addressId)
                                     return (
                                         <ChangeAddressItem
                                             key={item?.addressId}

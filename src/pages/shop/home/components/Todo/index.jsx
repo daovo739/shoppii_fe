@@ -1,11 +1,16 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import { HourglassFullTwoTone, BookmarkAddedTwoTone, HighlightOffOutlined, HighlightOffTwoTone } from '@mui/icons-material'
+import {
+    HourglassFullTwoTone,
+    BookmarkAddedTwoTone,
+    HighlightOffOutlined,
+    HighlightOffTwoTone,
+} from '@mui/icons-material'
 
 function Todo() {
     return (
         <>
-            <Container className="w-100 d-flex align-items-center px-0 mb-5">
+            <Container className="w-100 d-flex align-items-center px-0">
                 <div
                     className="d-flex align-items-center px-3 me-5"
                     style={{
@@ -62,7 +67,10 @@ function Todo() {
                         }}
                     >
                         <BookmarkAddedTwoTone
-                            sx={{ color: 'var(--main-green)', fontSize: '30px' }}
+                            sx={{
+                                color: 'var(--main-green)',
+                                fontSize: '30px',
+                            }}
                         />
                     </div>
                     <div className="ms-4">
