@@ -86,7 +86,7 @@ const ProductDetail = ({ product }) => {
         } else if (value < 1) {
             setQuantity(1)
         } else {
-            setQuantity(value)
+            setQuantity(Number(value))
         }
     }
 
