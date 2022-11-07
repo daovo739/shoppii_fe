@@ -13,7 +13,7 @@ import blueBackground from '../../../../../assets/images/bluebg.png'
 import tempAvatar from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 import './index.css'
 
-function ShopHeader({ profile }) {
+function ShopHeader({ profile, avatar }) {
     return (
         <div
             className="shop-header"
@@ -52,7 +52,7 @@ function ShopHeader({ profile }) {
                             <div className="d-flex">
                                 <Avatar
                                     alt="shop image"
-                                    src={tempAvatar}
+                                    src={avatar}
                                     sx={{
                                         width: 100,
                                         height: 100,
