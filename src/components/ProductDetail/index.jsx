@@ -223,7 +223,12 @@ const ProductDetail = ({ product }) => {
                     <div className="col-12">
                         <div className="shop">
                             <div className="shop-image">
-                                <img src={ProductImage} alt="img1"></img>
+                                <img
+                                    src={
+                                        'https://cdn.vietnambiz.vn/2019/10/3/color-silhouette-cartoon-facade-shop-store-vector-14711058-1570007843495391141359-1570076859193969194096-15700769046292030065819-1570076927728377843390.png'
+                                    }
+                                    alt="img1"
+                                ></img>
                             </div>
                             <div className="shop-info">
                                 <p style={{ marginBottom: 0 }}>
