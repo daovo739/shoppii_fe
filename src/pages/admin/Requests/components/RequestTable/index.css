@@ -1,0 +1,39 @@
+.admin-request-table {
+  font-size: 1.5rem;
+  color: gray;
+  text-align: left;
+}
+
+.admin-request-table tr {
+  border-bottom: 1px solid #f3f3f4;
+}
+
+.admin-request-table tr:last-child {
+  border: none;
+}
+
+.admin-request-table tr:first-child:hover {
+  background-color: white;
+}
+
+.admin-request-table tr:hover {
+  background-color: var(--light-blue);
+  color: rgba(0, 0, 0, 0.566);
+  font-weight: bold;
+}
+
+
+.admin-request-table tr th {
+  color: rgba(0, 0, 0, 0.535);
+  width: 20%;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+  padding-left: 2.5rem;
+}
+
+.admin-request-table tr td {
+  width: 20%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2.5rem;
+}

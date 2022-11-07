@@ -1,0 +1,5 @@
+.shipping-unit-btn:hover {
+  background-color: white !important;
+  color: var(--main-blue) !important;
+  border: 2px solid var(--main-blue) !important;
+}

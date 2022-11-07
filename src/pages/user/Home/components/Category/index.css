@@ -1,0 +1,3 @@
+.categories-item:hover {
+  box-shadow: var(--box-shadow-main);
+}

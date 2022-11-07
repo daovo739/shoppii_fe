@@ -1,0 +1,103 @@
+@import 'normalize.css';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
+
+$heightNavbar: 100px;
+$heightFooter: 200px;
+// Size layout
+
+:root {
+    // Overwrite bootstrap
+    --bs-body-font-family: 'Roboto', sans-serif;
+    --bs-body-font-size: 1.6rem;
+
+    // Variables
+    --main-blue: #2877ee;
+    --light-blue: #e6eef7;
+    --main-dark: #252734;
+    --main-white: #fafafa;
+    --main-red: #ff424e;
+    --main-green: #7ca5b8;
+    --white: #fff;
+    --box-color: #fafafa;
+    --border-radius-normal: 8px;
+    --border-radius-circle: 50%;
+    --transition-normal: all 0.3s ease;
+    --box-shadow-main: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    --box-shadow-main-2: rgb(133, 131, 131) 5px 5px 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+hr {
+    color: #c7c7c7ad;
+}
+
+html {
+    font-size: 62.5%;
+    // overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.div-body-default {
+    min-height: calc(100vh - #{$heightNavbar} - #{$heightFooter});
+    background-color: #fafafa;
+    height: auto;
+}
+
+.div-nav-default {
+    height: $heightNavbar;
+    background-color: #2877ee;
+}
+
+.div-footer-default {
+    height: $heightFooter;
+    background-color: #2877ee;
+}
+
+// Style for input, label MUI
+.MuiInputBase-input,
+.MuiInputLabel-root {
+    font-size: 1.5rem !important;
+}
+
+.btnModal {
+    font-size: 1.4rem !important;
+    padding: 6px 15px;
+}
+
+// Scroll
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 30px;
+    border: 6px solid transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #a8bbbf;
+}
+
+// Override toast
+.Toastify__toast-container--top-right {
+    margin-top: 50px;
+}
