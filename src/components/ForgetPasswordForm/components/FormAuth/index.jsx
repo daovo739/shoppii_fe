@@ -30,7 +30,7 @@ function FormAuth({ setIsAuth, setTokens }) {
             setIsAuth(true)
         }
         if (res.status === 500) {
-            toast.error(data.message)
+            toast.error('Yêu cầu thất bại')
         }
     }
 
