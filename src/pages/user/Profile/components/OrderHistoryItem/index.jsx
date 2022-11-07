@@ -43,7 +43,7 @@ function OrderHistoryItem({ order }) {
         <div className="order-history-item my-5">
             <Container fluid="md">
                 <Row className="d-flex mb-1 order-header py-3">
-                    <Col md={9}>
+                    <Col md={8}>
                         <div className="d-flex">
                             <div className="fs-4 fw-bold mt-2 ms-3">{name}</div>
                             <Button
@@ -62,10 +62,7 @@ function OrderHistoryItem({ order }) {
                             </Button>
                         </div>
                     </Col>
-                    {/* <Col md={7}> */}
-
-                    {/* </Col> */}
-                    <Col md={3}>
+                    <Col md={4}>
                         <div className="fs-4 mt-2 text-left">
                             Ngày mua : {time}
                         </div>
