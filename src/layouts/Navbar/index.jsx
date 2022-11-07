@@ -76,7 +76,9 @@ const Navbar = () => {
                                             }}
                                         />
                                     </Link>
-                                    <div className="cart-number-badge">{cartTotal}</div>
+                                    <div className="cart-number-badge">
+                                        {cartTotal}
+                                    </div>
                                 </div>
                                 <div>
                                     <Dropdown
@@ -105,77 +107,71 @@ const Navbar = () => {
                                         >
                                             <Dropdown.Item
                                                 as="div"
-                                                className="d-flex align-items-center mb-3"
+                                                className="d-flex align-items-center"
                                             >
-                                                <div
-                                                    style={{
-                                                        backgroundColor:
-                                                            'var(--light-blue)',
-                                                        borderRadius: '50%',
-                                                        padding: '0.5rem',
-                                                        marginRight: '1rem',
-                                                    }}
+                                                <Link
+                                                    to="/profile"
+                                                    className="d-flex align-items-center mb-1"
                                                 >
-                                                    <PermContactCalendarRounded
-                                                        sx={{
-                                                            fontSize: '20px',
-                                                            color: 'var(--main-blue)',
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'var(--light-blue)',
+                                                            borderRadius: '50%',
+                                                            width: '32px',
+                                                            height: '32px',
+                                                            marginRight: '1rem',
                                                         }}
-                                                    />
-                                                </div>
-                                                <Link to="/profile">
+                                                        className="d-flex align-items-center justify-content-center"
+                                                    >
+                                                        <PermContactCalendarRounded
+                                                            sx={{
+                                                                fontSize:
+                                                                    '20px',
+                                                                color: 'var(--main-blue)',
+                                                            }}
+                                                        />
+                                                    </div>
                                                     Thông tin người dùng
                                                 </Link>
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 as="div"
-                                                className="d-flex align-items-center mb-3"
+                                                className="d-flex align-items-center"
                                             >
-                                                <div
-                                                    style={{
-                                                        backgroundColor:
-                                                            'var(--light-blue)',
-                                                        borderRadius: '50%',
-                                                        padding: '0.5rem',
-                                                        marginRight: '1rem',
-                                                    }}
-                                                >
-                                                    <HistoryRounded
-                                                        sx={{
-                                                            fontSize: '20px',
-                                                            color: 'var(--main-blue)',
-                                                        }}
-                                                    />
-                                                </div>
                                                 <Link
                                                     to="/profile"
                                                     state={{
                                                         action: 'Order History',
                                                     }}
+                                                    className="d-flex align-items-center mb-1"
                                                 >
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'var(--light-blue)',
+                                                            borderRadius: '50%',
+                                                            width: '32px',
+                                                            height: '32px',
+                                                            marginRight: '1rem',
+                                                        }}
+                                                        className="d-flex align-items-center justify-content-center"
+                                                    >
+                                                        <HistoryRounded
+                                                            sx={{
+                                                                fontSize:
+                                                                    '20px',
+                                                                color: 'var(--main-blue)',
+                                                            }}
+                                                        />
+                                                    </div>
                                                     Lịch sử mua hàng
                                                 </Link>
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 as="div"
-                                                className="d-flex align-items-center mb-3"
+                                                className="d-flex align-items-center mb-1"
                                             >
-                                                <div
-                                                    style={{
-                                                        backgroundColor:
-                                                            'var(--light-blue)',
-                                                        borderRadius: '50%',
-                                                        padding: '0.5rem',
-                                                        marginRight: '1rem',
-                                                    }}
-                                                >
-                                                    <ShoppingCartCheckoutRounded
-                                                        sx={{
-                                                            fontSize: '20px',
-                                                            color: 'var(--main-blue)',
-                                                        }}
-                                                    />
-                                                </div>
                                                 <Button
                                                     onClick={handleSwitchShop}
                                                     style={{
@@ -184,16 +180,37 @@ const Navbar = () => {
                                                         textTransform: 'none',
                                                         padding: '0',
                                                     }}
+                                                    className="d-flex align-items-center justify-content-center"
                                                 >
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'var(--light-blue)',
+                                                            borderRadius: '50%',
+                                                            // padding: '0.5rem',
+                                                            width: '32px',
+                                                            height: '32px',
+                                                            marginRight: '1rem',
+                                                        }}
+                                                        className="d-flex align-items-center justify-content-center"
+                                                    >
+                                                        <ShoppingCartCheckoutRounded
+                                                            sx={{
+                                                                fontSize:
+                                                                    '20px',
+                                                                color: 'var(--main-blue)',
+                                                            }}
+                                                        />
+                                                    </div>
                                                     Kênh người bán
                                                 </Button>
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 as="div"
-                                                className="d-flex align-items-center"
+                                                className="d-flex align-items-center mb-1"
                                             >
                                                 <Button
-                                                    className="d-flex justify-content-between align-items-center"
+                                                    className="d-flex align-items-center"
                                                     onClick={() => {
                                                         setIsLogin(false)
                                                         logout()
