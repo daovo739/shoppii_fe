@@ -1,44 +1,24 @@
-import React from 'react'
+import { useState, useMemo } from 'react'
 import { Box, Typography, Modal, Button } from '@mui/material'
-import { style } from '../../../../../components/ModalStyle'
 import { Container, Row, Col } from 'react-bootstrap'
+import { style } from '../../../../../components/ModalStyle'
 import OrderProduct from '../OrderProduct'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { formatPrice } from '../../../../.././utils/format'
 
-function OrdersModal({ isPending, order, handleClose, open, getActionStatus, handleAccept }) {
-    const {
-        address,
-        customerId,
-        items,
-        orderId,
-        paymentMethod,
-        shop,
-        status,
-        time,
-    } = order
-    const {
-        addressId,
-        district,
-        province,
-        receiverAddress,
-        receiverName,
-        receiverPhone,
-        userId,
-        ward,
-    } = address
-    const [orderTotal, setOrderTotal] = useState(0)
-
-    useEffect(
-        () =>
-            setOrderTotal(
-                items.reduce(
-                    (total, item) => total + item.orderQuantity * item.price,
-                    0,
-                ),
-            ),
-        [],
-    )
+function OrdersModal({
+    isPending,
+    order,
+    handleClose,
+    open,
+    getActionStatus,
+    handleAccept,
+}) {
+    const orderTotal = useMemo(() => {
+        return order?.items?.reduce(
+            (total, item) => total + item.orderQuantity * item.price,
+            0,
+        )
+    }, [order])
 
     return (
         <>
@@ -56,7 +36,7 @@ function OrdersModal({ isPending, order, handleClose, open, getActionStatus, han
                         sx={{ mb: 4 }}
                     >
                         <div>
-                            <strong>Đơn hàng #{orderId}</strong>
+                            <strong>Đơn hàng #{order?.orderId}</strong>
                             <p
                                 style={{
                                     fontSize: '1.3rem',
@@ -64,7 +44,7 @@ function OrdersModal({ isPending, order, handleClose, open, getActionStatus, han
                                     paddingLeft: '1.2rem',
                                 }}
                             >
-                                {time}
+                                {order?.time}
                             </p>
                         </div>
                     </Typography>
@@ -90,25 +70,27 @@ function OrdersModal({ isPending, order, handleClose, open, getActionStatus, han
                                     >
                                         <p>
                                             <strong>Người nhận</strong> :{' '}
-                                            <span>{receiverName}</span>
+                                            <span>{order?.receiverName}</span>
                                         </p>
                                         <p>
                                             <strong>Số điện thoại</strong> :{' '}
-                                            <span>{receiverPhone}</span>
+                                            <span>{order?.receiverPhone}</span>
                                         </p>
                                         <p>
                                             <strong>Địa chỉ</strong> :{' '}
                                             <span>
-                                                {receiverAddress}, {ward},{' '}
-                                                {district}, {province}
+                                                {order?.receiverAddress},{' '}
+                                                {order?.address?.ward},{' '}
+                                                {order?.address?.district},{' '}
+                                                {order?.address?.province}
                                             </span>
                                         </p>
                                     </div>
                                 </Col>
                             </Row>
-                            <Row >
+                            <Row>
                                 <Col md={12}>
-                                    {items.map((item, index) => (
+                                    {order?.items?.map((item, index) => (
                                         <OrderProduct key={index} item={item} />
                                     ))}
                                 </Col>
@@ -126,53 +108,59 @@ function OrdersModal({ isPending, order, handleClose, open, getActionStatus, han
                                                 color: 'var(--main-red)',
                                             }}
                                         >
-                                            {orderTotal} ₫
+                                            {formatPrice(orderTotal)}
                                         </span>
                                     </h4>
                                 </Col>
                             </Row>
-                            { isPending ? <Row>
-                                <Col
-                                    md={12}
-                                    className="d-flex justify-content-end mt-5"
-                                >
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            backgroundColor: 'var(--main-red)',
-                                            fontSize: '1.5rem',
-                                            marginRight: '3rem',
-                                        }}
-                                        onClick={() => {
-                                            getActionStatus({
-                                                status: 'Rejected',
-                                                orderId: orderId
-                                            })
-                                            // handleAccept()
-                                            handleClose()
-                                        }}
+                            {isPending ? (
+                                <Row>
+                                    <Col
+                                        md={12}
+                                        className="d-flex justify-content-end mt-5"
                                     >
-                                        Hủy đơn
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        sx={{
-                                            backgroundColor: 'var(--main-blue)',
-                                            fontSize: '1.5rem',
-                                        }}
-                                        onClick={() => {
-                                            getActionStatus({
-                                                status: 'Accepted',
-                                                orderId: orderId
-                                            })
-                                            // handleAccept()
-                                            handleClose()
-                                        }}
-                                    >
-                                        Xác nhận đơn
-                                    </Button>
-                                </Col>
-                            </Row> : <></>}
+                                        <Button
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor:
+                                                    'var(--main-red)',
+                                                fontSize: '1.5rem',
+                                                marginRight: '1rem',
+                                            }}
+                                            onClick={() => {
+                                                getActionStatus({
+                                                    status: 'Rejected',
+                                                    orderId: order?.orderId,
+                                                })
+                                                // handleAccept()
+                                                handleClose()
+                                            }}
+                                        >
+                                            Hủy đơn
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor:
+                                                    'var(--main-blue)',
+                                                fontSize: '1.5rem',
+                                            }}
+                                            onClick={() => {
+                                                getActionStatus({
+                                                    status: 'Accepted',
+                                                    orderId: order?.orderId,
+                                                })
+                                                // handleAccept()
+                                                handleClose()
+                                            }}
+                                        >
+                                            Xác nhận đơn
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            ) : (
+                                <></>
+                            )}
                         </Container>
                     </Typography>
                 </Box>

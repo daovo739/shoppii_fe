@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react'
 import OrdersTable from './components/OrdersTable'
 import { Container, Row, Col } from 'react-bootstrap'
 import queryString from 'query-string'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    CircularProgress,
+} from '@mui/material'
 import { get, post } from '../../.././utils/httprequest'
 import { useAuth } from '../../../hooks/useAuth'
 import { handleFormData } from '../../../utils/handleForm'
@@ -13,6 +19,7 @@ function ShopOrders() {
     const [filter, setFilter] = useState('pending')
     const [orders, setOrders] = useState([])
     const [actionStatus, setActionStatus] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleChange = event => {
         setFilter(event.target.value)
@@ -24,6 +31,7 @@ function ShopOrders() {
         console.log(res)
         console.log(data)
         setOrders(data)
+        setIsLoading(false)
     }
 
     const handleAccept = async () => {
@@ -52,66 +60,68 @@ function ShopOrders() {
     }, [actionStatus])
 
     useEffect(() => {
+        setIsLoading(true)
         getOrders()
     }, [filter])
 
-    return (
-        <>
-            <Container
-                fluid="md"
-                style={{
-                    backgroundColor: 'white',
-                    boxShadow: 'var(--box-shadow-main)',
-                    padding: '2.5rem',
-                    width: '90%',
-                    borderRadius: '1rem',
-                }}
-            >
-                <Row>
-                    <Col
-                        md={6}
-                        style={{
-                            borderLeft: '1rem solid black',
-                            fontWeight: 'bold',
-                            paddingLeft: '1.5rem',
-                        }}
-                    >
-                        <div className="mt-2">ĐƠN HÀNG</div>
-                    </Col>
-                    <Col md={6} className="d-flex justify-content-end">
-                        <FormControl size="small" sx={{ width: '15rem' }}>
-                            <InputLabel id="demo-simple-select-label">
-                                Trạng thái
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={filter}
-                                label="Trạng thái"
-                                onChange={e => handleChange(e)}
-                            >
-                                <MenuItem value={'pending'}>
-                                    Chờ xác nhận
-                                </MenuItem>
-                                <MenuItem value={'accepted'}>
-                                    Đã chấp nhận
-                                </MenuItem>
-                                <MenuItem value={'rejected'}>
-                                    Đã từ chối
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Col>
-                </Row>
-                <Row>
-                    <OrdersTable
-                        getActionStatus={getActionStatus}
-                        orders={orders}
-                        handleAccept={handleAccept}
-                    />
-                </Row>
-            </Container>
-        </>
+    return !isLoading ? (
+        <Container
+            fluid="md"
+            style={{
+                backgroundColor: 'white',
+                boxShadow: 'var(--box-shadow-main)',
+                padding: '2.5rem',
+                width: '90%',
+                borderRadius: '1rem',
+            }}
+        >
+            <Row>
+                <Col
+                    md={6}
+                    style={{
+                        borderLeft: '1rem solid black',
+                        fontWeight: 'bold',
+                        paddingLeft: '1.5rem',
+                    }}
+                >
+                    <div className="mt-2">ĐƠN HÀNG</div>
+                </Col>
+                <Col md={6} className="d-flex justify-content-end">
+                    <FormControl size="small" sx={{ width: '15rem' }}>
+                        <InputLabel id="demo-simple-select-label">
+                            Trạng thái
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={filter}
+                            label="Trạng thái"
+                            onChange={e => handleChange(e)}
+                        >
+                            <MenuItem value={'pending'}>Chờ xác nhận</MenuItem>
+                            <MenuItem value={'accepted'}>Đã chấp nhận</MenuItem>
+                            <MenuItem value={'rejected'}>Đã từ chối</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Col>
+            </Row>
+            <Row>
+                <OrdersTable
+                    getActionStatus={getActionStatus}
+                    orders={orders}
+                    handleAccept={handleAccept}
+                />
+            </Row>
+        </Container>
+    ) : (
+        <CircularProgress
+            sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+            }}
+        />
     )
 }
 

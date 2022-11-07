@@ -11,7 +11,6 @@ function OrderProduct({ item }) {
         price,
         quantity,
     } = item
-    console.log(item)
     return (
         <>
             <Container fluid="md" className="my-5">
@@ -37,12 +36,16 @@ function OrderProduct({ item }) {
                             <span>
                                 <strong>Số lượng :</strong>{' '}
                                 <span>
-                                    {orderQuantity} / {quantity} (số lượng trong kho)
+                                    {orderQuantity} / {quantity} (số lượng trong
+                                    kho)
                                 </span>
                             </span>{' '}
                             <br />
                             <span>
-                                <strong>Giá</strong> : <span style={{ color: 'var(--main-red)' }}>{price} đ</span>
+                                <strong>Giá</strong> :{' '}
+                                <span style={{ color: 'var(--main-red)' }}>
+                                    {price} đ
+                                </span>
                             </span>
                         </div>
                     </Col>
