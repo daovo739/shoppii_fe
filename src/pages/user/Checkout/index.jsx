@@ -18,7 +18,9 @@ function Checkout() {
     const { user } = useAuth()
     const { addresses, getAddresses, getTotalCart } = useStore()
     const { state } = useLocation()
-    const [selectedAddress, setSelectedAddress] = useState({})
+    const [selectedAddress, setSelectedAddress] = useState(
+        addresses.find(address => address.isDefault),
+    )
     const [paymentMethod, setPaymentMethod] = useState('paypal')
     const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false)
     const [typeCheckout, setTypeCheckout] = useState('success')
@@ -92,25 +94,33 @@ function Checkout() {
     }
 
     const handleCheckoutPaypal = async type => {
-        console.log({
-            orderJson: JSON.stringify(totalCheckout),
-            addressId: selectedAddress.addressId,
-            paymentMethod,
-            userId: user.userId,
-        })
-        const formData = handleFormData({
-            orders: JSON.stringify(totalCheckout),
-            addressId: selectedAddress.addressId,
-            paymentMethod,
-            userId: user.userId,
-        })
-        const res = await post('order', formData)
-        const data = await res.json()
-        console.log(res)
-        console.log(data)
-        setIsCheckoutSuccess(true)
-        setTypeCheckout(type)
-        getTotalCart()
+        if (type === 'success') {
+            console.log({
+                orderJson: JSON.stringify(totalCheckout),
+                addressId: selectedAddress.addressId,
+                paymentMethod,
+                userId: user.userId,
+            })
+            const formData = handleFormData({
+                orders: JSON.stringify(totalCheckout),
+                addressId: selectedAddress.addressId,
+                paymentMethod,
+                userId: user.userId,
+            })
+            const res = await post('order', formData)
+            const data = await res.json()
+            if (res.status === 500) {
+                setTypeCheckout('failure')
+            } else {
+                setTypeCheckout('success')
+            }
+            setIsCheckoutSuccess(true)
+            console.log(res)
+            console.log(data)
+            getTotalCart()
+        } else {
+            setTypeCheckout(type)
+        }
     }
 
     return (
