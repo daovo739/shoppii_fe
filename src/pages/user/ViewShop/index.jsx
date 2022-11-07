@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import ShopHeader from './components/ShopHeader'
-import BasicTabs from '../../../components/Tab'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { get } from '../../.././utils/./httprequest'
 import queryString from 'query-string'
+import { Container, Row, Col } from 'react-bootstrap'
+import { Divider } from '@mui/material'
+import ProductCard from '../Products/components/ProductCard'
+import { useAuth } from '../../../hooks/useAuth'
 
 function ViewShop() {
     const { id } = useParams()
+    const { user } = useAuth()
     const [products, setProducts] = useState([])
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(false)
-
     useEffect(() => {
         getData()
     }, [])
@@ -36,19 +39,37 @@ function ViewShop() {
     return (
         loading && (
             <div className="view-shop">
-                <ShopHeader profile={profile} />
+                <ShopHeader profile={profile} avatar={user.avatar} />
                 <div
                     className="shop-content"
                     style={{
                         backgroundColor: 'var(--white)',
                         marginTop: '3rem',
                         paddingTop: '3rem',
+                        paddingBottom: '3rem',
                         paddingLeft: '6rem',
                         paddingRight: '6rem',
-                        boxShadow: 'var(--box-shadow-main)'
+                        boxShadow: 'var(--box-shadow-main)',
                     }}
                 >
-                    <BasicTabs />
+                    {/* <BasicTabs /> */}
+                    <Container fluid="md">
+                        <Row>
+                            <Col md={12}>
+                                <h2>Sản phẩm</h2>
+                            </Col>
+                        </Row>
+                        <Divider />
+                        <Row className="my-5">
+                            {products?.map((item, index) => (
+                                <Col md={3} key={index}>
+                                    <Link to={`/product/${item.productId}`}>
+                                        <ProductCard product={item} />
+                                    </Link>
+                                </Col>
+                            ))}
+                        </Row>
+                    </Container>
                 </div>
             </div>
         )

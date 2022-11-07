@@ -40,7 +40,12 @@ function ImageGallery({
                     </IconButton>
                 )}
                 {imgSelected && (
-                    <img className="gallery__img" src={imgSelected} alt="" />
+                    <img
+                        className="gallery__img w-100"
+                        src={imgSelected}
+                        alt=""
+                        style={{ objectFit: 'contain' }}
+                    />
                 )}
             </div>
             <div className="gallery_items">
@@ -70,69 +75,6 @@ function ImageGallery({
                         </div>
                     )
                 })}
-                {/* <div className="gallery__item">
-                    <input
-                        type="radio"
-                        id="img-1"
-                        name="gallery"
-                        className="gallery__selector"
-                    />
-                    <label htmlFor="img-1" className="gallery__thumb">
-                        <img
-                            src="https://picsum.photos/id/1015/150/100.jpg"
-                            alt=""
-                            onClick={e => handleSelectImg(e)}
-                        />
-                    </label>
-                </div>
-                <div className="gallery__item">
-                    <input
-                        type="radio"
-                        id="img-2"
-                        name="gallery"
-                        className="gallery__selector"
-                    />
-
-                    <label htmlFor="img-2" className="gallery__thumb">
-                        <img
-                            src="https://picsum.photos/id/1039/150/100.jpg"
-                            alt=""
-                            onClick={e => handleSelectImg(e)}
-                        />
-                    </label>
-                </div>
-                <div className="gallery__item">
-                    <input
-                        type="radio"
-                        id="img-3"
-                        name="gallery"
-                        className="gallery__selector"
-                    />
-
-                    <label htmlFor="img-3" className="gallery__thumb">
-                        <img
-                            src="https://picsum.photos/id/1057/150/100.jpg"
-                            alt=""
-                            onClick={e => handleSelectImg(e)}
-                        />
-                    </label>
-                </div>
-                <div className="gallery__item">
-                    <input
-                        type="radio"
-                        id="img-4"
-                        name="gallery"
-                        className="gallery__selector"
-                    />
-
-                    <label htmlFor="img-4" className="gallery__thumb">
-                        <img
-                            src="https://picsum.photos/id/106/150/100.jpg"
-                            alt=""
-                            onClick={e => handleSelectImg(e)}
-                        />
-                    </label>
-                </div> */}
             </div>
             <Modal
                 show={showModalDel}
