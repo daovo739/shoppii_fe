@@ -1,8 +1,25 @@
 import { memo } from 'react'
 import Category from '../Category'
 import { Container, Row, Col } from 'react-bootstrap'
-
+import {  Dropdown } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import queryString from 'query-string'
+import { get } from '../../../../../utils/httprequest'
+import useStore from '../../../../../store/hooks'
 function Categories({ categories }) {
+     const navigate = useNavigate()
+    const { setProductsData } = useStore()
+
+    const getProducts = async id => {
+        const q = queryString.stringify({ categoryId: id })
+        const res = await get('/products', q)
+        const data = await res.json()
+        console.log(data)
+        setProductsData(data)
+        navigate(`/products`, {
+            state: { categoryId: [id] },
+        })
+    }
     return (
         <div className="categories">
             <Container fluid="md">
@@ -30,6 +47,7 @@ function Categories({ categories }) {
                                 key={category_id}
                                 imgLink={categoryImg}
                                 name={category_name}
+                                onClick={() => getProducts(category_id)}
                             />
                         )
                     })}

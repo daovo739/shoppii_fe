@@ -1,9 +1,9 @@
 import React from 'react'
 import './index.css'
 
-function Category({ imgLink, name }) {
+function Category({ imgLink, name ,onClick}) {
     return (
-        <div
+        <div onClick={onClick}
             className="categories-item py-4 px-3 mx-2"
             style={{
                 width: '11.9rem',
