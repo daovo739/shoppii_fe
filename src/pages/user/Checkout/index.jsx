@@ -13,6 +13,7 @@ import ModalNotification from '../../../components/ModalNotification/index'
 import { post } from '../../../utils/httprequest'
 import { handleFormData } from '../../../utils/handleForm'
 import { useAuth } from '../../../hooks/useAuth'
+import { v4 as uuidv4 } from 'uuid'
 
 function Checkout() {
     const { user } = useAuth()
@@ -74,6 +75,13 @@ function Checkout() {
             paymentMethod,
             userId: user.userId,
         })
+        console.log(totalCheckout)
+
+        // if (!selectedAddress.addressId) {
+        //     toast.error('Vui lòng chọn địa chỉ giao hàng')
+        //     return
+        // }
+        console.log(selectedAddress.addressId)
         const formData = handleFormData({
             orders: JSON.stringify(totalCheckout),
             addressId: selectedAddress.addressId,
@@ -194,3 +202,46 @@ function Checkout() {
 }
 
 export default Checkout
+
+// const ghns = totalCheckout.map(item => {
+//     const items = item.products.map(product => {
+//         return {
+//             name: product.productName,
+//             quantity: product.cartQuantity,
+//         }
+//     })
+//     return {
+//         to_name: selectedAddress.receiverName,
+//         to_phone: selectedAddress.receiverPhone,
+//         to_address: selectedAddress.receiverAddress,
+//         to_ward_name: selectedAddress.ward,
+//         to_district_name: selectedAddress.district,
+//         to_province_name: selectedAddress.province,
+//         weight: 1000,
+//         length: 10,
+//         width: 10,
+//         height: 10,
+//         service_type_id: 2,
+//         payment_type_id: 2,
+//         required_note: 'CHOXEMHANGKHONGTHU',
+//         items,
+//     }
+// })
+// console.log(ghns)
+// for (const ghn of ghns) {
+//     console.log(JSON.stringify(ghn))
+//     const resGHN = await fetch(
+//         'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create',
+//         {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 // 'Token': `${import.meta.env.REACT_APP_API_TOKEN_GHN}`,
+//                 Token: '9c88f8b0-5619-11ed-b26c-02ed291d830a',
+//                 ShopId: 120260,
+//             },
+//             body: JSON.stringify(ghn),
+//         },
+//     )
+//     console.log(resGHN)
+// }

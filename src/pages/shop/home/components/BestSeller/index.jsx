@@ -1,6 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap'
 import { EmojiEventsTwoTone } from '@mui/icons-material'
-import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 
 function BestSeller({ product }) {
     console.log(product)

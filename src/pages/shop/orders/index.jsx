@@ -20,7 +20,7 @@ function ShopOrders() {
     const [orders, setOrders] = useState([])
     const [actionStatus, setActionStatus] = useState({})
     const [isLoading, setIsLoading] = useState(true)
-
+    console.log(orders)
     const handleChange = event => {
         setFilter(event.target.value)
     }
