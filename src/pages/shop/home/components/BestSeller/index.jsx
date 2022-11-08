@@ -3,6 +3,7 @@ import { EmojiEventsTwoTone } from '@mui/icons-material'
 import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 
 function BestSeller({ product }) {
+    console.log(product)
     return product ? (
         <div
             className="d-flex justify-content-center align-items-center"
@@ -10,7 +11,7 @@ function BestSeller({ product }) {
                 backgroundColor: 'white',
                 width: '100%',
                 borderRadius: '10px',
-                boxShadow: 'var(--box-shadow-main)'
+                boxShadow: 'var(--box-shadow-main)',
             }}
         >
             <Container fluid="md">
@@ -41,7 +42,7 @@ function BestSeller({ product }) {
                 <Row className="mb-4">
                     <Col md={12} className="d-flex mt-3">
                         <img
-                            src={ProductImage}
+                            src={product[0]?.images[0]}
                             alt=""
                             style={{
                                 width: '8rem',
