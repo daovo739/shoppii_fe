@@ -14,12 +14,13 @@ function FilterTotal({ totalIncome }) {
     return (
         <Container
             fluid="md"
-            className="mx-0"
+            className="mx-0 mt-5 ms-3"
             style={{
                 backgroundColor: 'white',
                 borderRadius: '10px',
                 padding: '2rem',
                 width: '94%',
+                boxShadow: 'var(--box-shadow-main)'
             }}
         >
             {/* <Row>
