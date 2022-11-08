@@ -23,7 +23,7 @@ import {
     setDistrict,
     setWard,
 } from '../hook/actions.js'
-import { reset, style } from '../hook/instant'
+import { reset, style, provinces } from '../hook/instant'
 import { handleChange } from '../../../../../../utils/handleForm'
 import reducer, { initState } from '../hook/reducer'
 import { handleFormData } from '../../../../../../utils/handleForm'
@@ -56,10 +56,10 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
         setAnotherInfo(addressAction)
         if (addressAction?.province) {
             ;(async () => {
-                const cities = await getCities()
-                const city = cities.find(
+                const city = provinces.find(
                     city => city.ProvinceName === addressAction.province,
                 )
+
                 const districts = await getDistricts(city.ProvinceID)
                 const district = districts.find(
                     district =>
@@ -74,7 +74,7 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
                 dispatch(setDistrict(district))
                 dispatch(setWard(ward))
 
-                dispatch(setCities(cities))
+                dispatch(setCities(provinces))
                 dispatch(setDistricts(districts))
                 dispatch(setWards(wards))
             })()
