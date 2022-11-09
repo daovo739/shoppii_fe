@@ -6,10 +6,10 @@ import { Pagination, Stack } from '@mui/material'
 import useStore from '../../../../../store/hooks'
 import { Link } from 'react-router-dom'
 
-function ProductTab({ totalPage, setFilters }) {
+function ProductTab({ totalPage, setFilters, filters }) {
     const { productsData } = useStore()
-    const [page, setPage] = useState(1)
-
+    const [page, setPage] = useState(filters.page)
+    console.log('page', page)
     const handleChangePage = (event, value) => {
         setPage(value)
         setFilters(prev => {
