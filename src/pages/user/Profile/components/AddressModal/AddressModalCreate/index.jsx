@@ -50,7 +50,7 @@ function AddressModalCreate({
             const cities = await getCities()
             dispatch(setCities(cities))
         })()
-    }, [])
+    }, [addressAction])
 
     const handleChangeProvince = e => {
         const value = e.target.value
