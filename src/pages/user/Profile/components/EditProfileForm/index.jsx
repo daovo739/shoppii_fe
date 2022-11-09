@@ -31,8 +31,6 @@ function EditProfileForm() {
     const [isUpdate, setIsUpdate] = useState(false)
     const [sexBoolean, SetSexBoolean] = useState(user.sex)
 
-    console.log(user.isGoogle)
-
     const handleChangeFile = e => {
         const file = e.target.files[0]
         const name = e.target.name
@@ -41,9 +39,11 @@ function EditProfileForm() {
 
     const handleUpdate = async () => {
         toastId.current = toast('Đang cập nhật', { autoClose: false })
-        const date = new Date(infoUpdate.dob || user.dob)
-        // console.log('date', date)
-        // console.log(moment(date).format('YYYY-MM-DD'))
+        console.log('infoUpdate', infoUpdate.dob)
+        console.log('user', user.dob)
+        const date = new Date(infoUpdate.dob || user.dob || new Date())
+        console.log('date', date)
+        console.log(moment(date).format('YYYY-MM-DD'))
         const body = {
             userId: user.userId,
             name: infoUpdate.name || user.name,
