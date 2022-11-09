@@ -11,8 +11,9 @@ function SearchProducts() {
     const { setProductsData } = useStore()
     const [search, setSearch] = useState({ keyword: '' })
 
-    const handleSearch = async () => {
+    const handleSearch = async e => {
         console.log(search)
+        e.preventDefault()
         const query = queryString.stringify(search)
         const res = await get(`products`, query)
         const data = await res.json()
@@ -25,7 +26,7 @@ function SearchProducts() {
     }
 
     return (
-        <div className="header-search">
+        <form className="header-search" onSubmit={handleSearch}>
             <input
                 value={search.keyword}
                 type="text"
@@ -33,10 +34,10 @@ function SearchProducts() {
                 placeholder="Tìm kiếm sản phẩm"
                 onChange={e => handleChange(e, setSearch)}
             />
-            <button htmlFor="" onClick={handleSearch}>
-                <Search className="text-white" fontSize="large" />
+            <button>
+                <Search className="text-white" fontSize="large" type="submit" />
             </button>
-        </div>
+        </form>
     )
 }
 
