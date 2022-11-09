@@ -39,11 +39,12 @@ function FilterPart({ elements, setFilters, filters }) {
                     const newChecked = prev[name].filter(
                         item => item !== ele.id,
                     )
-                    return { ...prev, [name]: newChecked }
+                    return { ...prev, [name]: newChecked, page: 1 }
                 }
                 return {
                     ...prev,
                     [name]: [...prev[name], ele.id],
+                    page: 1,
                 }
             })
         } else {

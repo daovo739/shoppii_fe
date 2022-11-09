@@ -38,7 +38,13 @@ function a11yProps(index) {
     }
 }
 
-function BasicTabs({ totalPage, setFilters, filters }) {
+function BasicTabs({
+    totalPage,
+    setFilters,
+    filters,
+    getProducts,
+    setLoading,
+}) {
     const [value, setValue] = React.useState(0)
 
     const handleChange = (event, newValue) => {
@@ -62,6 +68,8 @@ function BasicTabs({ totalPage, setFilters, filters }) {
                     totalPage={totalPage}
                     setFilters={setFilters}
                     filters={filters}
+                    getProducts={getProducts}
+                    setLoading={setLoading}
                 />
             </TabPanel>
             <TabPanel value={value} index={1}>

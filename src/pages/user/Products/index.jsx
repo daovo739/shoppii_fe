@@ -21,6 +21,7 @@ function Products() {
         keyword: state.keyword || '',
         startPrice: '',
         endPrice: '',
+        sort: '',
         // Change limit to change page size
         limit: 6,
         page: 1,
@@ -84,6 +85,8 @@ function Products() {
                                         totalPage={productsData.totalPage}
                                         setFilters={setFilters}
                                         filters={filters}
+                                        getProducts={getProducts}
+                                        setLoading={setLoading}
                                     />
                                 ) : (
                                     <div className="d-flex justify-content-center mt-5">
