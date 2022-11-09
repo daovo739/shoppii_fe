@@ -17,8 +17,8 @@ function SearchProducts() {
         // const query = queryString.stringify(search)
         // const res = await get(`products`, query)
         // const data = await res.json()
-        // setSearch({ keyword: '' })
         // setProductsData(data)
+        setSearch({ keyword: '' })
         const keyword = search.keyword
         navigate(`/products`, {
             state: { keyword },

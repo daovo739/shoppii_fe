@@ -1,5 +1,5 @@
 import { Container, Col, Row } from 'react-bootstrap'
-import ProductImg from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
+import { formatPrice } from '../../../../../utils/format'
 
 function OrderProduct({ item }) {
     const {
@@ -44,7 +44,7 @@ function OrderProduct({ item }) {
                             <span>
                                 <strong>Giá</strong> :{' '}
                                 <span style={{ color: 'var(--main-red)' }}>
-                                    {price} đ
+                                    {formatPrice(price)}
                                 </span>
                             </span>
                         </div>
