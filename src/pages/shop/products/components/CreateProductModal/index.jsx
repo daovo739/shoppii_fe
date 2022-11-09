@@ -77,13 +77,13 @@ function CreateProductModal({ open, handleClose, fetchProducts }) {
             toast.update(toastId.current, {
                 render: 'Tạo sản phẩm thành công',
                 type: toast.TYPE.SUCCESS,
-                autoClose: 1000,
+                autoClose: 600,
             })
         } else {
             toast.update(toastId.current, {
                 render: 'Tạo sản phẩm thất bại',
                 type: toast.TYPE.ERROR,
-                autoClose: 1000,
+                autoClose: 600,
             })
         }
         handleClose()
