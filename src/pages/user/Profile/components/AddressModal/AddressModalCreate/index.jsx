@@ -160,7 +160,7 @@ function AddressModalCreate({
                                             inputProps: {
                                                 pattern: import.meta.env
                                                     .REACT_APP_REGEX_AUTH_LOGIN,
-                                                title: 'Vui lòng nhập email hoặc số điện thoại',
+                                                title: 'Vui lòng nhập số điện thoại',
                                             },
                                         }}
                                         onChange={e =>
