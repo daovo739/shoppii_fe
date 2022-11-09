@@ -127,7 +127,7 @@ function ShopProfile() {
                     infoUpdate={infoUpdate}
                 />
                 <Col md={12}>
-                    <ButtonBootstrap
+                    {/* <ButtonBootstrap
                         variant="danger"
                         className="mt-5"
                         style={{
@@ -137,10 +137,10 @@ function ShopProfile() {
                         onClick={() => setShowModalDeleteShop(true)}
                     >
                         Hủy bán hàng
-                    </ButtonBootstrap>
+                    </ButtonBootstrap> */}
                 </Col>
             </Row>
-            <Modal
+            {/* <Modal
                 show={showModalDeleteShop}
                 onHide={() => setShowModalDeleteShop(false)}
                 centered
@@ -186,7 +186,7 @@ function ShopProfile() {
                         </ButtonBootstrap>
                     </Modal.Footer>
                 </Form>
-            </Modal>
+            </Modal> */}
         </Container>
     ) : null
 }

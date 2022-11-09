@@ -5,6 +5,7 @@ import ShippingUnit from '../ShippingUnit'
 import { LocalShippingOutlined } from '@mui/icons-material'
 import { shippingUnit } from '../CheckoutShop/ShippingUnitData'
 import './index.css'
+import {formatPrice} from '../../../../../utils/format'
 
 const normalStyle = {
     padding: '2rem',
@@ -59,7 +60,7 @@ function ShippingUnitModal({ onClick }) {
                                 key={index}
                                 index={index}
                                 name={unit.name}
-                                price={unit.price}
+                                price={formatPrice(unit.price)}
                                 style={
                                     index === selected
                                         ? selectedStyle

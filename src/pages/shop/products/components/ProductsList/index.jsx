@@ -12,8 +12,15 @@ function ProductsList(props) {
     }
 
     return (
-        <>
-            <Box sx={{ marginTop: '2rem' }}>
+        <div
+            className="px-5 py-3 mt-5"
+            style={{
+                backgroundColor: 'white',
+                boxShadow: 'var(--box-shadow-main)',
+                borderRadius: '10px'
+            }}
+        >
+            <Box sx={{ marginTop: '2rem', fontSize: '1.8rem', color: 'gray' }}>
                 <Row>
                     <Col md={1}>NO</Col>
                     <Col md={2}>Hình ảnh</Col>
@@ -37,7 +44,7 @@ function ProductsList(props) {
                     )
                 })}
             </Box>
-        </>
+        </div>
     )
 }
 

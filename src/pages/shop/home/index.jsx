@@ -98,6 +98,7 @@ function ShopHomePage() {
                     width: '100%',
                     backgroundColor: 'white',
                     borderRadius: '10px',
+                    boxShadow: 'var(--box-shadow-main)'
                 }}
             >
                 <h2 className="fw-bold mb-0">Việc cần làm</h2>

@@ -44,7 +44,7 @@ function RegisterForm() {
                 setToken(data.securityCode)
                 setShowModal(true)
             } else {
-                toast.error(data.message)
+                toast.error('Đăng ký thất bại')
             }
         }
     }

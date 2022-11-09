@@ -18,6 +18,7 @@ function Todo({ todo }) {
                         width: '25rem',
                         height: '10rem',
                         borderRadius: '1rem',
+                        boxShadow: 'var(--box-shadow-main)'
                     }}
                 >
                     <div
@@ -55,6 +56,7 @@ function Todo({ todo }) {
                         width: '25rem',
                         height: '10rem',
                         borderRadius: '1rem',
+                        boxShadow: 'var(--box-shadow-main)'
                     }}
                 >
                     <div
@@ -95,6 +97,7 @@ function Todo({ todo }) {
                         width: '25rem',
                         height: '10rem',
                         borderRadius: '1rem',
+                        boxShadow: 'var(--box-shadow-main)'
                     }}
                 >
                     <div

@@ -1,8 +1,8 @@
 import { Container, Row, Col } from 'react-bootstrap'
 import { EmojiEventsTwoTone } from '@mui/icons-material'
-import ProductImage from '../../../../../assets/images/bd2e86e454da37f2e6c9a128c8e9a2b8.png'
 
 function BestSeller({ product }) {
+    console.log(product)
     return product ? (
         <div
             className="d-flex justify-content-center align-items-center"
@@ -10,6 +10,7 @@ function BestSeller({ product }) {
                 backgroundColor: 'white',
                 width: '100%',
                 borderRadius: '10px',
+                boxShadow: 'var(--box-shadow-main)',
             }}
         >
             <Container fluid="md">
@@ -23,7 +24,7 @@ function BestSeller({ product }) {
                         />
                     </Col>
                 </Row>
-                <Row className="mb-5">
+                <Row className="mb-3">
                     <Col md={12} className="d-flex justify-content-center">
                         <h2
                             style={{
@@ -37,13 +38,14 @@ function BestSeller({ product }) {
                     </Col>
                 </Row>
 
-                <Row className="mb-5">
+                <Row className="mb-4">
                     <Col md={12} className="d-flex mt-3">
                         <img
-                            src={ProductImage}
+                            src={product[0]?.images[0]}
                             alt=""
                             style={{
                                 width: '8rem',
+                                height: '8rem',
                                 border: '2px solid rgb(232, 232, 0)',
                                 padding: '2px',
                                 borderRadius: '10px',
@@ -53,7 +55,7 @@ function BestSeller({ product }) {
                             <p
                                 style={{
                                     margin: '0',
-                                    marginTop: '1rem',
+                                    marginTop: '0.2rem',
                                     fontSize: '1.2rem',
                                 }}
                             >

@@ -10,7 +10,7 @@ function AddressItem({ address, handleOpen, handleOpenModalEdit }) {
         <div className="address w-100">
             <Container fluid="md" sx={{ width: '100%', height: 'auto' }}>
                 <Row>
-                    <Col md={10}>
+                    <Col md={10} style={{ paddingBottom: '1rem' }}>
                         <div>
                             <h3
                                 style={{

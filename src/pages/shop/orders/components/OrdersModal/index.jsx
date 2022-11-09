@@ -70,17 +70,24 @@ function OrdersModal({
                                     >
                                         <p>
                                             <strong>Người nhận</strong> :{' '}
-                                            <span>{order?.receiverName}</span>
+                                            <span>
+                                                {order?.address?.receiverName}
+                                            </span>
                                         </p>
                                         <p>
                                             <strong>Số điện thoại</strong> :{' '}
-                                            <span>{order?.receiverPhone}</span>
+                                            <span>
+                                                {order?.address?.receiverPhone}
+                                            </span>
                                         </p>
                                         <p>
                                             <strong>Địa chỉ</strong> :{' '}
                                             <span>
-                                                {order?.receiverAddress},{' '}
-                                                {order?.address?.ward},{' '}
+                                                {
+                                                    order?.address
+                                                        ?.receiverAddress
+                                                }
+                                                , {order?.address?.ward},{' '}
                                                 {order?.address?.district},{' '}
                                                 {order?.address?.province}
                                             </span>

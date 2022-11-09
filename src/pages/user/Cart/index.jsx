@@ -21,17 +21,22 @@ function Cart() {
     const [isSelectAll, setIsSelectAll] = useState(false)
     const [isSelectAllCheckBox, setIsSelectAllCheckBox] = useState(false)
     const { cartTotal, setCartTotal } = useStore()
-    console.log(cart)
+
     useEffect(() => {
         getData()
     }, [])
 
     useEffect(() => {
         console.log('selectedCheckout', selectedCheckout)
-        if (cart.length === selectedCheckout.length) {
+        const selectedProducts = selectedCheckout.reduce((total, shop) => {
+            return shop.products.length + total
+        }, 0)
+        if (selectedProducts === cartTotal) {
             setIsSelectAllCheckBox(true)
+            setIsSelectAll(true)
         } else {
             setIsSelectAllCheckBox(false)
+            setIsSelectAll(false)
         }
     }, [selectedCheckout])
 

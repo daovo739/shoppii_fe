@@ -6,21 +6,21 @@ const API_CONVERTER = 'https://api.exchangerate.host/convert'
 function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
     const [amountUSD, setAmountUSD] = useState(0)
 
-    const convertUSDtoVND = async () => {
-        const q = queryString.stringify({
-            from: 'VND',
-            to: 'USD',
-            amount: infoCheckout.totalPrice,
-        })
-        const res = await fetch(`${API_CONVERTER}?${q}`)
-        const data = await res.json()
+    // const convertUSDtoVND = async () => {
+    //     const q = queryString.stringify({
+    //         from: 'VND',
+    //         to: 'USD',
+    //         amount: infoCheckout.totalPrice,
+    //     })
+    //     const res = await fetch(`${API_CONVERTER}?${q}`)
+    //     const data = await res.json()
 
-        setAmountUSD(data.result.toFixed(2))
-    }
+    //     setAmountUSD(data.result.toFixed(2))
+    // }
 
-    useEffect(() => {
-        convertUSDtoVND()
-    }, [infoCheckout])
+    // useEffect(() => {
+    //     convertUSDtoVND()
+    // }, [infoCheckout])
 
     return (
         <PayPalButtons
@@ -31,7 +31,11 @@ function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
                         {
                             amount: {
                                 currency_code: 'USD',
-                                value: parseFloat(amountUSD),
+                                value: parseFloat(
+                                    (infoCheckout.totalPrice / 23000).toFixed(
+                                        2,
+                                    ),
+                                ),
                             },
                         },
                     ],

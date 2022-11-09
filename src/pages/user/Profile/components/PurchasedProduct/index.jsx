@@ -34,7 +34,7 @@ function PurchasedProduct({ product }) {
                     </Col>
                     <Col md={7} className="d-block">
                         <h3>{name}</h3>
-                        <div className="product-quantity">
+                        <div className="product-quantity fs-5">
                             X {orderQuantity}
                         </div>
                     </Col>
