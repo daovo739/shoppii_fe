@@ -4,8 +4,6 @@ import queryString from 'query-string'
 
 const API_CONVERTER = 'https://api.exchangerate.host/convert'
 function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
-    const [amountUSD, setAmountUSD] = useState(0)
-
     // const convertUSDtoVND = async () => {
     //     const q = queryString.stringify({
     //         from: 'VND',
@@ -15,12 +13,8 @@ function PaypalButton({ infoCheckout, handleCheckoutPaypal }) {
     //     const res = await fetch(`${API_CONVERTER}?${q}`)
     //     const data = await res.json()
 
-    //     setAmountUSD(data.result.toFixed(2))
+    //     return data.result.toFixed(2)
     // }
-
-    // useEffect(() => {
-    //     convertUSDtoVND()
-    // }, [infoCheckout])
 
     return (
         <PayPalButtons

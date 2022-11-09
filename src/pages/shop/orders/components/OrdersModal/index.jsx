@@ -13,11 +13,9 @@ function OrdersModal({
     getActionStatus,
     handleAccept,
 }) {
+    console.log('order', order)
     const orderTotal = useMemo(() => {
-        return order?.items?.reduce(
-            (total, item) => total + item.orderQuantity * item.price,
-            0,
-        )
+        return order?.items?.reduce((total, item) => total + item.price, 0)
     }, [order])
 
     return (

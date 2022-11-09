@@ -33,14 +33,15 @@ function PurchasedProduct({ product }) {
                         />
                     </Col>
                     <Col md={7} className="d-block">
-                        <h3>{name}</h3>
+                        <h4>{name}</h4>
+                        <h5>Giá: {formatPrice(price / orderQuantity)}</h5>
                         <div className="product-quantity fs-5">
                             X {orderQuantity}
                         </div>
                     </Col>
                     <Col md={3} className="d-flex justify-content-center">
                         <div className="product-price">
-                            ₫{formatPrice(price)}
+                            {formatPrice(price)}
                         </div>
                     </Col>
                 </Row>

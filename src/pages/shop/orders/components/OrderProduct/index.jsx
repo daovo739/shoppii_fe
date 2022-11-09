@@ -44,6 +44,13 @@ function OrderProduct({ item }) {
                             <span>
                                 <strong>Giá</strong> :{' '}
                                 <span style={{ color: 'var(--main-red)' }}>
+                                    {formatPrice(price / orderQuantity)}
+                                </span>
+                            </span>
+                            <br />
+                            <span>
+                                <strong>Tổng Giá</strong> :{' '}
+                                <span style={{ color: 'var(--main-red)' }}>
                                     {formatPrice(price)}
                                 </span>
                             </span>
