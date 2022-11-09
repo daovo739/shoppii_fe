@@ -34,7 +34,9 @@ function Cart() {
         if (selectedProducts === cartTotal) {
             setIsSelectAllCheckBox(true)
             setIsSelectAll(true)
-        } else {
+        } else if (selectedProducts !== cartTotal && selectedProducts > 0) {
+            setIsSelectAllCheckBox(false)
+        } else if (selectedProducts === 0) {
             setIsSelectAllCheckBox(false)
             setIsSelectAll(false)
         }
