@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import FilterSidebar from '../../../components/FilterSidebar'
+import queryString from 'query-string'
 import { useLocation } from 'react-router-dom'
+import { CircularProgress } from '@mui/material'
+import FilterSidebar from '../../../components/FilterSidebar'
 import { useHome } from '../../../hooks/useHome'
 import useStore from '../../../store/hooks'
-import queryString from 'query-string'
 import { get } from '../../.././utils/httprequest'
 import ViewProduct from './components/ViewProducts'
 
@@ -13,8 +14,9 @@ function Products() {
     const { categories, locations } = useHome()
     const { productsData, setProductsData } = useStore()
     const { state } = useLocation()
+    const [loading, setLoading] = useState(true)
     const [filters, setFilters] = useState({
-        categoryId: [state.categoryId] || [],
+        categoryId: state.categoryId || [],
         location: [],
         keyword: state.keyword || '',
         startPrice: '',
@@ -30,19 +32,22 @@ function Products() {
         })
         const res = await get(`products`, q)
         const data = await res.json()
+        setLoading(false)
         setProductsData(data)
     }
 
     useEffect(() => {
+        setLoading(true)
         setFilters({
             ...filters,
-            categoryId: state.categoryId || '',
+            categoryId: state.categoryId || [],
             keyword: state.keyword || '',
         })
     }, [state])
 
     useEffect(() => {
-        // console.log(filters)
+        console.log('filters', filters)
+        setLoading(true)
         getProducts()
     }, [filters])
 
@@ -73,16 +78,27 @@ function Products() {
                                 boxShadow: 'var(--box-shadow-main)',
                             }}
                         >
-                            {productsData?.products?.length > 0 ? (
-                                <ViewProduct
-                                    totalPage={productsData.totalPage}
-                                    setFilters={setFilters}
-                                    filters={filters}
-                                />
+                            {!loading ? (
+                                productsData?.products?.length > 0 ? (
+                                    <ViewProduct
+                                        totalPage={productsData.totalPage}
+                                        setFilters={setFilters}
+                                        filters={filters}
+                                    />
+                                ) : (
+                                    <div className="d-flex justify-content-center mt-5">
+                                        <h1>No Products Found</h1>
+                                    </div>
+                                )
                             ) : (
-                                <div className="d-flex justify-content-center mt-5">
-                                    <h1>No Products Found</h1>
-                                </div>
+                                <CircularProgress
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                    }}
+                                />
                             )}
                         </div>
                     </Col>
