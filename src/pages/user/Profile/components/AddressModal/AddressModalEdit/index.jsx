@@ -149,7 +149,6 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
         handleClose()
     }
 
-    console.log(addressAction)
     return (
         <div>
             <Modal

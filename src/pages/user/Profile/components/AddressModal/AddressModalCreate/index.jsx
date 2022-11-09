@@ -24,7 +24,7 @@ import {
     setDistrict,
     setWard,
 } from '../hook/actions.js'
-import { reset, style } from '../hook/instant'
+import { reset, style, provinces } from '../hook/instant'
 import { handleChange } from '../../../../../../utils/handleForm'
 import reducer, { initState } from '../hook/reducer'
 import { handleFormData } from '../../../../../../utils/handleForm'
@@ -44,13 +44,6 @@ function AddressModalCreate({
     const { cities, districts, wards, city, district, ward } = state
     const [anotherInfo, setAnotherInfo] = useState(addressAction)
     const [isDefault, setIsDefault] = useState(false)
-
-    useEffect(() => {
-        ;(async () => {
-            const cities = await getCities()
-            dispatch(setCities(cities))
-        })()
-    }, [addressAction])
 
     const handleChangeProvince = e => {
         const value = e.target.value
@@ -193,7 +186,7 @@ function AddressModalCreate({
                                             label="Tỉnh/Thành phố #"
                                             onChange={handleChangeProvince}
                                         >
-                                            {cities?.map(city => (
+                                            {provinces?.map(city => (
                                                 <MenuItem
                                                     value={city}
                                                     key={city.ProvinceID}
@@ -292,7 +285,7 @@ function AddressModalCreate({
                                     />
                                 </Col>
                             </Row>
-                            <Row className="mb-3">
+                            {/* <Row className="mb-3">
                                 <Col
                                     md={12}
                                     className="d-flex align-items-center my-3"
@@ -311,7 +304,7 @@ function AddressModalCreate({
                                         }
                                     />
                                 </Col>
-                            </Row>
+                            </Row> */}
                             <Row>
                                 <Col md={6}>
                                     <Button
