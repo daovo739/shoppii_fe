@@ -115,7 +115,7 @@ function SingleShopProduct() {
             toast.update(toastId.current, {
                 render: 'Cập nhật thành công',
                 type: toast.TYPE.SUCCESS,
-                autoClose: 1000,
+                autoClose: 600,
             })
             setImagesAdded([])
             setImagesDeleted([])
@@ -125,7 +125,7 @@ function SingleShopProduct() {
             toast.update(toastId.current, {
                 render: 'Cập nhật thất bại',
                 type: toast.TYPE.ERROR,
-                autoClose: 1000,
+                autoClose: 600,
             })
         }
     }

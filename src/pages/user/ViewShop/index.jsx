@@ -39,7 +39,12 @@ function ViewShop() {
 
     return loading ? (
         <div className="view-shop">
-            <ShopHeader profile={profile} avatar={user.avatar} />
+            <ShopHeader
+                profile={profile}
+                avatar={
+                    'https://cdn.vietnambiz.vn/2019/10/3/color-silhouette-cartoon-facade-shop-store-vector-14711058-1570007843495391141359-1570076859193969194096-15700769046292030065819-1570076927728377843390.png'
+                }
+            />
             <div
                 className="shop-content"
                 style={{
@@ -62,7 +67,11 @@ function ViewShop() {
                     <Divider />
                     <Row className="my-5">
                         {products?.map((product, index) => (
-                            <Col md={3} key={index} className="d-flex justify-content-center mb-5">
+                            <Col
+                                md={3}
+                                key={index}
+                                className="d-flex justify-content-center mb-5"
+                            >
                                 {product?.isAvailable ? (
                                     <Link to={`/product/${product.productId}`}>
                                         <ProductCard product={product} />

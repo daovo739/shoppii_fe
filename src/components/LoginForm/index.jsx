@@ -74,13 +74,13 @@ function LoginForm() {
                 toast.update(toastId.current, {
                     render: 'Đăng nhập thành công',
                     type: toast.TYPE.SUCCESS,
-                    autoClose: 1000,
+                    autoClose: 600,
                 })
             } else {
                 toast.update(toastId.current, {
                     render: 'Đăng nhập thất bại',
                     type: toast.TYPE.ERROR,
-                    autoClose: 1000,
+                    autoClose: 600,
                 })
             }
         }

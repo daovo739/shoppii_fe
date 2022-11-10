@@ -1,4 +1,3 @@
-import React from 'react'
 import FilterPart from '../FilterPart'
 import './index.css'
 import FilterAltIcon from '@mui/icons-material/FilterAltOutlined'
@@ -60,6 +59,7 @@ function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
                                     return {
                                         ...prev,
                                         startPrice: e.target.value,
+                                        page: 1,
                                     }
                                 })
                             }
@@ -73,7 +73,11 @@ function FilterSidebar({ filtersMap, setFilters, filters, getProducts }) {
                             placeholder="₫ Đến"
                             onChange={e =>
                                 setFilters(prev => {
-                                    return { ...prev, endPrice: e.target.value }
+                                    return {
+                                        ...prev,
+                                        endPrice: e.target.value,
+                                        page: 1,
+                                    }
                                 })
                             }
                         />

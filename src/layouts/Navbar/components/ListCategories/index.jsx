@@ -9,11 +9,11 @@ function ListCategories({ categories }) {
     const { setProductsData } = useStore()
 
     const getProducts = async id => {
-        const q = queryString.stringify({ categoryId: id })
-        const res = await get('/products', q)
-        const data = await res.json()
-        console.log(data)
-        setProductsData(data)
+        // const q = queryString.stringify({ categoryId: id })
+        // const res = await get('/products', q)
+        // const data = await res.json()
+        // console.log(data)
+        // setProductsData(data)
         navigate(`/products`, {
             state: { categoryId: [id] },
         })

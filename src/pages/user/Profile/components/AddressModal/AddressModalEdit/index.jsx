@@ -206,6 +206,11 @@ function AddressModalEdit({ open, handleClose, addressAction, getAddresses }) {
                                         }}
                                         InputProps={{
                                             label: 'Số điện thoại ####',
+                                            inputProps: {
+                                                pattern: import.meta.env
+                                                    .REACT_APP_REGEX_AUTH_LOGIN,
+                                                title: 'Vui lòng nhập số điện thoại',
+                                            },
                                         }}
                                         onChange={e =>
                                             handleChange(e, setAnotherInfo)

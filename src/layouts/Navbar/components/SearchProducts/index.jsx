@@ -14,12 +14,12 @@ function SearchProducts() {
     const handleSearch = async e => {
         console.log(search)
         e.preventDefault()
-        const query = queryString.stringify(search)
-        const res = await get(`products`, query)
-        const data = await res.json()
-        const keyword = search.keyword
+        // const query = queryString.stringify(search)
+        // const res = await get(`products`, query)
+        // const data = await res.json()
+        // setProductsData(data)
         setSearch({ keyword: '' })
-        setProductsData(data)
+        const keyword = search.keyword
         navigate(`/products`, {
             state: { keyword },
         })
