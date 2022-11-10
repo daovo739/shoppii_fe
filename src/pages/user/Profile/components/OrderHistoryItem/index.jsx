@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Button, List, Collapse } from '@mui/material'
-import { Storefront, ExpandLess, ExpandMore } from '@mui/icons-material'
+import { Storefront, ExpandLess, ExpandMore, ConstructionOutlined } from '@mui/icons-material'
 import PurchasedProduct from '../PurchasedProduct'
 import './index.css'
 import { useState } from 'react'
@@ -9,9 +9,7 @@ import { useEffect } from 'react'
 import { formatPrice } from '../../../../../utils/format'
 import { Link } from 'react-router-dom'
 
-const listProps = [0, 1, 2]
-const firstItem = listProps.slice(0, 1)
-const remain = listProps.slice(1)
+
 
 function OrderHistoryItem({ order }) {
     const [open, setOpen] = React.useState(false)
@@ -32,8 +30,9 @@ function OrderHistoryItem({ order }) {
 
     useEffect(() => {
         getTotal()
-    }, [])
-
+    }, [order])
+    console.log('--------------')
+    console.log(items)
     console.log(total)
 
     const handleClick = () => {
@@ -108,7 +107,7 @@ function OrderHistoryItem({ order }) {
                 <Row>
                     <Col md={12}>
                         <div className="order-footer pb-3">
-                            <span>Tổng tiền : </span>₫{formatPrice(total)}
+                            <span>Tổng tiền : </span>{formatPrice(total)}
                         </div>
                     </Col>
                 </Row>
