@@ -11,6 +11,7 @@ import { _delete } from '../../../utils/httprequest'
 import { handleFormData } from '../../../utils/handleForm'
 import useStore from '../../../store/hooks'
 import { Box, Button, Typography, Modal } from '@mui/material'
+import { faker } from '@faker-js/faker'
 
 function Cart() {
     const { user } = useAuth()
@@ -58,11 +59,29 @@ function Cart() {
     }
 
     const getData = async () => {
-        const q = queryString.stringify({
-            userId: user.userId,
-        })
-        const res = await get('/cart', q)
-        const data = await res.json()
+        // const q = queryString.stringify({
+        //     userId: user.userId,
+        // })
+        // const res = await get('/cart', q)
+        // const data = await res.json()
+        const productsFaker = []
+        for (let i = 0; i < 4; i++) {
+            productsFaker.push({
+                productId: faker.number.int(),
+                productName: faker.commerce.productName(),
+                price: faker.commerce.price(),
+                images: [faker.image.urlPicsumPhotos()],
+                isAvailable: true,
+                cartQuantity: 2,
+            })
+        }
+
+        const data = [
+            {
+                shopId: faker.number.int(),
+                products: productsFaker,
+            },
+        ]
         data.forEach(item =>
             item.products.sort((a, b) => a.productId - b.productId),
         )

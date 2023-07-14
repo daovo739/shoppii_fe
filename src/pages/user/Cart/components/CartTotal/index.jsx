@@ -14,18 +14,20 @@ function CartTotal({
     setIsSelectAllCheckBox,
 }) {
     const navigate = useNavigate()
-    const totalPrice = useMemo(() => {
-        return selectedCheckout.reduce((total, shop) => {
-            return (
-                total +
-                shop.products.reduce((totalSingleShop, product) => {
-                    return (
-                        totalSingleShop + product.cartQuantity * product.price
-                    )
-                }, 0)
-            )
-        }, 0)
-    }, [selectedCheckout])
+    // const totalPrice = useMemo(() => {
+    //     return selectedCheckout.reduce((total, shop) => {
+    //         return (
+    //             total +
+    //             shop.products.reduce((totalSingleShop, product) => {
+    //                 return (
+    //                     totalSingleShop + product.cartQuantity * product.price
+    //                 )
+    //             }, 0)
+    //         )
+    //     }, 0)
+    // }, [selectedCheckout])
+
+    const totalPrice = 9999
 
     const handleCheckout = () => {
         if (selectedCheckout.length === 0) {

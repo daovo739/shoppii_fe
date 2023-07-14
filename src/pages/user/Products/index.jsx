@@ -9,6 +9,7 @@ import { useHome } from '../../../hooks/useHome'
 import useStore from '../../../store/hooks'
 import { get } from '../../.././utils/httprequest'
 import ViewProduct from './components/ViewProducts'
+import { faker } from '@faker-js/faker'
 
 function Products() {
     const { categories, locations } = useHome()
@@ -16,9 +17,9 @@ function Products() {
     const { state } = useLocation()
     const [loading, setLoading] = useState(true)
     const [filters, setFilters] = useState({
-        categoryId: state.categoryId || [],
+        categoryId: [],
         location: [],
-        keyword: state.keyword || '',
+        keyword: '',
         startPrice: '',
         endPrice: '',
         sort: '',
@@ -28,21 +29,35 @@ function Products() {
     })
 
     const getProducts = async () => {
-        const q = queryString.stringify(filters, {
-            skipEmptyString: true,
-        })
-        const res = await get(`products`, q)
-        const data = await res.json()
+        // const q = queryString.stringify(filters, {
+        //     skipEmptyString: true,
+        // })
+        // const res = await get(`products`, q)
+        // const data = await res.json()
+
+        const productsFaker = []
+        for (let i = 0; i < 20; i++) {
+            productsFaker.push({
+                productId: faker.number.int(),
+                name: faker.commerce.productName(),
+                price: faker.commerce.price(),
+                images: [faker.image.urlPicsumPhotos()],
+                isAvailable: true,
+            })
+        }
         setLoading(false)
-        setProductsData(data)
+        setProductsData({
+            products: productsFaker,
+            totalPage: productsFaker.length,
+        })
     }
 
     useEffect(() => {
         setLoading(true)
         setFilters({
             ...filters,
-            categoryId: state.categoryId || [],
-            keyword: state.keyword || '',
+            categoryId: [],
+            keyword: '',
         })
     }, [state])
 

@@ -1,5 +1,6 @@
 import { useContext, createContext, useState, useEffect, useMemo } from 'react'
 import { get } from '../utils/httprequest'
+import { faker } from '@faker-js/faker'
 
 const HomeContext = createContext()
 
@@ -12,17 +13,32 @@ export const HomeProvider = ({ children }) => {
     }, [])
 
     const getData = () => {
-        Promise.all([
-            get('category').then(res => res.json()),
-            get('shop/locations').then(res => res.json()),
-        ])
-            .then(values => {
-                setCategories(values[0])
-                setLocations(values[1])
+        const categoriesFaker = []
+        const locationsFaker = []
+        for (let i = 0; i < 10; i++) {
+            categoriesFaker.push({
+                category_id: faker.number.int(),
+                category_name: faker.commerce.department(),
+                categoryImg: faker.image.urlPicsumPhotos(),
             })
-            .catch(err => {
-                console.log(err)
+            locationsFaker.push({
+                shopId: faker.number.int(),
+                address: faker.location.city(),
             })
+        }
+        // Promise.all([
+        //     get('category').then(res => res.json()),
+        //     get('shop/locations').then(res => res.json()),
+        // ])
+        //     .then(values => {
+        //         setCategories(values[0])
+        //         setLocations(values[1])
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+        setCategories(categoriesFaker)
+        setLocations(locationsFaker)
     }
 
     const value = {

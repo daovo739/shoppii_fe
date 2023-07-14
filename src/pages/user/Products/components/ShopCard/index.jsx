@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { Avatar } from '@mui/material'
 import { LocationOn, Circle } from '@mui/icons-material'
 import './index.css'
+import { faker } from '@faker-js/faker'
 
 function ShopCard({ shop }) {
     return (
@@ -12,7 +13,7 @@ function ShopCard({ shop }) {
                     <Col md={2}>
                         <Avatar
                             alt="shop1"
-                            src="https://cdn.vietnambiz.vn/2019/10/3/color-silhouette-cartoon-facade-shop-store-vector-14711058-1570007843495391141359-1570076859193969194096-15700769046292030065819-1570076927728377843390.png"
+                            src={faker.image.avatarLegacy()}
                             sx={{ width: 100, height: 100 }}
                         />
                     </Col>

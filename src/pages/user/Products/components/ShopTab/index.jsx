@@ -6,6 +6,7 @@ import ShopCard from '../ShopCard'
 import { get } from '../../../../../utils/./httprequest'
 import queryString from 'query-string'
 import { Link } from 'react-router-dom'
+import { faker } from '@faker-js/faker'
 
 function ShopTab({ filters, setFilters }) {
     const [shopsData, setShopsData] = useState({})
@@ -33,10 +34,19 @@ function ShopTab({ filters, setFilters }) {
     }, [filters])
 
     const getData = async filtersShop => {
-        const q = queryString.stringify(filtersShop, { skipEmptyString: true })
-        const res = await get(`user/getShops`, q)
-        const data = await res.json()
-        setShopsData(data)
+        // const q = queryString.stringify(filtersShop, { skipEmptyString: true })
+        // const res = await get(`user/getShops`, q)
+        // const data = await res.json()
+        const shopFaker = []
+        for (let i = 0; i < 20; i++) {
+            shopFaker.push({
+                shopId: faker.number.int(),
+                name: faker.commerce.department(),
+                status: true,
+                address: faker.location.city(),
+            })
+        }
+        setShopsData({ shops: shopFaker, totalPage: shopFaker.length })
     }
 
     return (

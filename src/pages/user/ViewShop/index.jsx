@@ -7,6 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { Divider, CircularProgress } from '@mui/material'
 import ProductCard from '../Products/components/ProductCard'
 import { useAuth } from '../../../hooks/useAuth'
+import { faker } from '@faker-js/faker'
 
 function ViewShop() {
     const { id } = useParams()
@@ -20,21 +21,47 @@ function ViewShop() {
     }, [])
 
     const getData = () => {
-        const q = queryString.stringify({ shopId: id })
-        Promise.all([
-            get(`/shop/products`, q).then(res => res.json()),
-            get(`/shop/profile`, q).then(res => res.json()),
-        ])
-            .then(values => {
-                setProducts(values[0])
-                setProfile(values[1])
+        // const q = queryString.stringify({ shopId: id })
+        // Promise.all([
+        //     get(`/shop/products`, q).then(res => res.json()),
+        //     get(`/shop/profile`, q).then(res => res.json()),
+        // ])
+        //     .then(values => {
+        //         setProducts(values[0])
+        //         setProfile(values[1])
+        //     })
+        //     .then(() => {
+        //         setLoading(true)
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+        const productsFaker = []
+        for (let i = 0; i < 20; i++) {
+            productsFaker.push({
+                productId: faker.number.int(),
+                name: faker.commerce.productName(),
+                price: faker.commerce.price(),
+                images: [faker.image.urlPicsumPhotos()],
+                isAvailable: true,
             })
-            .then(() => {
-                setLoading(true)
+        }
+        for (let i = 0; i < 20; i++) {
+            productsFaker.push({
+                productId: faker.number.int(),
+                name: faker.commerce.productName(),
+                price: faker.commerce.price(),
+                images: [faker.image.urlPicsumPhotos()],
+                isAvailable: true,
             })
-            .catch(err => {
-                console.log(err)
-            })
+        }
+        setLoading(true)
+        setProfile({
+            address: faker.location.city(),
+            description: faker.lorem.paragraphs(),
+            name: faker.company.name(),
+        })
+        setProducts(productsFaker)
     }
 
     return loading ? (
