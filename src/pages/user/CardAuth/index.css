@@ -20,7 +20,7 @@
 /* GOOGLE BUTTON */
 .btn-google {
     justify-content: center;
-    width: 396px;
+    width: 396px; 
     height: 55px;
     box-shadow: var(--box-shadow-main-2) !important;
     border-radius: 8px !important;
