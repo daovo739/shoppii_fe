@@ -21,7 +21,7 @@ import { post } from '../.././utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../.././hooks/useAuth'
 import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
-// import '../../pages/user/CardAuth/index.css'
+import jwt_decode from "jwt-decode";
 
 function LoginForm() {
     const { login } = useAuth()
@@ -32,7 +32,9 @@ function LoginForm() {
 
     const handleLoginGoogle = async response => {
         console.log(response)
-        const { email } = response.profileObj
+        const decoded = jwt_decode(response.credential)
+        console.log(decoded)
+        const { email } = decoded
         const formData = handleFormData({ email })
         const res = await post('isRegistered', formData)
         const data = await res.json()
@@ -43,7 +45,7 @@ function LoginForm() {
                 {
                     ...data,
                     isGoogle: true,
-                    avatar: response.profileObj.imageUrl,
+                    avatar: decoded.picture,
                 },
                 ROLE_USER,
             )
@@ -199,10 +201,7 @@ function LoginForm() {
                     <GoogleLogin
                         clientId={import.meta.env.REACT_APP_GOOGLE_CLIENT_ID}
                         buttonText="Đăng nhập bằng tài khoản Google"
-                        // onSuccess={handleLoginGoogle}
-                        onSuccess={res => {
-                            console.log(res)
-                        }}
+                        onSuccess={handleLoginGoogle}
                         onError={(res) => {
                             console.log(res)
                             toast.error('Đăng nhập thất bại')
