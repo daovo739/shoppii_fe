@@ -14,14 +14,12 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { handleChange, handleFormData } from '../.././utils/handleForm'
-// import { GoogleLogin } from 'react-google-login'
-import { GoogleLogin } from '@react-oauth/google';
-// import { gapi } from 'gapi-script'
+import { GoogleLogin } from '@react-oauth/google'
 import { post } from '../.././utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../.././hooks/useAuth'
 import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode'
 
 function LoginForm() {
     const { login } = useAuth()
@@ -31,16 +29,13 @@ function LoginForm() {
     const [user, setUser] = useState({})
 
     const handleLoginGoogle = async response => {
-        console.log(response)
         const decoded = jwt_decode(response.credential)
-        console.log(decoded)
         const { email } = decoded
-        const formData = handleFormData({ email })
-        const res = await post('isRegistered', formData)
-        const data = await res.json()
-        if (data.statusCode === 404) {
-            navigate('/registerGG', { state: response }, { replace: true })
+        const res = await post('auth/check-email', { email })
+        if (res.status === 404) {
+            navigate('/registerGG', { state: decoded }, { replace: true })
         } else if (res.status === 200) {
+            const data = await res.json()
             login(
                 {
                     ...data,
@@ -61,11 +56,8 @@ function LoginForm() {
             login(null, ROLE_ADMIN)
         } else {
             toastId.current = toast('Đang đăng nhập', { autoClose: false })
-            const formData = handleFormData(user)
-            const res = await post('auth', formData)
+            const res = await post('auth/login', user)
             const data = await res.json()
-            console.log(user)
-            console.log(data)
             if (res.status === 200) {
                 login(data, ROLE_USER)
                 toast.update(toastId.current, {
@@ -75,7 +67,7 @@ function LoginForm() {
                 })
             } else {
                 toast.update(toastId.current, {
-                    render: 'Đăng nhập thất bại',
+                    render: data?.msg || 'Đăng nhập thất bại',
                     type: toast.TYPE.ERROR,
                     autoClose: 600,
                 })
@@ -197,13 +189,12 @@ function LoginForm() {
                     HOẶC
                 </Typography>
 
-                <div className=' d-flex justify-content-center py-3'>
+                <div className=" d-flex justify-content-center py-3">
                     <GoogleLogin
                         clientId={import.meta.env.REACT_APP_GOOGLE_CLIENT_ID}
                         buttonText="Đăng nhập bằng tài khoản Google"
                         onSuccess={handleLoginGoogle}
-                        onError={(res) => {
-                            console.log(res)
+                        onError={res => {
                             toast.error('Đăng nhập thất bại')
                         }}
                         cookiePolicy={'single_host_origin'}

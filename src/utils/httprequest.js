@@ -1,25 +1,28 @@
 const API_URL = import.meta.env.REACT_APP_BASE_API_URL
 
-const post = async (path, formData) => {
+const post = async (path, bodyInput) => {
     const res = await fetch(`${API_URL}/${path}`, {
         method: 'POST',
-        body: formData,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyInput),
     })
     return res
 }
 
-const put = async (path, formData) => {
+const put = async (path, bodyInput) => {
     const res = await fetch(`${API_URL}/${path}`, {
         method: 'PUT',
-        body: formData,
+        body: JSON.stringify(bodyInput),
     })
     return res
 }
 
-const _delete = async (path, formData) => {
+const _delete = async (path, bodyInput) => {
     const res = await fetch(`${API_URL}/${path}`, {
         method: 'DELETE',
-        body: formData,
+        body: JSON.stringify(bodyInput),
     })
     return res
 }
