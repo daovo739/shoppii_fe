@@ -14,12 +14,14 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { handleChange, handleFormData } from '../.././utils/handleForm'
-import { GoogleLogin } from 'react-google-login'
-import { gapi } from 'gapi-script'
+// import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin } from '@react-oauth/google';
+// import { gapi } from 'gapi-script'
 import { post } from '../.././utils/httprequest'
 import { toast } from 'react-toastify'
 import { useAuth } from '../.././hooks/useAuth'
 import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
+import jwt_decode from "jwt-decode";
 
 function LoginForm() {
     const { login } = useAuth()
@@ -27,17 +29,12 @@ function LoginForm() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
-    useEffect(() => {
-        gapi.load('client:auth2', () => {
-            gapi.auth2.getAuthInstance({
-                clientId: import.meta.env.REACT_APP_GOOGLE_CLIENT_ID,
-            })
-        })
-    }, [])
 
     const handleLoginGoogle = async response => {
         console.log(response)
-        const { email } = response.profileObj
+        const decoded = jwt_decode(response.credential)
+        console.log(decoded)
+        const { email } = decoded
         const formData = handleFormData({ email })
         const res = await post('isRegistered', formData)
         const data = await res.json()
@@ -48,7 +45,7 @@ function LoginForm() {
                 {
                     ...data,
                     isGoogle: true,
-                    avatar: response.profileObj.imageUrl,
+                    avatar: decoded.picture,
                 },
                 ROLE_USER,
             )
@@ -200,19 +197,19 @@ function LoginForm() {
                     HOẶC
                 </Typography>
 
-                <GoogleLogin
-                    clientId={import.meta.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Đăng nhập bằng tài khoản Google"
-                    onSuccess={handleLoginGoogle}
-                    onFailure={() => {
-                        toast.error('Đăng nhập thất bại')
-                    }}
-                    cookiePolicy={'single_host_origin'}
-                    className="btn-google"
-                    style={{
-                        marginTop: '10px',
-                    }}
-                />
+                <div className=' d-flex justify-content-center py-3'>
+                    <GoogleLogin
+                        clientId={import.meta.env.REACT_APP_GOOGLE_CLIENT_ID}
+                        buttonText="Đăng nhập bằng tài khoản Google"
+                        onSuccess={handleLoginGoogle}
+                        onError={(res) => {
+                            console.log(res)
+                            toast.error('Đăng nhập thất bại')
+                        }}
+                        cookiePolicy={'single_host_origin'}
+                        className="btn-google"
+                    />
+                </div>
 
                 <Box
                     component="div"
