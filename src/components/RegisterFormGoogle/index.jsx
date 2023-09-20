@@ -32,29 +32,24 @@ function RegisterFormGoogle() {
     const [showModal, setShowModal] = useState(false)
     const [token, setToken] = useState('')
     const [user, setUser] = useState({
-        name: location.state.profileObj.name,
-        email: location.state.profileObj.email,
+        name: location.state?.name,
+        email: location.state?.email,
     })
     const [data, setData] = useState(null)
 
     const handleSubmit = async event => {
         event.preventDefault()
         const { password, rePassword } = user
-        console.log(user)
         if (password !== rePassword) {
             toast.error('Mật khẩu không khớp')
         } else {
-            setUser(prevState => {
-                return {
-                    ...prevState,
-                    password: password,
-                    rePassword: rePassword,
-                }
-            })
-            const formData = handleFormData(user)
-            const res = await post('user/googleAuthentication', formData)
+            setUser(prevState => ({
+                ...prevState,
+                password: password,
+                rePassword: rePassword,
+            }))
+            const res = await post('auth/login-google', user)
             const data = await res.json()
-            console.log(res)
             if (res.status === 201) {
                 toast.success('Đăng ký thành công')
                 setToken(data.securityCode)
@@ -262,8 +257,7 @@ function RegisterFormGoogle() {
                                     {
                                         ...data,
                                         isGoogle: true,
-                                        avatar: location.state.profileObj
-                                            .imageUrl,
+                                        avatar: location.state?.picture,
                                     },
                                     ROLE_USER,
                                 )

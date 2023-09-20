@@ -31,20 +31,17 @@ function RegisterForm() {
     const handleSubmit = async event => {
         event.preventDefault()
         const { password, rePassword } = user
-        console.log(user)
         if (password !== rePassword) {
             toast.error('Mật khẩu không khớp')
         } else {
-            const formData = handleFormData(user)
-            const res = await post('user/register', formData)
+            const res = await post('auth/register', user)
             const data = await res.json()
-            console.log(res)
             if (res.status === 201) {
                 toast.success('Đăng ký thành công')
                 setToken(data.securityCode)
                 setShowModal(true)
             } else {
-                toast.error('Đăng ký thất bại')
+                toast.error(data?.msg || 'Đăng ký thất bại')
             }
         }
     }

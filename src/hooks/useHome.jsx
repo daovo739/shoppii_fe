@@ -7,23 +7,23 @@ export const HomeProvider = ({ children }) => {
     const [categories, setCategories] = useState([])
     const [locations, setLocations] = useState([])
 
-    useEffect(() => {
-        getData()
-    }, [])
+    // useEffect(() => {
+    //     getData()
+    // }, [])
 
-    const getData = () => {
-        Promise.all([
-            get('category').then(res => res.json()),
-            get('shop/locations').then(res => res.json()),
-        ])
-            .then(values => {
-                setCategories(values[0])
-                setLocations(values[1])
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    // const getData = () => {
+    //     Promise.all([
+    //         get('category').then(res => res.json()),
+    //         get('shop/locations').then(res => res.json()),
+    //     ])
+    //         .then(values => {
+    //             setCategories(values[0])
+    //             setLocations(values[1])
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 
     const value = {
         categories,
