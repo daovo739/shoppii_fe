@@ -20,6 +20,7 @@ import { toast } from 'react-toastify'
 import { useAuth } from '../.././hooks/useAuth'
 import { ROLE_ADMIN, ROLE_USER } from '../.././hooks/constants'
 import jwt_decode from 'jwt-decode'
+import { userSchema } from '../common/schema/authenticateSchema'
 
 function LoginForm() {
     const { login } = useAuth()
@@ -27,6 +28,7 @@ function LoginForm() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [user, setUser] = useState({})
+    const [errors, setErrors] = useState({})
 
     const handleLoginGoogle = async response => {
         const decoded = jwt_decode(response.credential)
@@ -55,6 +57,20 @@ function LoginForm() {
         if (info === 'admin' && password === 'admin') {
             login(null, ROLE_ADMIN)
         } else {
+            console.log(user)
+            try {
+                await userSchema.validate(user, {
+                    abortEarly: false,
+                })
+            } catch (error) {
+                const newErrors = {}
+                error.inner.forEach(err => {
+                    newErrors[err.path] = err.message
+                })
+                setErrors(newErrors)
+                return
+            }
+            setErrors({})
             toastId.current = toast('Đang đăng nhập', { autoClose: false })
             const res = await post('auth/login', user)
             const data = await res.json()
@@ -99,26 +115,18 @@ function LoginForm() {
                     >
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             id="email"
                             label="Nhập email hoặc số điện thoại"
                             name="info"
                             autoComplete="email"
                             autoFocus
-                            InputProps={{
-                                label: 'Nhập email hoặc số điện thoại aaaaaaaaaaa',
-                                onChange: e => handleChange(e, setUser),
-                                inputProps: {
-                                    pattern: import.meta.env
-                                        .REACT_APP_REGEX_AUTH_LOGIN,
-                                    title: 'Vui lòng nhập email hoặc số điện thoại',
-                                },
-                            }}
+                            onChange={e => handleChange(e, setUser)}
+                            error={!!errors?.info}
+                            helperText={errors?.info}
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             name="password"
                             label="Mật khẩu"
@@ -157,6 +165,8 @@ function LoginForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
+                            error={!!errors?.password}
+                            helperText={errors?.password}
                         />
                         <Button
                             type="submit"

@@ -32,7 +32,8 @@
         "react-toastify": "^9.0.8",
         "uuid": "^9.0.0",
         "vite-plugin-env-compatible": "^1.1.1",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "yup": "^1.2.0"
     },
     "scripts": {
         "start": "vite",
