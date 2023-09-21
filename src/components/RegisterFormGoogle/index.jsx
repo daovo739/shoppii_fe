@@ -13,20 +13,21 @@ import {
     Tooltip,
 } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { handleChange } from '../.././utils/handleForm'
 import { toast } from 'react-toastify'
 import { post } from '../../utils/httprequest'
 import { style } from '.././ModalStyle/index'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import { handleFormData } from '../.././utils/handleForm'
 import { useAuth } from '../.././hooks/useAuth'
 import { ROLE_USER } from '../../hooks/constants'
+import { registerGoogleSchema } from '../common/schema/authenticateSchema'
 
 function RegisterFormGoogle() {
     const { login } = useAuth()
     const location = useLocation()
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
     const [showModal, setShowModal] = useState(false)
@@ -36,30 +37,44 @@ function RegisterFormGoogle() {
         email: location.state?.email,
     })
     const [data, setData] = useState(null)
+    const [errors, setErrors] = useState({})
 
     const handleSubmit = async event => {
         event.preventDefault()
         const { password, rePassword } = user
-        if (password !== rePassword) {
-            toast.error('Mật khẩu không khớp')
+        try {
+            await registerGoogleSchema.validate(user, { abortEarly: false })
+        } catch (error) {
+            const newErrors = {}
+            error.inner.forEach(err => {
+                newErrors[err.path] = err.message
+            })
+            setErrors(newErrors)
+            return
+        }
+        setErrors({})
+        setUser(prevState => ({
+            ...prevState,
+            password: password,
+            rePassword: rePassword,
+        }))
+        const res = await post('auth/login-google', user)
+        const data = await res.json()
+        if (res.status === 201) {
+            toast.success('Đăng ký thành công')
+            setToken(data.securityCode)
+            setData(data)
+            setShowModal(true)
         } else {
-            setUser(prevState => ({
-                ...prevState,
-                password: password,
-                rePassword: rePassword,
-            }))
-            const res = await post('auth/login-google', user)
-            const data = await res.json()
-            if (res.status === 201) {
-                toast.success('Đăng ký thành công')
-                setToken(data.securityCode)
-                setData(data)
-                setShowModal(true)
-            } else {
-                toast.error('Đăng ký thất bại')
-            }
+            toast.error('Đăng ký thất bại')
         }
     }
+
+    useEffect(() => {
+        if (!location.state) {
+            navigate('/login', { replace: true })
+        }
+    })
     return (
         <>
             <Container component="div" maxWidth="xs">
@@ -84,7 +99,6 @@ function RegisterFormGoogle() {
                     >
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             name="password"
                             label="Mật khẩu"
@@ -123,10 +137,11 @@ function RegisterFormGoogle() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
+                            error={!!errors?.password}
+                            helperText={errors?.password}
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             name="rePassword"
                             label="Nhập lại mật khẩu"
@@ -165,6 +180,8 @@ function RegisterFormGoogle() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
+                            error={!!errors?.rePassword}
+                            helperText={errors?.rePassword}
                         />
                         <Button
                             type="submit"
@@ -187,7 +204,6 @@ function RegisterFormGoogle() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 disableEscapeKeyDown
-                BackdropProps={{}}
             >
                 <Box
                     sx={{

@@ -20,6 +20,7 @@ import { post } from '../../utils/httprequest'
 import { style } from '.././ModalStyle/index'
 import { Link } from 'react-router-dom'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { registerSchema } from '../common/schema/authenticateSchema'
 
 function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false)
@@ -27,22 +28,30 @@ function RegisterForm() {
     const [showModal, setShowModal] = useState(false)
     const [token, setToken] = useState('')
     const [user, setUser] = useState({})
+    const [errors, setErrors] = useState({})
 
     const handleSubmit = async event => {
         event.preventDefault()
         const { password, rePassword } = user
-        if (password !== rePassword) {
-            toast.error('Mật khẩu không khớp')
+        try {
+            await registerSchema.validate(user, { abortEarly: false })
+        } catch (error) {
+            const newErrors = {}
+            error.inner.forEach(err => {
+                newErrors[err.path] = err.message
+            })
+            setErrors(newErrors)
+            return
+        }
+        setErrors({})
+        const res = await post('auth/register', user)
+        const data = await res.json()
+        if (res.status === 201) {
+            toast.success('Đăng ký thành công')
+            setToken(data.securityCode)
+            setShowModal(true)
         } else {
-            const res = await post('auth/register', user)
-            const data = await res.json()
-            if (res.status === 201) {
-                toast.success('Đăng ký thành công')
-                setToken(data.securityCode)
-                setShowModal(true)
-            } else {
-                toast.error(data?.msg || 'Đăng ký thất bại')
-            }
+            toast.error(data?.msg || 'Đăng ký thất bại')
         }
     }
 
@@ -70,26 +79,18 @@ function RegisterForm() {
                     >
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             id="phone"
                             label="Nhập số điện thoại"
                             name="phone"
                             autoComplete="phone"
                             autoFocus
-                            InputProps={{
-                                onChange: e => handleChange(e, setUser),
-                                inputProps: {
-                                    pattern: import.meta.env
-                                        .REACT_APP_REGEX_AUTH_REGISTER,
-                                    title: 'Vui lòng số điện thoại',
-                                },
-                                label: 'Nhập số điện thoại aaaaasa',
-                            }}
+                            onChange={e => handleChange(e, setUser)}
+                            error={!!errors?.phone}
+                            helperText={errors?.phone}
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             name="password"
                             label="Mật khẩu"
@@ -128,10 +129,11 @@ function RegisterForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
+                            error={!!errors?.password}
+                            helperText={errors?.password}
                         />
                         <TextField
                             margin="normal"
-                            required
                             fullWidth
                             name="rePassword"
                             label="Nhập lại mật khẩu"
@@ -170,6 +172,8 @@ function RegisterForm() {
                                 ),
                                 onChange: e => handleChange(e, setUser),
                             }}
+                            error={!!errors?.rePassword}
+                            helperText={errors?.rePassword}
                         />
                         <Button
                             type="submit"
